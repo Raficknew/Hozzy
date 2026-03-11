@@ -8,6 +8,13 @@
       "when": 1758466410260,
       "tag": "0000_bitter_overlord",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1773260221724,
+      "tag": "0001_replace_price_double_precision_with_numeric",
+      "breakpoints": true
     }
   ]
 }

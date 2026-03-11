@@ -7,7 +7,7 @@ import { TransactionTable } from "./transactions";
 export const categoriesOfExpanse = [
   "fixed",
   "fun",
-  "future you",
+  "future_you",
   "incomes",
 ] as const;
 export type CategoriesOfExpanse = (typeof categoriesOfExpanse)[number];

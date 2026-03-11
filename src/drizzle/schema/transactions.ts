@@ -4,7 +4,7 @@ import {
   text,
   timestamp,
   uuid,
-  doublePrecision,
+  numeric,
 } from "drizzle-orm/pg-core";
 import { createdAt, id, updatedAt } from "../schemaHelpers";
 import { relations } from "drizzle-orm";
@@ -25,7 +25,7 @@ export const TransactionTable = pgTable("transactions", {
   memberId: uuid()
     .notNull()
     .references(() => MembersTable.id, { onDelete: "cascade" }),
-  price: doublePrecision().notNull(),
+  price: numeric('price', { precision: 12, scale: 2 }).notNull(),
   date: timestamp().notNull(),
   createdAt,
   updatedAt,

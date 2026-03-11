@@ -142,19 +142,19 @@ export async function insertHousehold(
     {
       name: t("emergencyFund"),
       icon: "14_emergencyFund",
-      categoryType: "future you",
+      categoryType: "future_you",
       householdId: newHousehold.id,
     },
     {
       name: t("education"),
       icon: "15_education",
-      categoryType: "future you",
+      categoryType: "future_you",
       householdId: newHousehold.id,
     },
     {
       name: t("vacationFund"),
       icon: "16_vacationFund",
-      categoryType: "future you",
+      categoryType: "future_you",
       householdId: newHousehold.id,
     },
     {
@@ -194,7 +194,7 @@ export async function insertHousehold(
       date: new Date(),
       memberId: newMember.id,
       name: locale === "en" ? "Initial Balance" : "Saldo Początkowe",
-      price: balance,
+      price: balance.toString(),
       type: "income",
     });
 

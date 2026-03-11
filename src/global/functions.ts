@@ -17,13 +17,10 @@ export const countPricesOfTransactionsRelatedToTheirTypes = (
   };
 
   categories.forEach((category) => {
-    const typeKey =
-      category.categoryType === "future you"
-        ? "future_you"
-        : category.categoryType;
-    if (sums.hasOwnProperty(typeKey)) {
+  
+    if (sums.hasOwnProperty(category.categoryType)) {
       category.transactions.forEach((t) => {
-        sums[typeKey] += t.price;
+        sums[category.categoryType] += t.price;
       });
     }
   });
