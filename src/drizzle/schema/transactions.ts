@@ -1,6 +1,6 @@
 import { relations } from "drizzle-orm";
 import {
-  numeric,
+  customType,
   pgEnum,
   pgTable,
   text,
@@ -15,6 +15,12 @@ export const transactionType = ["income", "expense"] as const;
 export type TransactionType = (typeof transactionType)[number];
 export const transactionTypeEnum = pgEnum("transaction_type", transactionType);
 
+const numericAsNumber = customType<{ data: number; driverData: string }>({
+  dataType: () => "numeric(12, 2)",
+  fromDriver: (value) => parseFloat(value),
+  toDriver: (value) => value.toString(),
+});
+
 export const TransactionTable = pgTable("transactions", {
   id,
   name: text().notNull(),
@@ -25,7 +31,7 @@ export const TransactionTable = pgTable("transactions", {
   memberId: uuid()
     .notNull()
     .references(() => MembersTable.id, { onDelete: "cascade" }),
-  price: numeric("price", { precision: 12, scale: 2 }).notNull(),
+  price: numericAsNumber("price").notNull(),
   date: timestamp().notNull(),
   createdAt,
   updatedAt,
