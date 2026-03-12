@@ -1,7 +1,12 @@
 "use client";
-import { useForm } from "react-hook-form";
-import { usersSchema, UsersSchema } from "@/features/users/schema/users";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { notFound } from "next/navigation";
+import type { User } from "next-auth";
+import { useTranslations } from "next-intl";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { LoadingSwap } from "@/components/atoms/LoadingSwap";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -11,13 +16,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { User } from "next-auth";
 import { updateUser } from "@/features/users/actions/users";
-import { useTranslations } from "next-intl";
-import { notFound } from "next/navigation";
-import { LoadingSwap } from "@/components/atoms/LoadingSwap";
-import { useTransition } from "react";
+import { type UsersSchema, usersSchema } from "@/features/users/schema/users";
 import { performFormSubmitAction } from "@/global/functions";
 
 export function UserForm({ user }: { user: User }) {

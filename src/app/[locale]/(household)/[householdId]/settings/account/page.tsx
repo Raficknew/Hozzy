@@ -1,20 +1,20 @@
-import { SignOutButton } from "@/components/atoms/SignOutButton";
-import { UserAvatar } from "@/components/atoms/UserAvatar";
+import { GlobalIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { notFound } from "next/navigation";
+import { getLocale, getTranslations } from "next-intl/server";
+import { Suspense } from "react";
 import { LanguageSelect } from "@/components/atoms/LanguageSelect";
 import { MobileTopHeader } from "@/components/atoms/MobileTopHeader";
+import { SignOutButton } from "@/components/atoms/SignOutButton";
+import { UserAvatar } from "@/components/atoms/UserAvatar";
 import { SectionHeader } from "@/components/molecules/SectionHeader";
 import { SettingsNavigationBar } from "@/components/organisms/SettingsNavigationBar";
 import { env } from "@/data/env/server";
+import { HouseholdLinkGenerate } from "@/features/household/components/HouseholdLinkGenerate";
+import { canAccessHouseholdSettings } from "@/features/household/permissions/household";
 import { UserForm } from "@/features/users/components/UserForm";
 import { getHousehold } from "@/global/actions";
 import { auth } from "@/lib/auth";
-import { GlobalIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { getLocale, getTranslations } from "next-intl/server";
-import { notFound } from "next/navigation";
-import { Suspense } from "react";
-import { canAccessHouseholdSettings } from "@/features/household/permissions/household";
-import { HouseholdLinkGenerate } from "@/features/household/components/HouseholdLinkGenerate";
 
 export default async function HouseholdAccountSettings({
   params,
@@ -56,9 +56,9 @@ export default async function HouseholdAccountSettings({
           <SectionHeader title={t("contain")} />
           <div className="bg-[#212122] p-2.5 rounded-lg">
             <SettingsNavigationBar
-              canAccessHouseholdSettings={await canAccessHouseholdSettings(
-                householdId
-              )}
+              canAccessHouseholdSettings={
+                await canAccessHouseholdSettings(householdId)
+              }
               householdId={householdId}
             />
           </div>

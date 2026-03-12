@@ -1,10 +1,10 @@
+import { relations } from "drizzle-orm";
 import { pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { createdAt, id, updatedAt } from "../schemaHelpers";
-import { relations } from "drizzle-orm";
 import { CategoryTable } from "./category";
-import { MembersTable } from "./members";
 import { CurrencyTable } from "./currency";
 import { InviteTable } from "./invites";
+import { MembersTable } from "./members";
 import { users } from "./user";
 
 export const HouseholdTable = pgTable("households", {
@@ -35,5 +35,5 @@ export const HouseholdRelationships = relations(
       references: [CurrencyTable.code],
     }),
     invite: one(InviteTable),
-  })
+  }),
 );

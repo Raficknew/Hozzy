@@ -1,14 +1,14 @@
 "use server";
-import { auth } from "@/lib/auth";
-import { usersSchema } from "@/features/users/schema/users";
-import { z } from "zod";
-import { updateUser as updateUserDB } from "@/features/users/db/users";
-import { validate as validateUuid } from "uuid";
 import { getTranslations } from "next-intl/server";
+import { validate as validateUuid } from "uuid";
+import type { z } from "zod";
+import { updateUser as updateUserDB } from "@/features/users/db/users";
+import { usersSchema } from "@/features/users/schema/users";
+import { auth } from "@/lib/auth";
 
 export async function updateUser(
   unsafeData: z.infer<typeof usersSchema>,
-  userId: string
+  userId: string,
 ) {
   const session = await auth();
   const t = await getTranslations("ReturnMessages");

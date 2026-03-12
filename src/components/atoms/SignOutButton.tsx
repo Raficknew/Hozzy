@@ -32,7 +32,7 @@ export function SignOutButton() {
         <div
           className={cn(
             "ring w-full sm:hidden",
-            buttonVariants({ variant: "ghostDestructive" })
+            buttonVariants({ variant: "ghostDestructive" }),
           )}
         >
           <HugeiconsIcon

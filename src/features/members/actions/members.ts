@@ -1,23 +1,23 @@
 "use server";
-import { z } from "zod";
-import { membersSchema } from "@/features/members/schema/members";
-import { auth } from "@/lib/auth";
 import { revalidatePath, revalidateTag } from "next/cache";
+import { getTranslations } from "next-intl/server";
+import { validate as validateUuid } from "uuid";
+import type { z } from "zod";
 import {
+  deleteMember as deleteMemberDB,
   insertMember,
   updateMember as updateMemberDB,
 } from "@/features/members/db/members";
-import { validate as validateUuid } from "uuid";
-import { deleteMember as deleteMemberDB } from "@/features/members/db/members";
 import {
   assertMemberWriteAccess,
   checkIfUserCanCreateNewMember,
 } from "@/features/members/permissions/members";
-import { getTranslations } from "next-intl/server";
+import { membersSchema } from "@/features/members/schema/members";
+import { auth } from "@/lib/auth";
 
 export async function createMember(
   unsafeData: z.infer<typeof membersSchema>,
-  householdId: string
+  householdId: string,
 ) {
   const session = await auth();
   const t = await getTranslations("ReturnMessages");
@@ -65,7 +65,7 @@ export async function deleteMember(memberId: string, householdId: string) {
 export async function updateMember(
   unsafeData: z.infer<typeof membersSchema>,
   memberId: string,
-  householdId: string
+  householdId: string,
 ) {
   const session = await auth();
   const t = await getTranslations("ReturnMessages");

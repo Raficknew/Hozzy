@@ -1,18 +1,18 @@
 "use client";
-import { CategoryWithTransactions } from "@/global/types";
 import {
-  Chart as ChartJS,
   CategoryScale,
+  Chart as ChartJS,
+  Filler,
+  Legend,
   LinearScale,
-  PointElement,
   LineElement,
+  PointElement,
   Title,
   Tooltip,
-  Legend,
-  Filler,
 } from "chart.js";
 import { endOfMonth } from "date-fns";
 import { Line } from "react-chartjs-2";
+import type { CategoryWithTransactions } from "@/global/types";
 
 ChartJS.register(
   CategoryScale,
@@ -22,7 +22,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  Filler
+  Filler,
 );
 
 function getDataForChart(date: Date, categories: CategoryWithTransactions) {
@@ -34,20 +34,20 @@ function getDataForChart(date: Date, categories: CategoryWithTransactions) {
 
 function mergeMonthExpensesToDays(
   days: string[],
-  categories: CategoryWithTransactions
+  categories: CategoryWithTransactions,
 ) {
   const expensesToDays = Object.fromEntries(days.map((day) => [day, 0]));
   const sortedDays = Object.keys(expensesToDays).sort(
-    (a, b) => Number(a) - Number(b)
+    (a, b) => Number(a) - Number(b),
   );
   const allTransactions = categories.flatMap((c) => c.transactions);
 
-  allTransactions.map((transaction) => {
+  allTransactions.forEach((transaction) => {
     const day = transaction.date.getDate().toString().padStart(2, "0");
     if (
       day !== undefined &&
       expensesToDays[day] !== undefined &&
-      transaction.type != "income"
+      transaction.type !== "income"
     ) {
       expensesToDays[day] += transaction.price;
     }
@@ -59,7 +59,7 @@ function mergeMonthExpensesToDays(
 function getDaysFromMonth(date: Date) {
   const numberOfLastDay = endOfMonth(date).getDate();
   return Array.from({ length: numberOfLastDay }, (_, i) =>
-    String(i + 1).padStart(2, "0")
+    String(i + 1).padStart(2, "0"),
   );
 }
 

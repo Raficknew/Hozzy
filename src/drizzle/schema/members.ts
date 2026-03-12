@@ -1,6 +1,6 @@
+import { relations } from "drizzle-orm";
 import { pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { createdAt, id, updatedAt } from "../schemaHelpers";
-import { relations } from "drizzle-orm";
 import { HouseholdTable } from "./houseHold";
 import { users } from "./user";
 

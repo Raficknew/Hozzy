@@ -1,11 +1,11 @@
+import { GoogleIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
+import { HozzyLogo } from "@/components/atoms/HozzyLogo";
+import { PageTitle } from "@/components/atoms/PageTitle";
 import { Button } from "@/components/ui/button";
 import { auth, signIn } from "@/lib/auth";
-import { getTranslations } from "next-intl/server";
-import { redirect } from "next/navigation";
-import { PageTitle } from "@/components/atoms/PageTitle";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { GoogleIcon } from "@hugeicons/core-free-icons";
-import { HozzyLogo } from "@/components/atoms/HozzyLogo";
 
 export default async function SignInPage() {
   const session = await auth();

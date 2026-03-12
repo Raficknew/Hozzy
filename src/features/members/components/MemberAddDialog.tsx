@@ -1,13 +1,13 @@
 "use client";
+import { useTranslations } from "next-intl";
+import { type ReactNode, useState } from "react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { ReactNode, useState } from "react";
 import { MemberForm } from "@/features/members/components/MemberForm";
-import { useTranslations } from "next-intl";
 
 export function MemberAddDialog({
   children,

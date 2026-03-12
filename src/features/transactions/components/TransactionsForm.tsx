@@ -1,15 +1,13 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { transactionType as transactionTypes } from "@/drizzle/schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { format } from "date-fns";
+import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { LoadingSwap } from "@/components/atoms/LoadingSwap";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
   FormControl,
@@ -18,29 +16,31 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
-import {
-  TransactionsSchema,
-  transactionsSchema,
-} from "@/features/transactions/schema/transactions";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { cn } from "@/lib/utils";
-import {
-  createTransaction,
-  updateTransaction,
-} from "@/features/transactions/actions/transactions";
-import { useTranslations } from "next-intl";
+import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
-import { format } from "date-fns";
-import { useSession } from "next-auth/react";
-import { Category, Member, Transaction } from "@/global/types";
-import { LoadingSwap } from "@/components/atoms/LoadingSwap";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { transactionType as transactionTypes } from "@/drizzle/schema";
+import {
+  createTransaction,
+  updateTransaction,
+} from "@/features/transactions/actions/transactions";
+import {
+  type TransactionsSchema,
+  transactionsSchema,
+} from "@/features/transactions/schema/transactions";
 import { performFormSubmitAction } from "@/global/functions";
+import type { Category, Member, Transaction } from "@/global/types";
+import { cn } from "@/lib/utils";
 
 export function TransactionForm({
   defaultTransactionType,
@@ -60,7 +60,7 @@ export function TransactionForm({
   const ts = useTranslations("CreateTransaction");
   const session = useSession();
   const [transactionType, setTransactionType] = useState(
-    defaultTransactionType ?? ""
+    defaultTransactionType ?? "",
   );
   const [isPending, startTransition] = useTransition();
 
@@ -69,15 +69,15 @@ export function TransactionForm({
     : members.find((m) => m.user?.id === session.data?.user?.id);
 
   const incomeCategories = categories.filter(
-    (category) => category.categoryType == "incomes"
+    (category) => category.categoryType === "incomes",
   );
 
   const expenseCategories = categories.filter(
-    (category) => category.categoryType != "incomes"
+    (category) => category.categoryType !== "incomes",
   );
 
   const currentCategories =
-    transactionType == "income" ? incomeCategories : expenseCategories;
+    transactionType === "income" ? incomeCategories : expenseCategories;
 
   const form = useForm<TransactionsSchema>({
     resolver: zodResolver(transactionsSchema),
@@ -101,9 +101,9 @@ export function TransactionForm({
                 ...data,
                 type: transactionType,
               },
-              householdId
+              householdId,
             )
-          : createTransaction({ ...data, type: transactionType }, householdId)
+          : createTransaction({ ...data, type: transactionType }, householdId),
       );
       onUpdateSuccess?.();
     });
@@ -163,7 +163,7 @@ export function TransactionForm({
                           className={cn(
                             "bg-card hover:bg-[#747474] text-white/20 hover:text-foreground px-3",
                             (field.value ?? transaction) === t &&
-                              "bg-accent hover:bg-accent text-foreground"
+                              "bg-accent hover:bg-accent text-foreground",
                           )}
                           type="button"
                           onClick={() => {
@@ -251,8 +251,8 @@ export function TransactionForm({
                             Date.UTC(
                               date.getFullYear(),
                               date.getMonth(),
-                              date.getDate()
-                            )
+                              date.getDate(),
+                            ),
                           );
                           field.onChange(utcDate);
                         }}

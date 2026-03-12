@@ -1,19 +1,19 @@
 "use client";
-import { CategoryWithTransactions, Member } from "@/global/types";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
   BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
   Title,
   Tooltip,
-  Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import type { CategoryWithTransactions, Member } from "@/global/types";
 
 function assignTransactionPricesToMembers(
   members: Member[],
-  categories: CategoryWithTransactions
+  categories: CategoryWithTransactions,
 ) {
   const labels = members.map((m) => m.name);
   const dataMap: Record<string, number> = {};
@@ -41,7 +41,7 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 export function TransactionBarChart({
@@ -57,7 +57,7 @@ export function TransactionBarChart({
 }) {
   const { labels, dataForChart } = assignTransactionPricesToMembers(
     members,
-    categories
+    categories,
   );
 
   const data = {
@@ -83,11 +83,11 @@ export function TransactionBarChart({
       x: {
         ticks: {
           autoSkip: false,
-          callback: function (tickValue: string | number, index: number) {
+          callback: (_tickValue: string | number, index: number) => {
             const person = labels[index];
             if (!person) return `Member ${index}`;
             if (person?.length > 25) {
-              return person.substring(0, 10) + "...";
+              return `${person.substring(0, 10)}...`;
             }
             return person;
           },

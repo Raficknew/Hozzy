@@ -61,12 +61,8 @@
           "name": "categories_householdId_households_id_fk",
           "tableFrom": "categories",
           "tableTo": "households",
-          "columnsFrom": [
-            "householdId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["householdId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -127,12 +123,8 @@
           "name": "members_userId_user_id_fk",
           "tableFrom": "members",
           "tableTo": "user",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -140,12 +132,8 @@
           "name": "members_householdId_households_id_fk",
           "tableFrom": "members",
           "tableTo": "households",
-          "columnsFrom": [
-            "householdId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["householdId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -212,12 +200,8 @@
           "name": "households_ownerId_user_id_fk",
           "tableFrom": "households",
           "tableTo": "user",
-          "columnsFrom": [
-            "ownerId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["ownerId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -225,12 +209,8 @@
           "name": "households_currencyCode_currency_code_fk",
           "tableFrom": "households",
           "tableTo": "currency",
-          "columnsFrom": [
-            "currencyCode"
-          ],
-          "columnsTo": [
-            "code"
-          ],
+          "columnsFrom": ["currencyCode"],
+          "columnsTo": ["code"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -310,12 +290,8 @@
           "name": "transactions_categoryId_categories_id_fk",
           "tableFrom": "transactions",
           "tableTo": "categories",
-          "columnsFrom": [
-            "categoryId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["categoryId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
@@ -323,12 +299,8 @@
           "name": "transactions_memberId_members_id_fk",
           "tableFrom": "transactions",
           "tableTo": "members",
-          "columnsFrom": [
-            "memberId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["memberId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -416,12 +388,8 @@
           "name": "account_userId_user_id_fk",
           "tableFrom": "account",
           "tableTo": "user",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -491,12 +459,8 @@
           "name": "authenticator_userId_user_id_fk",
           "tableFrom": "authenticator",
           "tableTo": "user",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -506,9 +470,7 @@
         "authenticator_credentialID_unique": {
           "name": "authenticator_credentialID_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "credentialID"
-          ]
+          "columns": ["credentialID"]
         }
       },
       "policies": {},
@@ -544,12 +506,8 @@
           "name": "session_userId_user_id_fk",
           "tableFrom": "session",
           "tableTo": "user",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -603,9 +561,7 @@
         "user_email_unique": {
           "name": "user_email_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "email"
-          ]
+          "columns": ["email"]
         }
       },
       "policies": {},
@@ -686,12 +642,8 @@
           "name": "invite_table_householdId_households_id_fk",
           "tableFrom": "invite_table",
           "tableTo": "households",
-          "columnsFrom": [
-            "householdId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["householdId"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -707,20 +659,12 @@
     "public.categories_of_expanse": {
       "name": "categories_of_expanse",
       "schema": "public",
-      "values": [
-        "fixed",
-        "fun",
-        "future_you",
-        "incomes"
-      ]
+      "values": ["fixed", "fun", "future_you", "incomes"]
     },
     "public.transaction_type": {
       "name": "transaction_type",
       "schema": "public",
-      "values": [
-        "income",
-        "expense"
-      ]
+      "values": ["income", "expense"]
     }
   },
   "schemas": {},

@@ -1,15 +1,15 @@
 "use client";
+import { useTranslations } from "next-intl";
+import { type ReactNode, useState } from "react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { ReactNode, useState } from "react";
+import type { CategoriesOfExpanse } from "@/drizzle/schema";
 import { CategoryForm } from "@/features/categories/components/CategoryForm";
-import { CategoriesOfExpanse } from "@/drizzle/schema";
-import { useTranslations } from "next-intl";
-import { CategoryWithIcon } from "@/global/types";
+import type { CategoryWithIcon } from "@/global/types";
 
 export function CategoryEditDialog({
   children,

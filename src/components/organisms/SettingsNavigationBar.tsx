@@ -1,15 +1,15 @@
 "use client";
-import Link from "next/link";
 import {
   ArrowRight01Icon,
   DashboardCircleIcon,
   Home01Icon,
   UserIcon,
 } from "@hugeicons/core-free-icons";
-import { Button } from "@/components/ui/button";
 import { HugeiconsIcon } from "@hugeicons/react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 export function SettingsNavigationBar({
@@ -74,14 +74,14 @@ function NavigationBar({
   currentPath: string;
 }) {
   const isActive =
-    currentPath == link.split("/")[3] ||
-    (currentPath == "" && title == "Dashboard");
+    currentPath === link.split("/")[3] ||
+    (currentPath === "" && title === "Dashboard");
   return (
     <Button
       variant={isActive ? "navigation" : "ghost"}
       className={cn(
         "sm:rounded-full rounded-sm flex justify-between md:justify-center",
-        isActive && "bg-none"
+        isActive && "bg-none",
       )}
       asChild
     >

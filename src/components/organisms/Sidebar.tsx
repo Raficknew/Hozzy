@@ -1,16 +1,16 @@
 "use client";
-import { useParams, usePathname, useSearchParams } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
 import {
-  DashboardSquare03Icon,
   ArrowDataTransferHorizontalIcon,
+  DashboardSquare03Icon,
   Settings01Icon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { SignOutButton } from "@/components/atoms/SignOutButton";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
+import { useLocale, useTranslations } from "next-intl";
 import { HozzyLogo } from "@/components/atoms/HozzyLogo";
+import { SignOutButton } from "@/components/atoms/SignOutButton";
+import { cn } from "@/lib/utils";
 
 export function Sidebar() {
   const { householdId } = useParams();
@@ -83,16 +83,16 @@ function Route({
   title?: string;
 }) {
   const isHovered =
-    currentRoute == url.split("/")[3] ||
-    currentRoute == url.split("/")[3]?.split("?")[0] ||
-    (currentRoute == "" && title == "Dashboard");
+    currentRoute === url.split("/")[3] ||
+    currentRoute === url.split("/")[3]?.split("?")[0] ||
+    (currentRoute === "" && title === "Dashboard");
 
   return (
     <Link
       href={url}
       className={cn(
         "self-center p-1 sm:p-2",
-        isHovered && "sm:bg-accent rounded-full sm:shadow-xl"
+        isHovered && "sm:bg-accent rounded-full sm:shadow-xl",
       )}
     >
       <div className="sm:hidden flex">

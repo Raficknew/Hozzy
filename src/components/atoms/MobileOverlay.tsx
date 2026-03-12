@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import {
   Sheet,
   SheetContent,
@@ -6,7 +7,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { ReactNode } from "react";
 
 export function MobileOverlay({ children }: { children: ReactNode }) {
   return (

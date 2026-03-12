@@ -1,9 +1,9 @@
+import { eq } from "drizzle-orm";
 import { db } from "@/drizzle";
 import { TransactionTable } from "@/drizzle/schema";
-import { eq } from "drizzle-orm";
 
 export async function insertTransaction(
-  data: typeof TransactionTable.$inferInsert
+  data: typeof TransactionTable.$inferInsert,
 ) {
   const [newTransaction] = await db
     .insert(TransactionTable)
@@ -18,7 +18,7 @@ export async function insertTransaction(
 }
 
 export async function updateTransaction(
-  data: typeof TransactionTable.$inferInsert
+  data: typeof TransactionTable.$inferInsert,
 ) {
   const [updatedTransaciton] = await db
     .update(TransactionTable)

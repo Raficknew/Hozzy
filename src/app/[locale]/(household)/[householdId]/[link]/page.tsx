@@ -1,9 +1,9 @@
+import { notFound, redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
 import { HozzyLogo } from "@/components/atoms/HozzyLogo";
 import { HouseholdJoinButton } from "@/features/household/components/HouseholdJoinButton";
 import { getHousehold } from "@/global/actions";
 import { auth } from "@/lib/auth";
-import { getTranslations } from "next-intl/server";
-import { notFound, redirect } from "next/navigation";
 
 export default async function HouseholdJoinPage({
   params,

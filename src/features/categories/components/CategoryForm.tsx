@@ -1,8 +1,11 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { LoadingSwap } from "@/components/atoms/LoadingSwap";
+import { Spacer } from "@/components/atoms/Spacer";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -10,11 +13,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  categorySchema,
-  CategorySchema,
-} from "@/features/categories/schema/category";
-import { categoriesOfExpanse, CategoriesOfExpanse } from "@/drizzle/schema";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -23,21 +22,25 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
-  CategoryIcon,
-  CategoryIconKeys,
-  icons,
-} from "@/features/categories/components/CategoryIcon";
+  type CategoriesOfExpanse,
+  categoriesOfExpanse,
+} from "@/drizzle/schema";
 import {
   createCategory,
   updateCategory,
 } from "@/features/categories/actions/category";
-import { Spacer } from "@/components/atoms/Spacer";
-import { cn } from "@/lib/utils";
-import { useTranslations } from "next-intl";
-import { CategoryWithIcon } from "@/global/types";
-import { LoadingSwap } from "@/components/atoms/LoadingSwap";
-import { useTransition } from "react";
+import {
+  CategoryIcon,
+  type CategoryIconKeys,
+  icons,
+} from "@/features/categories/components/CategoryIcon";
+import {
+  type CategorySchema,
+  categorySchema,
+} from "@/features/categories/schema/category";
 import { performFormSubmitAction } from "@/global/functions";
+import type { CategoryWithIcon } from "@/global/types";
+import { cn } from "@/lib/utils";
 
 export function CategoryForm({
   categoryType,
@@ -71,10 +74,10 @@ export function CategoryForm({
                 data,
                 category.id,
                 householdId,
-                data.categoryType as CategoriesOfExpanse
+                data.categoryType as CategoriesOfExpanse,
               )
           : () => createCategory(data, householdId),
-        onSuccess
+        onSuccess,
       );
     });
 
@@ -141,21 +144,22 @@ export function CategoryForm({
                     {Object.keys(icons)
                       .filter((icon) => icon !== "default")
                       .map((icon) => (
-                        <div
+                        <button
+                          type="button"
                           key={icon}
                           onClick={() => {
                             form.setValue("icon", icon);
                           }}
                           className={cn(
                             "flex justify-center p-2 rounded-lg cursor-pointer",
-                            field.value == icon ? "bg-accent" : "bg-[#212122]"
+                            field.value === icon ? "bg-accent" : "bg-[#212122]",
                           )}
                         >
                           <CategoryIcon
                             size={20}
                             categoryIconName={icon as CategoryIconKeys}
                           />
-                        </div>
+                        </button>
                       ))}
                   </div>
                 </FormControl>

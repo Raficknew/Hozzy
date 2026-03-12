@@ -1,3 +1,8 @@
+import { Delete02Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { notFound, redirect } from "next/navigation";
+import { getTranslations } from "next-intl/server";
+import type { ReactNode } from "react";
 import { ActionButton } from "@/components/atoms/ActionButton";
 import { SettingsNavigationBar } from "@/components/organisms/SettingsNavigationBar";
 import { Sidebar } from "@/components/organisms/Sidebar";
@@ -6,11 +11,6 @@ import { deleteHousehold } from "@/features/household/actions/household";
 import { HouseholdLinkGenerate } from "@/features/household/components/HouseholdLinkGenerate";
 import { canAccessHouseholdSettings } from "@/features/household/permissions/household";
 import { getHousehold } from "@/global/actions";
-import { Delete02Icon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { getTranslations } from "next-intl/server";
-import { notFound, redirect } from "next/navigation";
-import { ReactNode } from "react";
 import { auth } from "@/lib/auth";
 
 export default async function HouseholdSettingsLayout({
@@ -68,9 +68,9 @@ async function TopBar({
       </div>
       <div className="flex justify-between">
         <SettingsNavigationBar
-          canAccessHouseholdSettings={await canAccessHouseholdSettings(
-            householdId
-          )}
+          canAccessHouseholdSettings={
+            await canAccessHouseholdSettings(householdId)
+          }
           householdId={householdId}
         />
         <ActionButton

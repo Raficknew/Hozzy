@@ -1,18 +1,18 @@
 "use client";
-import { generateLinkForHousehold } from "@/features/household/actions/household";
-import { ActionButton } from "@/components/atoms/ActionButton";
 import {
   AddTeamIcon,
   ArrowReloadHorizontalIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
+import { ActionButton } from "@/components/atoms/ActionButton";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useTranslations } from "next-intl";
+import { generateLinkForHousehold } from "@/features/household/actions/household";
 
 export function HouseholdLinkGenerate({
   householdId,
@@ -37,15 +37,16 @@ export function HouseholdLinkGenerate({
         <HugeiconsIcon strokeWidth={2} icon={AddTeamIcon} />
       </PopoverTrigger>
       <PopoverContent>
-        <div
+        <button
+          type="button"
           onClick={handleCopyToClipboard}
-          className="cursor-pointer text-xs h-full flex flex-col w-full p-2 rounded-lg max-w-[250px] overflow-hidden "
+          className="cursor-pointer text-start text-xs h-full flex flex-col w-full p-2 rounded-lg max-w-[250px] overflow-hidden "
         >
           <span className="text-[10px] font-semibold text-[#828183]">
             {t("copy")}
           </span>
           <p className="font-medium truncate">{inviteLink}</p>
-        </div>
+        </button>
         <ActionButton
           variant="submit"
           className="size-9"

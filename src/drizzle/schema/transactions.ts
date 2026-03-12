@@ -1,13 +1,13 @@
+import { relations } from "drizzle-orm";
 import {
+  numeric,
   pgEnum,
   pgTable,
   text,
   timestamp,
   uuid,
-  numeric,
 } from "drizzle-orm/pg-core";
 import { createdAt, id, updatedAt } from "../schemaHelpers";
-import { relations } from "drizzle-orm";
 import { CategoryTable } from "./category";
 import { MembersTable } from "./members";
 
@@ -25,7 +25,7 @@ export const TransactionTable = pgTable("transactions", {
   memberId: uuid()
     .notNull()
     .references(() => MembersTable.id, { onDelete: "cascade" }),
-  price: numeric('price', { precision: 12, scale: 2 }).notNull(),
+  price: numeric("price", { precision: 12, scale: 2 }).notNull(),
   date: timestamp().notNull(),
   createdAt,
   updatedAt,
@@ -42,5 +42,5 @@ export const TransactionRelationshoips = relations(
       fields: [TransactionTable.memberId],
       references: [MembersTable.id],
     }),
-  })
+  }),
 );

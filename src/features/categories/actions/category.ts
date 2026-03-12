@@ -1,21 +1,21 @@
 "use server";
-import { auth } from "@/lib/auth";
 import { revalidatePath, revalidateTag } from "next/cache";
+import { getTranslations } from "next-intl/server";
 import { validate as validateUuid } from "uuid";
+import type { z } from "zod";
+import type { CategoriesOfExpanse } from "@/drizzle/schema";
 import {
   deleteCategory as deleteCategoryDB,
   insertCategory,
+  updateCategory as updateCategoryDB,
 } from "@/features/categories/db/categories";
-import { categorySchema } from "@/features/categories/schema/category";
-import { z } from "zod";
-import { CategoriesOfExpanse } from "@/drizzle/schema";
-import { updateCategory as updateCategoryDB } from "@/features/categories/db/categories";
 import { assertCategoryCreateAbility } from "@/features/categories/permissions/category";
-import { getTranslations } from "next-intl/server";
+import { categorySchema } from "@/features/categories/schema/category";
+import { auth } from "@/lib/auth";
 
 export async function createCategory(
   unsafeData: z.infer<typeof categorySchema>,
-  householdId: string
+  householdId: string,
 ) {
   const { data, success } = categorySchema.safeParse(unsafeData);
   const t = await getTranslations("ReturnMessages");
@@ -44,7 +44,7 @@ export async function updateCategory(
   unsafeData: z.infer<typeof categorySchema>,
   categoryId: string,
   householdId: string,
-  type: CategoriesOfExpanse
+  type: CategoriesOfExpanse,
 ) {
   const session = await auth();
   const t = await getTranslations("ReturnMessages");

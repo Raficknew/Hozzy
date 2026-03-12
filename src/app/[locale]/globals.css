@@ -2,7 +2,6 @@
 
 @plugin "tailwindcss-animate";
 
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -41,7 +40,7 @@
 :root {
   --background: oklch(19.53% 0.002 106.58);
   --foreground: oklch(97.78% 0.0028 128.49);
-  --card: oklch(25.20% 0.000 0);
+  --card: oklch(25.20% 0 0);
   --card-foreground: oklch(0.13 0.028 261.692);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.13 0.028 261.692);
@@ -64,9 +63,8 @@
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
   --radius: 0.625rem;
-  --sidebar-background: oklch(25.20% 0.000 0);
+  --sidebar-background: oklch(25.20% 0 0);
 }
-
 
 @layer utilities {
   @media (max-width: 767px) {

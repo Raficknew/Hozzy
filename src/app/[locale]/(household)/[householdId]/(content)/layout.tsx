@@ -1,12 +1,12 @@
-import { Sidebar } from "@/components/organisms/Sidebar";
-import { ReactNode } from "react";
-import { auth } from "@/lib/auth";
-import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
+import type { ReactNode } from "react";
+import { HozzyLogo } from "@/components/atoms/HozzyLogo";
 import { UserAvatar } from "@/components/atoms/UserAvatar";
 import { DatePicker } from "@/components/molecules/DatePicker";
+import { Sidebar } from "@/components/organisms/Sidebar";
 import { getHousehold } from "@/global/actions";
-import { HozzyLogo } from "@/components/atoms/HozzyLogo";
+import { auth } from "@/lib/auth";
 
 export default async function HouseholdLayout({
   children,

@@ -1,12 +1,13 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
-import {
-  membersSchema,
-  MembersSchema,
-} from "@/features/members/schema/members";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { PlusSignIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { useTranslations } from "next-intl";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { LoadingSwap } from "@/components/atoms/LoadingSwap";
+import { Button } from "@/components/ui/button";
+import { DialogFooter } from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -14,13 +15,12 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { createMember, updateMember } from "@/features/members/actions/members";
-import { DialogFooter } from "@/components/ui/dialog";
-import { PlusSignIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { useTranslations } from "next-intl";
-import { LoadingSwap } from "@/components/atoms/LoadingSwap";
-import { useTransition } from "react";
+import {
+  type MembersSchema,
+  membersSchema,
+} from "@/features/members/schema/members";
 import { performFormSubmitAction } from "@/global/functions";
 export function MemberForm({
   householdId,
@@ -46,7 +46,7 @@ export function MemberForm({
         member
           ? () => updateMember(data, member.id, householdId)
           : () => createMember(data, householdId),
-        onSuccess
+        onSuccess,
       );
     });
 

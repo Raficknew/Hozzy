@@ -1,12 +1,12 @@
 "use client";
-import { deleteMember } from "@/features/members/actions/members";
-import { ActionButton } from "@/components/atoms/ActionButton";
-import { MemberEditDialog } from "@/features/members/components/MemberEditDialog";
-import { DialogTrigger } from "@/components/ui/dialog";
-import { HugeiconsIcon } from "@hugeicons/react";
 import { Cancel01Icon, PencilEdit02Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { ActionButton } from "@/components/atoms/ActionButton";
 import { UserAvatar } from "@/components/atoms/UserAvatar";
-import { Member as MemberType } from "@/global/types";
+import { DialogTrigger } from "@/components/ui/dialog";
+import { deleteMember } from "@/features/members/actions/members";
+import { MemberEditDialog } from "@/features/members/components/MemberEditDialog";
+import type { Member as MemberType } from "@/global/types";
 
 export function Member({
   member,
