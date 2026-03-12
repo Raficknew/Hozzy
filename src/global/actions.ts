@@ -23,7 +23,7 @@ export const getUserHouseholds = async (userId: string) => {
 };
 
 export const getHousehold = async (id: string) => {
-  if (!(await validateUuid(id))) {
+  if (!validateUuid(id)) {
     return null;
   }
 
@@ -47,8 +47,6 @@ export const getCategoriesWithTransactions = async (
   if (!validateUuid(householdId) || date == null) {
     return null;
   }
-
-  console.log(date);
 
   const firstDayOfMonth = startOfMonth(date);
   const lastDayOfMonth = endOfMonth(date);

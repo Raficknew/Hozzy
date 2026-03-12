@@ -11,7 +11,7 @@ export async function assertMemberWriteAccess(householdId: string) {
     return;
   }
 
-  throw "NotAllowedToWriteHouseholdExeption";
+  throw "NotAllowedToWriteHouseholdException";
 }
 
 export async function checkIfUserCanCreateNewMember(householdId: string) {

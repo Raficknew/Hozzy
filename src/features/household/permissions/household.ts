@@ -43,7 +43,7 @@ export async function assertHouseholdWriteAccess(householdId: string) {
     return;
   }
 
-  throw "NotAllowedToWriteHouseholdExeption";
+  throw "NotAllowedToWriteHouseholdException";
 }
 
 export async function canAccessHouseholdSettings(householdId: string) {
