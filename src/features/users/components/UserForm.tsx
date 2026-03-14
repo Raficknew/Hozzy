@@ -34,10 +34,10 @@ export function UserForm({ user }: { user: User }) {
   });
 
   async function onSubmit(data: UsersSchema) {
-    if (!user || !user.id) return;
+    if (!user) return;
 
     startTransition(async () => {
-      await performFormSubmitAction(() => updateUser(data, user.id));
+      await performFormSubmitAction(() => updateUser(data, user.id!));
     });
   }
 
