@@ -194,7 +194,7 @@ export async function insertHousehold(
       date: new Date(),
       memberId: newMember.id,
       name: locale === "en" ? "Initial Balance" : "Saldo Początkowe",
-      price: balance.toString(),
+      price: balance,
       type: "income",
     });
 
