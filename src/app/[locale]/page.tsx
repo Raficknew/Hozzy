@@ -1,5 +1,6 @@
 import { Home12Icon, PlusSignIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { headers } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
@@ -12,7 +13,9 @@ import { cn } from "@/lib/utils";
 
 export default async function HomePage() {
   const locale = await getLocale();
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (session?.user.id == null) redirect(`${locale}/hero`);
 
@@ -24,7 +27,7 @@ export default async function HomePage() {
           locale={locale}
           user={{
             id: session.user.id,
-            name: session.user.name ?? session.user.google_mail,
+            name: session.user.name ?? session.user.email,
           }}
         />
       </Suspense>

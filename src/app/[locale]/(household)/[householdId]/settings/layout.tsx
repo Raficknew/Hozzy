@@ -6,7 +6,6 @@ import type { ReactNode } from "react";
 import { ActionButton } from "@/components/atoms/ActionButton";
 import { SettingsNavigationBar } from "@/components/organisms/SettingsNavigationBar";
 import { Sidebar } from "@/components/organisms/Sidebar";
-import { env } from "@/data/env/server";
 import { deleteHousehold } from "@/features/household/actions/household";
 import { HouseholdLinkGenerate } from "@/features/household/components/HouseholdLinkGenerate";
 import { canAccessHouseholdSettings } from "@/features/household/permissions/household";
@@ -61,7 +60,7 @@ async function TopBar({
       <div className="flex justify-between">
         <h1 className="text-2xl">{t("title")}</h1>
         <HouseholdLinkGenerate
-          url={env.FRONTEND_URL}
+          url={process.env.FRONTEND_URL!}
           householdId={householdId}
           link={link}
         />

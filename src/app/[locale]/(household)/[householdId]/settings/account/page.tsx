@@ -9,7 +9,6 @@ import { SignOutButton } from "@/components/atoms/SignOutButton";
 import { UserAvatar } from "@/components/atoms/UserAvatar";
 import { SectionHeader } from "@/components/molecules/SectionHeader";
 import { SettingsNavigationBar } from "@/components/organisms/SettingsNavigationBar";
-import { env } from "@/data/env/server";
 import { HouseholdLinkGenerate } from "@/features/household/components/HouseholdLinkGenerate";
 import { canAccessHouseholdSettings } from "@/features/household/permissions/household";
 import { UserForm } from "@/features/users/components/UserForm";
@@ -33,7 +32,7 @@ export default async function HouseholdAccountSettings({
     <>
       <MobileTopHeader title={t("title")}>
         <HouseholdLinkGenerate
-          url={env.FRONTEND_URL}
+          url={process.env.FRONTEND_URL!}
           householdId={householdId}
           link={household.invite?.link ?? ""}
         />

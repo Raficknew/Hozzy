@@ -1,14 +1,18 @@
 import { GoogleIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { HozzyLogo } from "@/components/atoms/HozzyLogo";
 import { PageTitle } from "@/components/atoms/PageTitle";
 import { Button } from "@/components/ui/button";
-import { auth, signIn } from "@/lib/auth";
+import { auth } from "@/lib/auth";
+import { signIn } from "@/lib/auth-client";
 
 export default async function SignInPage() {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (session) redirect("/");
 
@@ -17,13 +21,16 @@ export default async function SignInPage() {
   return (
     <div className="h-screen w-full flex flex-col items-center justify-center">
       <HozzyLogo link variant="withText" size={90} />
-      <div className="flex flex-col gap-3 w-full p-5 max-w-[450px] text-center">
+      <div className="flex flex-col gap-3 w-full p-5 max-w-112.5 text-center">
         <PageTitle title={t("title")} subtitle={t("subtitle")} />
         <form
           className="flex flex-col gap-3 w-full text-center"
           action={async () => {
             "use server";
-            await signIn("google", { redirectTo: "/" });
+            await signIn.social({
+              provider: "google",
+              callbackURL: "/",
+            });
           }}
         >
           <Button variant="submit" className="px-3 py-2">
