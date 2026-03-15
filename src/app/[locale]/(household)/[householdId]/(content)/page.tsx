@@ -1,12 +1,12 @@
+import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
+import { Suspense } from "react";
 import { BalanceTracker } from "@/components/molecules/BalanceTracker";
 import { RecentTransactionTable } from "@/components/molecules/RecentTransactionTable";
 import { ExpensesLineChart } from "@/components/organisms/ExpensesLineChart";
 import { FinancialSummaryChart } from "@/components/organisms/FinancialSummaryChart";
 import { getCategoriesWithTransactions, getHousehold } from "@/global/actions";
 import { countPricesOfTransactionsRelatedToTheirTypes } from "@/global/functions";
-import { getTranslations } from "next-intl/server";
-import { notFound } from "next/navigation";
-import { Suspense } from "react";
 
 export default async function HouseholdPage({
   params,
@@ -47,7 +47,7 @@ export default async function HouseholdPage({
           householdId={household.id}
           defaultTransactionType="income"
           maxValue={prices.incomes}
-          categories={categories.filter((c) => c.categoryType == "incomes")}
+          categories={categories.filter((c) => c.categoryType === "incomes")}
           gradient="radial-gradient(ellipse at bottom, #00C48C30 0%, #21212266 100%)"
           currency={household.currencyCode}
         />
@@ -56,7 +56,7 @@ export default async function HouseholdPage({
           householdId={household.id}
           defaultTransactionType="expense"
           maxValue={prices.totalInExpenses}
-          categories={categories.filter((c) => c.categoryType != "incomes")}
+          categories={categories.filter((c) => c.categoryType !== "incomes")}
           gradient="radial-gradient(ellipse at bottom, #F83B3B4D 0%, #21212266 100%)"
           currency={household.currencyCode}
         />

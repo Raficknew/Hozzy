@@ -11,7 +11,7 @@ export type CategoryWithTransactions = {
   name: string;
   id: string;
   icon: string;
-  categoryType: "fixed" | "fun" | "future you" | "incomes";
+  categoryType: "fixed" | "fun" | "future_you" | "incomes";
   createdAt: Date;
   updatedAt: Date;
   householdId: string;
@@ -32,14 +32,14 @@ export type CategoryWithIcon = {
   icon: string;
   id: string;
   name: string;
-  categoryType: "fixed" | "fun" | "future you" | "incomes";
+  categoryType: "fixed" | "fun" | "future_you" | "incomes";
 };
 
 export type Category = {
   name: string;
   id: string;
   icon: string;
-  categoryType: "fixed" | "fun" | "future you" | "incomes";
+  categoryType: "fixed" | "fun" | "future_you" | "incomes";
 };
 
 export type Member = {

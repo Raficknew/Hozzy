@@ -1,19 +1,19 @@
+import { relations } from "drizzle-orm";
 import { pgEnum, pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { createdAt, id, updatedAt } from "../schemaHelpers";
-import { relations } from "drizzle-orm";
 import { HouseholdTable } from "./houseHold";
 import { TransactionTable } from "./transactions";
 
 export const categoriesOfExpanse = [
   "fixed",
   "fun",
-  "future you",
+  "future_you",
   "incomes",
 ] as const;
 export type CategoriesOfExpanse = (typeof categoriesOfExpanse)[number];
 export const categoryOfExpanseEnum = pgEnum(
   "categories_of_expanse",
-  categoriesOfExpanse
+  categoriesOfExpanse,
 );
 
 export const CategoryTable = pgTable("categories", {
@@ -36,5 +36,5 @@ export const CategoryRelationships = relations(
       references: [HouseholdTable.id],
     }),
     transactions: many(TransactionTable),
-  })
+  }),
 );

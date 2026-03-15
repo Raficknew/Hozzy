@@ -1,6 +1,6 @@
+import { count } from "drizzle-orm";
 import { db } from ".";
 import { CurrencyTable } from "./schema";
-import { count } from "drizzle-orm";
 
 const main = async () => {
   const rows: { count: number }[] = await db

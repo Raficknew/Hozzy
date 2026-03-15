@@ -1,9 +1,9 @@
 "use client";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
-import { TransactionForm } from "@/features/transactions/components/TransactionsForm";
-import { Category, Member, Transaction } from "@/global/types";
 import { useState } from "react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { TransactionForm } from "@/features/transactions/components/TransactionsForm";
+import type { Category, Member, Transaction } from "@/global/types";
 
 export function TransactionDialog({
   defaultTransactionType,

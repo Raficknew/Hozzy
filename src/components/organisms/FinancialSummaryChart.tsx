@@ -1,13 +1,13 @@
-import { CategoryWithTransactions } from "@/global/types";
-import { TransactionDialog } from "@/features/transactions/components/TransactionDialog";
-import { TransactionBarChart } from "@/components/molecules/TransactionBarChart";
-import { Price } from "@/components/atoms/Price";
-import { getCategories, getMembers } from "@/global/actions";
-import { cn } from "@/lib/utils";
-import { HugeiconsIcon } from "@hugeicons/react";
 import { PlusSignIcon } from "@hugeicons/core-free-icons";
-import { DialogTrigger } from "@/components/ui/dialog";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { getTranslations } from "next-intl/server";
+import { Price } from "@/components/atoms/Price";
+import { TransactionBarChart } from "@/components/molecules/TransactionBarChart";
+import { DialogTrigger } from "@/components/ui/dialog";
+import { TransactionDialog } from "@/features/transactions/components/TransactionDialog";
+import { getCategories, getMembers } from "@/global/actions";
+import type { CategoryWithTransactions } from "@/global/types";
+import { cn } from "@/lib/utils";
 
 export async function FinancialSummaryChart({
   maxValue,
@@ -37,7 +37,7 @@ export async function FinancialSummaryChart({
           className={cn(
             "text-3xl  *:font-medium",
             maxValue >= 100000 && "sm:text-3xl text-xl",
-            maxValue > 1000000 && "sm:text-3xl text-lg"
+            maxValue > 1000000 && "sm:text-3xl text-lg",
           )}
           price={maxValue}
           currency={currency}

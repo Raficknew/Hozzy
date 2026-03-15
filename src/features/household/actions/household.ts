@@ -1,24 +1,24 @@
 "use server";
-import { z } from "zod";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { auth } from "@/lib/auth";
+import { getTranslations } from "next-intl/server";
+import type { z } from "zod";
 import {
-  insertHousehold,
-  updateLink,
   deleteHousehold as deleteHouseholdDB,
+  insertHousehold,
+  updateHousehold as updateHouseholdDB,
+  updateLink,
 } from "@/features/household/db/household";
 import {
-  HouseholdSchema,
+  type HouseholdSchema,
   householdSchema,
 } from "@/features/household/schema/household";
 import { insertMember } from "@/features/members/db/members";
-import { revalidatePath } from "next/cache";
-import { updateHousehold as updateHouseholdDB } from "@/features/household/db/household";
+import { auth } from "@/lib/auth";
 import { assertHouseholdCreateAbility } from "../permissions/household";
-import { getTranslations } from "next-intl/server";
 
 export async function createHousehold(
-  unsafeData: z.infer<typeof householdSchema>
+  unsafeData: z.infer<typeof householdSchema>,
 ) {
   const session = await auth();
   const t = await getTranslations("ReturnMessages");
@@ -36,10 +36,10 @@ export async function createHousehold(
     {
       ...data,
       name: data.name.charAt(0).toUpperCase() + data.name.slice(1),
-      description: data.description != "" ? data.description : null,
+      description: data.description !== "" ? data.description : null,
       ownerId: session?.user.id,
     },
-    data.balance
+    data.balance,
   );
 
   redirect(`/${household.id}/settings/household`);
@@ -47,7 +47,7 @@ export async function createHousehold(
 
 export async function updateHousehold(
   unsafeData: HouseholdSchema,
-  householdId: string
+  householdId: string,
 ) {
   const session = await auth();
   const t = await getTranslations("ReturnMessages");
@@ -92,7 +92,7 @@ export async function joinHousehold(householdId: string, userId: string) {
 
 export async function generateLinkForHousehold(
   householdId: string,
-  link: string
+  link: string,
 ) {
   const session = await auth();
   const t = await getTranslations("ReturnMessages");

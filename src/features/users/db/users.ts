@@ -1,6 +1,6 @@
+import { eq } from "drizzle-orm";
 import { db } from "@/drizzle";
 import { users } from "@/drizzle/schema/user";
-import { eq } from "drizzle-orm";
 
 export async function updateUser(data: { name: string }, userId: string) {
   const [updatedUser] = await db

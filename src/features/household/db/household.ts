@@ -1,23 +1,23 @@
+import { and, eq } from "drizzle-orm";
+import { getLocale, getTranslations } from "next-intl/server";
+import { validate as validateUuid } from "uuid";
 import { db } from "@/drizzle";
 import {
-  CategoriesOfExpanse,
+  type CategoriesOfExpanse,
   CategoryTable,
   HouseholdTable,
   InviteTable,
   MembersTable,
   TransactionTable,
 } from "@/drizzle/schema";
+import { assertHouseholdWriteAccess } from "@/features/household/permissions/household";
+import type { HouseholdSchema } from "@/features/household/schema/household";
 import { createUuid } from "@/global/functions";
 import { auth } from "@/lib/auth";
-import { and, eq } from "drizzle-orm";
-import { validate as validateUuid } from "uuid";
-import { getLocale, getTranslations } from "next-intl/server";
-import { assertHouseholdWriteAccess } from "@/features/household/permissions/household";
-import { HouseholdSchema } from "@/features/household/schema/household";
 
 export async function insertHousehold(
   data: typeof HouseholdTable.$inferInsert,
-  balance: number
+  balance: number,
 ) {
   const session = await auth();
 
@@ -142,19 +142,19 @@ export async function insertHousehold(
     {
       name: t("emergencyFund"),
       icon: "14_emergencyFund",
-      categoryType: "future you",
+      categoryType: "future_you",
       householdId: newHousehold.id,
     },
     {
       name: t("education"),
       icon: "15_education",
-      categoryType: "future you",
+      categoryType: "future_you",
       householdId: newHousehold.id,
     },
     {
       name: t("vacationFund"),
       icon: "16_vacationFund",
-      categoryType: "future you",
+      categoryType: "future_you",
       householdId: newHousehold.id,
     },
     {
@@ -181,7 +181,7 @@ export async function insertHousehold(
 
   if (balance > 0) {
     const incomeCategory = newCategories.find(
-      (cat) => cat.categoryType === "incomes"
+      (cat) => cat.categoryType === "incomes",
     );
 
     if (!incomeCategory)
@@ -207,7 +207,7 @@ export async function insertHousehold(
 
 export async function updateHousehold(
   data: HouseholdSchema,
-  householdId: string
+  householdId: string,
 ) {
   if (
     !validateUuid(householdId) ||

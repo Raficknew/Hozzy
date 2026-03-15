@@ -1,13 +1,13 @@
 "use client";
-import { capitalize } from "@/lib/formatters";
-import { cn } from "@/lib/utils";
 import { Calendar02Icon, Cancel01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { format } from "date-fns";
-import { pl, enUS } from "date-fns/locale";
-import { useLocale } from "next-intl";
+import { enUS, pl } from "date-fns/locale";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useLocale } from "next-intl";
 import { useState } from "react";
+import { capitalize } from "@/lib/formatters";
+import { cn } from "@/lib/utils";
 
 export function DatePicker() {
   let defaultDate: Date = new Date();
@@ -21,7 +21,7 @@ export function DatePicker() {
 
   const [date, setDate] = useState(defaultDate);
   const [currentMonth, setCurrentMonth] = useState<number | null>(
-    defaultDate.getMonth()
+    defaultDate.getMonth(),
   );
   const [year, setYear] = useState<number | null>(defaultDate.getFullYear());
   const router = useRouter();
@@ -30,7 +30,7 @@ export function DatePicker() {
   const startYear = 2024;
   const years = Array.from(
     { length: currentYear - startYear + 1 },
-    (_, i) => startYear + i
+    (_, i) => startYear + i,
   );
 
   const locale = useLocale();
@@ -46,7 +46,7 @@ export function DatePicker() {
 
   const months = Array.from(
     { length: 12 },
-    (_, i) => new Date(date.getFullYear(), i, 1)
+    (_, i) => new Date(date.getFullYear(), i, 1),
   );
 
   const handleYearChange = (newYear: number) => {
@@ -70,7 +70,8 @@ export function DatePicker() {
 
   return (
     <div className="flex flex-col items-end sm:items-center z-20 sm:ml-25">
-      <div
+      <button
+        type="button"
         className="sm:bg-card bg-accent flex items-center justify-center h-full sm:w-[270px] text-center sm:py-2 rounded-lg cursor-pointer"
         onClick={() => setIsOpened(!isOpened)}
       >
@@ -86,20 +87,21 @@ export function DatePicker() {
             strokeWidth={2}
           />
         </p>
-      </div>
+      </button>
       {isOpened && (
         <div className="fixed top-13 left-0 sm:w-auto sm:left-auto w-full grid grid-cols-3 sm:grid-cols-4 gap-3 text-center bg-card p-5 rounded-lg drop-shadow-xl">
           {!year &&
             years.map((callendarYear) => (
-              <div
+              <button
+                type="button"
                 key={callendarYear}
                 className={cn(
-                  "cursor-pointer px-2 py-1 text-sm rounded-full hover:bg-white/50"
+                  "cursor-pointer px-2 py-1 text-sm rounded-full hover:bg-white/50",
                 )}
                 onClick={() => handleYearChange(callendarYear)}
               >
                 {callendarYear}
-              </div>
+              </button>
             ))}
 
           {year &&
@@ -109,21 +111,23 @@ export function DatePicker() {
                 month.getFullYear() === year;
 
               return (
-                <div
+                <button
+                  type="button"
                   key={month.getMonth()}
                   className={cn(
                     "cursor-pointer px-2 py-1 text-sm rounded-full",
-                    isCurrentMonth && "bg-foreground/10"
+                    isCurrentMonth && "bg-foreground/10",
                   )}
                   onClick={() =>
-                    month != date && handleDateChange(month.getMonth())
+                    month !== date && handleDateChange(month.getMonth())
                   }
                 >
                   {capitalize(format(month, "LLLL", { locale: currentLocale }))}
-                </div>
+                </button>
               );
             })}
-          <div
+          <button
+            type="button"
             className="absolute left-2 top-2 cursor-pointer"
             onClick={() => {
               setYear(null);
@@ -131,7 +135,7 @@ export function DatePicker() {
             }}
           >
             <HugeiconsIcon strokeWidth={2} icon={Cancel01Icon} size={14} />
-          </div>
+          </button>
         </div>
       )}
     </div>

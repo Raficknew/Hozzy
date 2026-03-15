@@ -1,8 +1,8 @@
 "use client";
-import { cn } from "@/lib/utils";
-import { ReactNode } from "react";
-import { motion } from "motion/react";
 import { LoaderCircle } from "lucide-react";
+import { motion } from "motion/react";
+import type { ReactNode } from "react";
+import { cn } from "@/lib/utils";
 
 export function LoadingSwap({
   isLoading,
@@ -16,7 +16,7 @@ export function LoadingSwap({
       <div
         className={cn(
           "col-start-1 col-end-2 row-start-1 row-end-2",
-          isLoading ? "invisible" : "visible"
+          isLoading ? "invisible" : "visible",
         )}
       >
         {children}
@@ -24,7 +24,7 @@ export function LoadingSwap({
       <motion.div
         className={cn(
           "col-start-1 col-end-2 row-start-1 row-end-2 text-center",
-          isLoading ? "visible" : "invisible"
+          isLoading ? "visible" : "invisible",
         )}
         animate={{ rotate: 360 }}
         transition={{

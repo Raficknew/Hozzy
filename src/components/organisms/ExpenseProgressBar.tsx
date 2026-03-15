@@ -1,10 +1,10 @@
 "use client";
-import { useState } from "react";
-import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
-import { cn } from "@/lib/utils";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 import { Price } from "@/components/atoms/Price";
+import { cn } from "@/lib/utils";
 
 const returnChangeOption = (currentCategoryType: string) => {
   const options = ["fixed", "fun", "future_you"];
@@ -79,13 +79,13 @@ export function ExpenseProgressBar({
             <p
               className={cn(
                 "text-lg",
-                goalProgress.progress == "IDEALLY" && "text-green-400",
-                goalProgress.progress == "TOO_MUCH" && "text-red-400",
-                goalProgress.progress == "TOO_LITTLE" && "text-gray-300",
-                assigned < 0 && "text-red-400"
+                goalProgress.progress === "IDEALLY" && "text-green-400",
+                goalProgress.progress === "TOO_MUCH" && "text-red-400",
+                goalProgress.progress === "TOO_LITTLE" && "text-gray-300",
+                assigned < 0 && "text-red-400",
               )}
             >
-              {(assigned ? assigned.toFixed(2) : "0") + "%"}
+              {`${assigned ? assigned.toFixed(2) : "0"}%`}
             </p>
             <p className="self-end text-[10px] text-white/50">
               {goalProgress.expected &&
@@ -96,7 +96,10 @@ export function ExpenseProgressBar({
             <HugeiconsIcon
               onClick={() =>
                 setCurrentCategoryType(
-                  changeCurrentType.backOption as "fixed" | "fun" | "future_you"
+                  changeCurrentType.backOption as
+                    | "fixed"
+                    | "fun"
+                    | "future_you",
                 )
               }
               strokeWidth={3}
@@ -106,7 +109,10 @@ export function ExpenseProgressBar({
             <HugeiconsIcon
               onClick={() =>
                 setCurrentCategoryType(
-                  changeCurrentType.nextOption as "fixed" | "fun" | "future_you"
+                  changeCurrentType.nextOption as
+                    | "fixed"
+                    | "fun"
+                    | "future_you",
                 )
               }
               strokeWidth={3}
@@ -119,9 +125,9 @@ export function ExpenseProgressBar({
           <p
             className={cn(
               "text-lg font-semibold",
-              currentCategoryType == "fixed" && "text-[#7047EB]",
-              currentCategoryType == "fun" && "text-[#9B8DF8]",
-              currentCategoryType == "future_you" && "text-[#BDB6FC]"
+              currentCategoryType === "fixed" && "text-[#7047EB]",
+              currentCategoryType === "fun" && "text-[#9B8DF8]",
+              currentCategoryType === "future_you" && "text-[#BDB6FC]",
             )}
           >
             {t(`${currentCategoryType}`)}
@@ -155,7 +161,7 @@ function ProgressBar({
       <div
         className={cn(
           "bg-[#7047EB] z-10 rounded-l-sm",
-          fixedPercent == 100 && "rounded-sm"
+          fixedPercent === 100 && "rounded-sm",
         )}
         style={{
           width: `${fixedPercent}%`,
@@ -164,8 +170,8 @@ function ProgressBar({
       <div
         className={cn(
           " bg-[#9B8DF8] z-10",
-          fixedPercent == 0 && "rounded-l-sm",
-          funPercent == 100 && "rounded-sm"
+          fixedPercent === 0 && "rounded-l-sm",
+          funPercent === 100 && "rounded-sm",
         )}
         style={{
           width: `${funPercent}%`,
@@ -174,8 +180,8 @@ function ProgressBar({
       <div
         className={cn(
           " bg-[#BDB6FC] z-10 rounded-r-sm",
-          fixedPercent == 0 && funPercent == 0 && "rounded-l-sm",
-          futureYouPercent == 100 && "rounded-sm"
+          fixedPercent === 0 && funPercent === 0 && "rounded-l-sm",
+          futureYouPercent === 100 && "rounded-sm",
         )}
         style={{
           width: `${futureYouPercent}%`,

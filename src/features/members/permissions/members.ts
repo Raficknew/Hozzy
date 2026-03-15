@@ -7,11 +7,11 @@ export async function assertMemberWriteAccess(householdId: string) {
   const user = session?.user;
   const household = await getHousehold(householdId);
 
-  if (user && user.id == household?.ownerId) {
+  if (user && user.id === household?.ownerId) {
     return;
   }
 
-  throw "NotAllowedToWriteHouseholdExeption";
+  throw "NotAllowedToWriteHouseholdException";
 }
 
 export async function checkIfUserCanCreateNewMember(householdId: string) {

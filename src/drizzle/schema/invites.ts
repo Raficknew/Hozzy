@@ -1,6 +1,6 @@
+import { relations } from "drizzle-orm";
 import { pgTable, uuid } from "drizzle-orm/pg-core";
 import { HouseholdTable } from "./houseHold";
-import { relations } from "drizzle-orm";
 
 export const InviteTable = pgTable("invite_table", {
   link: uuid().primaryKey().defaultRandom(),

@@ -15,7 +15,7 @@ export async function assertTransactionsRateLimit(userId: string) {
   const { remaining } = await ratelimitForTransactions.limit(userId);
 
   if (remaining <= 0) {
-    throw "RateLimitExceededException";
+    throw new Error("RateLimitExceededException");
   }
 
   return;

@@ -1,10 +1,10 @@
+import { and, eq } from "drizzle-orm";
 import { db } from "@/drizzle";
 import { MembersTable } from "@/drizzle/schema";
-import { and, eq } from "drizzle-orm";
 
 export async function insertMember(
   { userId, name }: { userId?: string; name: string },
-  householdId: string
+  householdId: string,
 ) {
   const [newMember] = await db
     .insert(MembersTable)
@@ -26,8 +26,8 @@ export async function deleteMember(memberId: string, householdId: string) {
     .where(
       and(
         eq(MembersTable.id, memberId),
-        eq(MembersTable.householdId, householdId)
-      )
+        eq(MembersTable.householdId, householdId),
+      ),
     )
     .returning();
 
@@ -38,7 +38,7 @@ export async function deleteMember(memberId: string, householdId: string) {
 
 export async function updateMember(
   { memberId, name }: { memberId: string; name: string },
-  householdId: string
+  householdId: string,
 ) {
   const [updatedMember] = await db
     .update(MembersTable)
@@ -46,8 +46,8 @@ export async function updateMember(
     .where(
       and(
         eq(MembersTable.id, memberId),
-        eq(MembersTable.householdId, householdId)
-      )
+        eq(MembersTable.householdId, householdId),
+      ),
     )
     .returning();
 

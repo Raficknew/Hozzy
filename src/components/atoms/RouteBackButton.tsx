@@ -6,8 +6,12 @@ import { useRouter } from "next/navigation";
 export function RouteBackButton() {
   const router = useRouter();
   return (
-    <div className="flex sm:hidden w-10 pl-1" onClick={() => router.back()}>
+    <button
+      type="button"
+      className="flex sm:hidden w-10 pl-1"
+      onClick={() => router.back()}
+    >
       <HugeiconsIcon icon={ArrowLeft01Icon} />
-    </div>
+    </button>
   );
 }

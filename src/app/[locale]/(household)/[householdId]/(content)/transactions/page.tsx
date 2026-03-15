@@ -1,12 +1,12 @@
+import { notFound } from "next/navigation";
+import { getTranslations } from "next-intl/server";
+import { PaginationTransactionTable } from "@/components/organisms/PaginationTransactionTable";
 import {
   getCategories,
   getCategoriesWithTransactions,
   getHousehold,
 } from "@/global/actions";
-import { notFound } from "next/navigation";
-import { PaginationTransactionTable } from "@/components/organisms/PaginationTransactionTable";
 import { sortTransactionsByDateAndCreation } from "@/global/functions";
-import { getTranslations } from "next-intl/server";
 
 export default async function HouseholdTransactionsPage({
   params,
@@ -32,7 +32,7 @@ export default async function HouseholdTransactionsPage({
     cat.transactions.map((transaction) => ({
       ...transaction,
       categoryName: cat.name,
-    }))
+    })),
   );
 
   const sortedTransactions = sortTransactionsByDateAndCreation(allTransactions);

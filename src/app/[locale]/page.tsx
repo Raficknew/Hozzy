@@ -1,14 +1,14 @@
+import { Home12Icon, PlusSignIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { getLocale, getTranslations } from "next-intl/server";
+import { Suspense } from "react";
 import { HozzyLogo } from "@/components/atoms/HozzyLogo";
 import { getUserHouseholds } from "@/global/actions";
 import { MAX_HOUSEHOLD_PER_USER } from "@/global/limits";
 import { auth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
-import { Home12Icon, PlusSignIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { getLocale, getTranslations } from "next-intl/server";
-import Link from "next/link";
-import { redirect } from "next/navigation";
-import { Suspense } from "react";
 
 export default async function HomePage() {
   const locale = await getLocale();
@@ -47,7 +47,7 @@ async function UserHouseholdList({
       <div
         className={cn(
           "flex flex-col sm:flex-row text-center *:text-3xl",
-          user.name.length > 26 && "*:text-2xl"
+          user.name.length > 26 && "*:text-2xl",
         )}
       >
         <p className="font-semibold">{t("welcome")},</p>

@@ -1,13 +1,10 @@
 "use client";
-import {
-  CategoriesOfExpanse,
-  categoriesOfExpanse,
-} from "@/drizzle/schema/category";
-import { Category } from "@/features/categories/components/Category";
-import { CategoryIconKeys } from "@/features/categories/components/CategoryIcon";
+import { PlusSignIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { DialogDescription } from "@radix-ui/react-dialog";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { cn } from "@/lib/utils";
-import { CategoryForm } from "@/features/categories/components/CategoryForm";
+import { Spacer } from "@/components/atoms/Spacer";
 import {
   Dialog,
   DialogContent,
@@ -15,13 +12,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { PlusSignIcon } from "@hugeicons/core-free-icons";
-import { Spacer } from "@/components/atoms/Spacer";
-import { DialogDescription } from "@radix-ui/react-dialog";
-import { useTranslations } from "next-intl";
-import { CategoryWithIcon } from "@/global/types";
+import {
+  type CategoriesOfExpanse,
+  categoriesOfExpanse,
+} from "@/drizzle/schema/category";
+import { Category } from "@/features/categories/components/Category";
+import { CategoryForm } from "@/features/categories/components/CategoryForm";
+import type { CategoryIconKeys } from "@/features/categories/components/CategoryIcon";
 import { MAX_CATEGORIES_PER_HOUSEHOLD } from "@/global/limits";
+import type { CategoryWithIcon } from "@/global/types";
+import { cn } from "@/lib/utils";
 
 export function CategoryList({
   categories,
@@ -32,7 +32,7 @@ export function CategoryList({
 }) {
   const [currentCategoryType, setCurrentCategoryType] = useState("fixed");
   const filteredCategories = categories.filter(
-    (category) => category.categoryType === currentCategoryType
+    (category) => category.categoryType === currentCategoryType,
   );
   const t = useTranslations("Settings.categories");
 
@@ -40,11 +40,12 @@ export function CategoryList({
     <div className="flex flex-col gap-4 bg-sidebar p-2 rounded-lg">
       <div className="sm:grid sm:grid-cols-4 text-center w-full hide-scrollbar-mobile overflow-auto whitespace-nowrap sm:space-x-0 sm:gap-4 space-x-2 ">
         {categoriesOfExpanse.map((categoryType) => (
-          <div
+          <button
+            type="button"
             className={cn(
               "cursor-pointer py-1 inline-block sm:w-full w-1/3",
               currentCategoryType === categoryType &&
-                "border-b-2 rounded-sm border-[#9B8DF8] text-[#9B8DF8]"
+                "border-b-2 rounded-sm border-[#9B8DF8] text-[#9B8DF8]",
             )}
             onClick={() => {
               if (currentCategoryType !== categoryType) {
@@ -54,7 +55,7 @@ export function CategoryList({
             key={categoryType}
           >
             {t(`types.${categoryType}`)}
-          </div>
+          </button>
         ))}
       </div>
       <div className="grid gap-2">

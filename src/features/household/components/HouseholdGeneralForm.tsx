@@ -1,6 +1,10 @@
 "use client";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { LoadingSwap } from "@/components/atoms/LoadingSwap";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -10,7 +14,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
@@ -18,19 +21,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useTranslations } from "next-intl";
 import {
   createHousehold,
   updateHousehold,
 } from "@/features/household/actions/household";
 import {
+  type HouseholdSchema,
   householdSchema,
-  HouseholdSchema,
 } from "@/features/household/schema/household";
-import { cn } from "@/lib/utils";
-import { useTransition } from "react";
-import { LoadingSwap } from "@/components/atoms/LoadingSwap";
 import { performFormSubmitAction } from "@/global/functions";
+import { cn } from "@/lib/utils";
 
 export function HouseholdForm({
   currencies,
@@ -63,7 +63,7 @@ export function HouseholdForm({
       performFormSubmitAction(
         household
           ? () => updateHousehold(data, household.id)
-          : () => createHousehold(data)
+          : () => createHousehold(data),
       );
     });
   }

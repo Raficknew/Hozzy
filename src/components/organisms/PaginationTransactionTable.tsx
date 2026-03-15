@@ -1,9 +1,9 @@
 "use client";
-import { Category, Member, Transaction } from "@/global/types";
-import { TransactionTable } from "@/components/molecules/TransactionTable";
-import { HugeiconsIcon } from "@hugeicons/react";
 import { ScratchCardIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
+import { TransactionTable } from "@/components/molecules/TransactionTable";
 import {
   Select,
   SelectContent,
@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useTranslations } from "next-intl";
+import type { Category, Member, Transaction } from "@/global/types";
 
 export function PaginationTransactionTable({
   transactions,
@@ -43,8 +43,8 @@ export function PaginationTransactionTable({
     setCurrentShowingTransactions(
       transactions.slice(
         (currentPage - 1) * TRANSACTIONS_PER_PAGE,
-        currentPage * TRANSACTIONS_PER_PAGE
-      )
+        currentPage * TRANSACTIONS_PER_PAGE,
+      ),
     );
   }, [currentPage, transactions]);
 
@@ -53,8 +53,8 @@ export function PaginationTransactionTable({
     setCurrentShowingTransactions(
       transactions.slice(
         (pageNumber - 1) * TRANSACTIONS_PER_PAGE,
-        pageNumber * TRANSACTIONS_PER_PAGE
-      )
+        pageNumber * TRANSACTIONS_PER_PAGE,
+      ),
     );
   };
 

@@ -1,15 +1,15 @@
 "use server";
-import { db } from "@/drizzle";
-import {
-  TransactionTable,
-  CategoryTable,
-  CurrencyTable,
-  MembersTable,
-  HouseholdTable,
-} from "@/drizzle/schema";
+import { endOfMonth, startOfMonth } from "date-fns";
 import { and, asc, eq, gte, lte } from "drizzle-orm";
 import { validate as validateUuid } from "uuid";
-import { endOfMonth, startOfMonth } from "date-fns";
+import { db } from "@/drizzle";
+import {
+  CategoryTable,
+  CurrencyTable,
+  HouseholdTable,
+  MembersTable,
+  TransactionTable,
+} from "@/drizzle/schema";
 
 export const getUserHouseholds = async (userId: string) => {
   return db.query.MembersTable.findMany({
@@ -23,7 +23,7 @@ export const getUserHouseholds = async (userId: string) => {
 };
 
 export const getHousehold = async (id: string) => {
-  if (!(await validateUuid(id))) {
+  if (!validateUuid(id)) {
     return null;
   }
 
@@ -42,13 +42,11 @@ export const getHousehold = async (id: string) => {
 
 export const getCategoriesWithTransactions = async (
   householdId: string,
-  date: Date
+  date: Date,
 ) => {
-  if (!(await validateUuid(householdId)) && date == null) {
+  if (!validateUuid(householdId) || date == null) {
     return null;
   }
-
-  console.log(date);
 
   const firstDayOfMonth = startOfMonth(date);
   const lastDayOfMonth = endOfMonth(date);
@@ -59,7 +57,7 @@ export const getCategoriesWithTransactions = async (
       transactions: {
         where: and(
           gte(TransactionTable.date, firstDayOfMonth),
-          lte(TransactionTable.date, lastDayOfMonth)
+          lte(TransactionTable.date, lastDayOfMonth),
         ),
       },
     },

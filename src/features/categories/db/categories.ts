@@ -1,6 +1,6 @@
+import { and, eq } from "drizzle-orm";
 import { db } from "@/drizzle";
 import { CategoryTable } from "@/drizzle/schema";
-import { and, eq } from "drizzle-orm";
 
 export async function insertCategory(data: typeof CategoryTable.$inferInsert) {
   const [newCategory] = await db.insert(CategoryTable).values(data).returning();
@@ -28,8 +28,8 @@ export async function deleteCategory(categoryId: string, householdId: string) {
     .where(
       and(
         eq(CategoryTable.id, categoryId),
-        eq(CategoryTable.householdId, householdId)
-      )
+        eq(CategoryTable.householdId, householdId),
+      ),
     )
     .returning();
 

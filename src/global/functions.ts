@@ -1,13 +1,13 @@
-import { v4 as uuidGenerate } from "uuid";
-import { CategoryWithTransactions, Transaction } from "@/global/types";
 import { toast } from "sonner";
+import { v4 as uuidGenerate } from "uuid";
+import type { CategoryWithTransactions, Transaction } from "@/global/types";
 
 export const createUuid = (): string => {
   return uuidGenerate();
 };
 
 export const countPricesOfTransactionsRelatedToTheirTypes = (
-  categories: CategoryWithTransactions
+  categories: CategoryWithTransactions,
 ) => {
   const sums = {
     fixed: 0,
@@ -17,13 +17,9 @@ export const countPricesOfTransactionsRelatedToTheirTypes = (
   };
 
   categories.forEach((category) => {
-    const typeKey =
-      category.categoryType === "future you"
-        ? "future_you"
-        : category.categoryType;
-    if (sums.hasOwnProperty(typeKey)) {
+    if (Object.hasOwn(sums, category.categoryType)) {
       category.transactions.forEach((t) => {
-        sums[typeKey] += t.price;
+        sums[category.categoryType] += t.price;
       });
     }
   });
@@ -40,7 +36,7 @@ export const countPricesOfTransactionsRelatedToTheirTypes = (
 
 export const performFormSubmitAction = async (
   action: () => Promise<{ error: boolean; message: string }>,
-  onSuccess?: () => void
+  onSuccess?: () => void,
 ) => {
   const result = await action();
 
@@ -54,7 +50,7 @@ export const performFormSubmitAction = async (
 };
 
 export const sortTransactionsByDateAndCreation = (
-  transactions: Transaction[]
+  transactions: Transaction[],
 ) => {
   return transactions.sort((a, b) => {
     const dateA = new Date(a.date).getTime();

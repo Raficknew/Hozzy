@@ -1,10 +1,10 @@
-import { HugeiconsIcon } from "@hugeicons/react";
-import { CategoryWithTransactions, Member } from "@/global/types";
-import { TransactionTable } from "./TransactionTable";
 import { ScratchCardIcon } from "@hugeicons/core-free-icons";
-import { getCategories } from "@/global/actions";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { getTranslations } from "next-intl/server";
+import { getCategories } from "@/global/actions";
 import { sortTransactionsByDateAndCreation } from "@/global/functions";
+import type { CategoryWithTransactions, Member } from "@/global/types";
+import { TransactionTable } from "./TransactionTable";
 
 export async function RecentTransactionTable({
   categories,
@@ -23,7 +23,7 @@ export async function RecentTransactionTable({
     cat.transactions.map((transaction) => ({
       ...transaction,
       categoryName: cat.name,
-    }))
+    })),
   );
 
   const sortedTransactions = sortTransactionsByDateAndCreation(allTransactions);

@@ -1,8 +1,8 @@
+import { getTranslations } from "next-intl/server";
 import { HozzyLogo } from "@/components/atoms/HozzyLogo";
 import { PageTitle } from "@/components/atoms/PageTitle";
 import { HouseholdForm } from "@/features/household/components/HouseholdGeneralForm";
 import { getCurrencies } from "@/global/actions";
-import { getTranslations } from "next-intl/server";
 
 export default async function HouseholdCreateFormPage() {
   const currencies = await getCurrencies();

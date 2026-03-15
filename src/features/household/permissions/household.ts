@@ -1,9 +1,9 @@
+import { count, eq } from "drizzle-orm";
 import { db } from "@/drizzle";
 import { HouseholdTable } from "@/drizzle/schema";
 import { getHousehold } from "@/global/actions";
 import { MAX_HOUSEHOLD_PER_USER } from "@/global/limits";
 import { auth } from "@/lib/auth";
-import { count, eq } from "drizzle-orm";
 
 export async function assertHouseholdCreateAbility(userId: string) {
   if (!userId) throw "UserNotFound";
@@ -37,13 +37,13 @@ export async function assertHouseholdWriteAccess(householdId: string) {
   }
 
   const isOwner = user && user.id === household?.ownerId;
-  const isMember = user && household?.members.find((u) => u.userId == user.id);
+  const isMember = user && household?.members.find((u) => u.userId === user.id);
 
   if (isOwner || isMember) {
     return;
   }
 
-  throw "NotAllowedToWriteHouseholdExeption";
+  throw "NotAllowedToWriteHouseholdException";
 }
 
 export async function canAccessHouseholdSettings(householdId: string) {
@@ -51,7 +51,7 @@ export async function canAccessHouseholdSettings(householdId: string) {
   const user = session?.user;
   const household = await getHousehold(householdId);
 
-  if (user && user.id == household?.ownerId) {
+  if (user && user.id === household?.ownerId) {
     return true;
   }
 

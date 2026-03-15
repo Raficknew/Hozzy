@@ -1,9 +1,9 @@
 import { Wallet05Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Prices } from "@/global/types";
-import { ExpenseProgressBar } from "@/components/organisms/ExpenseProgressBar";
-import { Price } from "@/components/atoms/Price";
 import { getTranslations } from "next-intl/server";
+import { Price } from "@/components/atoms/Price";
+import { ExpenseProgressBar } from "@/components/organisms/ExpenseProgressBar";
+import type { Prices } from "@/global/types";
 
 export async function BalanceTracker({
   currency,

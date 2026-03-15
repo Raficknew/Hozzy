@@ -1,6 +1,6 @@
 import { User02FreeIcons } from "@hugeicons/core-free-icons";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 
 export function UserAvatar({

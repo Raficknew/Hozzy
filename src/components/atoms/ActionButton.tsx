@@ -1,6 +1,8 @@
 "use client";
-import { ComponentPropsWithRef, useTransition } from "react";
-import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
+import { type ComponentPropsWithRef, useTransition } from "react";
+import { toast } from "sonner";
+import { LoadingSwap } from "@/components/atoms/LoadingSwap";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,9 +14,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useTranslations } from "next-intl";
-import { LoadingSwap } from "@/components/atoms/LoadingSwap";
-import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 export function ActionButton({
   action,

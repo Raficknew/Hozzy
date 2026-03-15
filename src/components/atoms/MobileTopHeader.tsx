@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { RouteBackButton } from "@/components/atoms/RouteBackButton";
 
 export function MobileTopHeader({
