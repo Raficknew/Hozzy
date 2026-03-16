@@ -1,5 +1,6 @@
 import { GlobalIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Suspense } from "react";
@@ -21,7 +22,9 @@ export default async function HouseholdAccountSettings({
   params: Promise<{ householdId: string }>;
 }) {
   const locale = await getLocale();
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const { householdId } = await params;
   const household = await getHousehold(householdId);
   const t = await getTranslations("Settings.account");

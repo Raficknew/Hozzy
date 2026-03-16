@@ -1,5 +1,6 @@
 import { Delete02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
@@ -19,7 +20,9 @@ export default async function HouseholdSettingsLayout({
   children: ReactNode;
   params: Promise<{ householdId: string }>;
 }>) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (session == null) redirect(`/sign-in`);
 

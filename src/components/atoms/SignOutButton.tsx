@@ -1,7 +1,6 @@
 "use client";
 import { Logout05Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import {
   AlertDialog,
@@ -13,6 +12,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { signOut } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "../ui/button";
 

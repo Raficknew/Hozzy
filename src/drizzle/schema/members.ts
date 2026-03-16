@@ -7,7 +7,7 @@ import { HouseholdTable } from "./houseHold";
 export const MembersTable = pgTable("members", {
   id,
   name: text().notNull(),
-  userId: uuid().references(() => user.id, { onDelete: "cascade" }),
+  userId: text().references(() => user.id, { onDelete: "cascade" }),
   householdId: uuid()
     .notNull()
     .references(() => HouseholdTable.id, { onDelete: "cascade" }),

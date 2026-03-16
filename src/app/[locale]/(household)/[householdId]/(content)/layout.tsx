@@ -1,3 +1,4 @@
+import { headers } from "next/headers";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import type { ReactNode } from "react";
@@ -15,7 +16,9 @@ export default async function HouseholdLayout({
   children: ReactNode;
   params: Promise<{ householdId: string }>;
 }>) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (session == null) redirect(`/sign-in`);
 
@@ -32,18 +35,20 @@ export default async function HouseholdLayout({
 
   return (
     <div>
-      <TopBar householdId={householdId} />
+      <TopBar householdId={householdId} userImage={session.user.image} />
       <Sidebar />
       <div className="sm:pl-22 px-3 h-full pb-2 ">{children}</div>
     </div>
   );
 }
 
-async function TopBar({ householdId }: { householdId: string }) {
-  const session = await auth();
-
-  if (session == null) redirect("/sign-in");
-
+async function TopBar({
+  householdId,
+  userImage,
+}: {
+  householdId: string;
+  userImage?: string | null;
+}) {
   return (
     <div className="flex w-full sm:justify-between gap-2 sm:gap-0 px-5 py-3">
       <div className="sm:hidden mr-auto">
@@ -55,7 +60,7 @@ async function TopBar({ householdId }: { householdId: string }) {
       <div>
         <Link href={`/${householdId}/settings/account`} className="relative">
           <div className="absolute right-0 bottom-0 z-10 bg-green-400 w-2.5 h-2.5 rounded-full p-1"></div>
-          <UserAvatar image={session.user.image} className="size-10" />
+          <UserAvatar image={userImage} className="size-10" />
         </Link>
       </div>
     </div>

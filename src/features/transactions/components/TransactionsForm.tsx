@@ -1,7 +1,6 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
-import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -40,6 +39,7 @@ import {
 } from "@/features/transactions/schema/transactions";
 import { performFormSubmitAction } from "@/global/functions";
 import type { Category, Member, Transaction } from "@/global/types";
+import { useSession } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 
 export function TransactionForm({
@@ -234,7 +234,7 @@ export function TransactionForm({
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
-                        <Button className="w-[140px]" variant="datePicker">
+                        <Button className="w-35" variant="datePicker">
                           {format(field.value, "dd/MM/yyyy")}
                         </Button>
                       </FormControl>

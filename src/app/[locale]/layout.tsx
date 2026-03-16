@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
 import { notFound } from "next/navigation";
-import { SessionProvider } from "next-auth/react";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { Toaster } from "sonner";
 import { routing } from "@/i18n/routing";
@@ -31,20 +30,18 @@ export default async function RootLayout({
   }
 
   return (
-    <SessionProvider>
+    <NextIntlClientProvider>
       <html lang={locale}>
         <body className={`${geistSans.variable} antialiased bg-background`}>
-          <NextIntlClientProvider>
-            {children}
-            <Toaster
-              theme="dark"
-              richColors
-              duration={2000}
-              position="top-center"
-            />
-          </NextIntlClientProvider>
+          {children}
+          <Toaster
+            theme="dark"
+            richColors
+            duration={2000}
+            position="top-center"
+          />
         </body>
       </html>
-    </SessionProvider>
+    </NextIntlClientProvider>
   );
 }

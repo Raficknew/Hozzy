@@ -1,43 +1,31 @@
+"use client";
 import { GoogleIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
 import { HozzyLogo } from "@/components/atoms/HozzyLogo";
 import { PageTitle } from "@/components/atoms/PageTitle";
 import { Button } from "@/components/ui/button";
-import { auth } from "@/lib/auth";
 import { signIn } from "@/lib/auth-client";
 
-export default async function SignInPage() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+export default function SignInPage() {
+  const t = useTranslations("SignInPage");
 
-  if (session) redirect("/");
-
-  const t = await getTranslations("SignInPage");
+  const handleSignIn = () => {
+    signIn.social({
+      provider: "google",
+      callbackURL: "/",
+    });
+  };
 
   return (
     <div className="h-screen w-full flex flex-col items-center justify-center">
       <HozzyLogo link variant="withText" size={90} />
       <div className="flex flex-col gap-3 w-full p-5 max-w-112.5 text-center">
         <PageTitle title={t("title")} subtitle={t("subtitle")} />
-        <form
-          className="flex flex-col gap-3 w-full text-center"
-          action={async () => {
-            "use server";
-            await signIn.social({
-              provider: "google",
-              callbackURL: "/",
-            });
-          }}
-        >
-          <Button variant="submit" className="px-3 py-2">
-            <HugeiconsIcon strokeWidth={2} icon={GoogleIcon} />
-            <p className="font-semibold">{t("google")}</p>
-          </Button>
-        </form>
+        <Button variant="submit" onClick={handleSignIn} className="px-3 py-2">
+          <HugeiconsIcon strokeWidth={2} icon={GoogleIcon} />
+          <p className="font-semibold">{t("google")}</p>
+        </Button>
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import { and, eq } from "drizzle-orm";
+import { headers } from "next/headers";
 import { getLocale, getTranslations } from "next-intl/server";
 import { validate as validateUuid } from "uuid";
 import { db } from "@/drizzle";
@@ -19,7 +20,9 @@ export async function insertHousehold(
   data: typeof HouseholdTable.$inferInsert,
   balance: number,
 ) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (!session) throw new Error("Failed while createing Household");
 

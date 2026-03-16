@@ -1,5 +1,6 @@
 "use server";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import type { z } from "zod";
@@ -20,7 +21,9 @@ import { assertHouseholdCreateAbility } from "../permissions/household";
 export async function createHousehold(
   unsafeData: z.infer<typeof householdSchema>,
 ) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const t = await getTranslations("ReturnMessages");
 
   if (session?.user.id == null)
@@ -49,7 +52,9 @@ export async function updateHousehold(
   unsafeData: HouseholdSchema,
   householdId: string,
 ) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const t = await getTranslations("ReturnMessages");
 
   if (session?.user.id == null)
@@ -66,7 +71,9 @@ export async function updateHousehold(
 }
 
 export async function deleteHousehold(householdId: string) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const t = await getTranslations("ReturnMessages");
 
   if (session?.user.id == null)
@@ -78,7 +85,9 @@ export async function deleteHousehold(householdId: string) {
 }
 
 export async function joinHousehold(householdId: string, userId: string) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const t = await getTranslations("ReturnMessages");
 
   if (session?.user.id == null || session.user.name == null) {
@@ -94,7 +103,9 @@ export async function generateLinkForHousehold(
   householdId: string,
   link: string,
 ) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const t = await getTranslations("ReturnMessages");
 
   if (session?.user.id == null) {
