@@ -1,7 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { User } from "better-auth";
 import { notFound } from "next/navigation";
-import type { User } from "next-auth";
 import { useTranslations } from "next-intl";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";

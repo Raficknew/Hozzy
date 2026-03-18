@@ -14,7 +14,7 @@ const messages = {
 
 const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
   return (
-    <NextIntlClientProvider locale="pl" messages={messages}>
+    <NextIntlClientProvider locale="en" messages={messages}>
       {children}
     </NextIntlClientProvider>
   );

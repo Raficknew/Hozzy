@@ -162,14 +162,14 @@ export function TransactionForm({
                           key={t}
                           className={cn(
                             "bg-card hover:bg-[#747474] text-white/20 hover:text-foreground px-3",
-                            (field.value ?? transaction) === t &&
+                            field.value === t &&
                               "bg-accent hover:bg-accent text-foreground",
                           )}
                           type="button"
                           onClick={() => {
                             setTransactionType(t);
                             field.onChange(t);
-                            form.setValue("categoryId", "");
+                            form.resetField("categoryId");
                           }}
                         >
                           {ts(`transactionTypes.${t}`)}
@@ -206,7 +206,11 @@ export function TransactionForm({
                 <FormItem>
                   <FormLabel>{ts("member")}</FormLabel>
                   <FormControl>
-                    <Select onValueChange={field.onChange}>
+                    <Select
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <SelectTrigger className="w-full truncate">
                         <SelectValue placeholder={currentMember?.name} />
                       </SelectTrigger>
@@ -273,6 +277,7 @@ export function TransactionForm({
               <FormLabel>{ts("category.label")}</FormLabel>
               <FormControl>
                 <Select
+                  value={field.value}
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
