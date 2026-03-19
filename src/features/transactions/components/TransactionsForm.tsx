@@ -85,7 +85,7 @@ export function TransactionForm({
       price: 0,
       name: "",
       type: transactionType,
-      memberId: currentMember?.id ?? undefined,
+      memberId: currentMember?.id ?? members[0]?.id,
       date: new Date(),
       categoryId: undefined,
     },
