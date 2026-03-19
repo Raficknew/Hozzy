@@ -1,3 +1,4 @@
+import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { HozzyLogo } from "@/components/atoms/HozzyLogo";
@@ -12,7 +13,9 @@ export default async function HouseholdJoinPage({
 }) {
   const { householdId, link } = await params;
   const household = await getHousehold(householdId);
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const t = await getTranslations("JoinPage");
 
   if (

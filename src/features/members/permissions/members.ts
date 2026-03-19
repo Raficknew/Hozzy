@@ -1,9 +1,12 @@
+import { headers } from "next/headers";
 import { getHousehold } from "@/global/actions";
 import { MAX_MEMBERS_PER_HOUSEHOLD } from "@/global/limits";
 import { auth } from "@/lib/auth";
 
 export async function assertMemberWriteAccess(householdId: string) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const user = session?.user;
   const household = await getHousehold(householdId);
 

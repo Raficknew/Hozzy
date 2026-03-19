@@ -1,4 +1,5 @@
 import { count, eq } from "drizzle-orm";
+import { headers } from "next/headers";
 import { db } from "@/drizzle";
 import { HouseholdTable } from "@/drizzle/schema";
 import { getHousehold } from "@/global/actions";
@@ -23,7 +24,9 @@ export async function assertHouseholdCreateAbility(userId: string) {
 }
 
 export async function assertHouseholdWriteAccess(householdId: string) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const user = session?.user;
 
   if (!user) {
@@ -47,7 +50,9 @@ export async function assertHouseholdWriteAccess(householdId: string) {
 }
 
 export async function canAccessHouseholdSettings(householdId: string) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const user = session?.user;
   const household = await getHousehold(householdId);
 

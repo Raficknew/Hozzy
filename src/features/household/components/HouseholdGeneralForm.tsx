@@ -115,14 +115,14 @@ export function HouseholdForm({
               control={form.control}
               name="currencyCode"
               render={({ field }) => (
-                <FormItem className="w-full sm:w-[155px]">
+                <FormItem className="w-full sm:w-38.75">
                   <FormLabel>{t("currency.label")}</FormLabel>
                   <FormControl>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
-                      <SelectTrigger className="w-full sm:w-[155px]">
+                      <SelectTrigger className="w-full sm:w-38.75">
                         <SelectValue placeholder={t("currency.placeholder")} />
                       </SelectTrigger>
                       <SelectContent>

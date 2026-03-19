@@ -1,7 +1,6 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
-import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
@@ -40,6 +39,7 @@ import {
 } from "@/features/transactions/schema/transactions";
 import { performFormSubmitAction } from "@/global/functions";
 import type { Category, Member, Transaction } from "@/global/types";
+import { useSession } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 
 export function TransactionForm({
@@ -85,7 +85,7 @@ export function TransactionForm({
       price: 0,
       name: "",
       type: transactionType,
-      memberId: currentMember?.id ?? undefined,
+      memberId: currentMember?.id ?? members[0]?.id,
       date: new Date(),
       categoryId: undefined,
     },
@@ -162,14 +162,14 @@ export function TransactionForm({
                           key={t}
                           className={cn(
                             "bg-card hover:bg-[#747474] text-white/20 hover:text-foreground px-3",
-                            (field.value ?? transaction) === t &&
+                            field.value === t &&
                               "bg-accent hover:bg-accent text-foreground",
                           )}
                           type="button"
                           onClick={() => {
                             setTransactionType(t);
                             field.onChange(t);
-                            form.setValue("categoryId", "");
+                            form.resetField("categoryId");
                           }}
                         >
                           {ts(`transactionTypes.${t}`)}
@@ -206,7 +206,11 @@ export function TransactionForm({
                 <FormItem>
                   <FormLabel>{ts("member")}</FormLabel>
                   <FormControl>
-                    <Select onValueChange={field.onChange}>
+                    <Select
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <SelectTrigger className="w-full truncate">
                         <SelectValue placeholder={currentMember?.name} />
                       </SelectTrigger>
@@ -234,7 +238,7 @@ export function TransactionForm({
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
-                        <Button className="w-[140px]" variant="datePicker">
+                        <Button className="w-35" variant="datePicker">
                           {format(field.value, "dd/MM/yyyy")}
                         </Button>
                       </FormControl>
@@ -273,6 +277,7 @@ export function TransactionForm({
               <FormLabel>{ts("category.label")}</FormLabel>
               <FormControl>
                 <Select
+                  value={field.value}
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >

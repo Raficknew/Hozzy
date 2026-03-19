@@ -1,5 +1,6 @@
 "use server";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
 import { validate as validateUuid } from "uuid";
 import type { z } from "zod";
@@ -22,7 +23,9 @@ export async function createCategory(
 
   if (!success) return { error: true, message: t("Categories.createError") };
 
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (session?.user.id == null)
     return { error: true, message: t("User.invalidId") };
@@ -46,7 +49,9 @@ export async function updateCategory(
   householdId: string,
   type: CategoriesOfExpanse,
 ) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const t = await getTranslations("ReturnMessages");
 
   if (session?.user.id == null)
@@ -63,13 +68,15 @@ export async function updateCategory(
     categoryType: type,
   });
 
-  revalidateTag(`/${householdId}/settings`);
+  revalidatePath(`/${householdId}/settings`);
 
   return { error: false, message: t("Categories.updateSuccess") };
 }
 
 export async function deleteCategory(categoryId: string, householdId: string) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const t = await getTranslations("ReturnMessages");
 
   if (session?.user.id == null)
@@ -81,7 +88,7 @@ export async function deleteCategory(categoryId: string, householdId: string) {
 
   await deleteCategoryDB(categoryId, householdId);
 
-  revalidateTag(`/${householdId}/settings`);
+  revalidatePath(`/${householdId}/settings`);
 
   return { error: false, message: t("Categories.deleteSuccess") };
 }

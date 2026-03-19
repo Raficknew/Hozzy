@@ -40,7 +40,7 @@ export function HouseholdLinkGenerate({
         <button
           type="button"
           onClick={handleCopyToClipboard}
-          className="cursor-pointer text-start text-xs h-full flex flex-col w-full p-2 rounded-lg max-w-[250px] overflow-hidden "
+          className="cursor-pointer text-start text-xs h-full flex flex-col w-full p-2 rounded-lg max-w-62.5 overflow-hidden "
         >
           <span className="text-[10px] font-semibold text-[#828183]">
             {t("copy")}
