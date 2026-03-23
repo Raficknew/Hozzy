@@ -6,8 +6,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { redirect, usePathname } from "@/i18n/navigation";
-import { routing } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 
 export function LanguageSelect({
@@ -17,15 +15,10 @@ export function LanguageSelect({
   currentLocale: string;
   className?: string;
 }) {
-  const languages = routing.locales;
-  const pathname = usePathname();
+  const languages = ["en", "pl"];
 
-  function changeLanguage(language: string, pathname: string) {
-    if (pathname !== "/") {
-      redirect({ locale: language, href: pathname });
-    } else {
-      redirect({ locale: language, href: pathname });
-    }
+  function changeLanguage(language: string) {
+    return;
   }
 
   return (
@@ -33,7 +26,7 @@ export function LanguageSelect({
       <Select
         defaultValue={currentLocale}
         onValueChange={(value) =>
-          value !== currentLocale && changeLanguage(value, pathname)
+          value !== currentLocale && changeLanguage(value)
         }
       >
         <SelectTrigger>

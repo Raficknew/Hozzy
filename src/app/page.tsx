@@ -46,7 +46,7 @@ async function UserHouseholdList({
   const households = await getUserHouseholds(user.id);
 
   return (
-    <div className="flex flex-col items-center gap-5 w-[450px]">
+    <div className="flex flex-col items-center gap-5 w-112.5">
       <div
         className={cn(
           "flex flex-col sm:flex-row text-center *:text-3xl",

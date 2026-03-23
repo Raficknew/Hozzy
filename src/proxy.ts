@@ -1,8 +1,16 @@
-import createMiddleware from "next-intl/middleware";
-import { routing } from "@/i18n/routing";
+import { getSessionCookie } from "better-auth/cookies";
+import { type NextRequest, NextResponse } from "next/server";
 
-export default createMiddleware(routing);
+export async function proxy(request: NextRequest) {
+  const sessionCookie = getSessionCookie(request);
+
+  if (!sessionCookie) {
+    return NextResponse.redirect(new URL("/sign-in", request.url));
+  }
+
+  return NextResponse.next();
+}
 
 export const config = {
-  matcher: "/((?!api|trpc|_next|_vercel|.*\\..*).*)",
+  matcher: ["/", "/:householdId/:path*", "/settings"],
 };
