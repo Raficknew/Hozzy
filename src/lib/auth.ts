@@ -6,7 +6,7 @@ export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "pg",
   }),
-  baseURL: process.env.FRONTEND_URL,
+  baseURL: process.env.BETTER_AUTH_URL as string,
   socialProviders: {
     google: {
       prompt: "select_account",
