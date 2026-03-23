@@ -1,18 +1,18 @@
 import { relations } from "drizzle-orm";
-import { pgTable, text, uuid } from "drizzle-orm/pg-core";
+import { pgTable, text } from "drizzle-orm/pg-core";
 import { createdAt, id, updatedAt } from "../schemaHelpers";
+import { user } from "./auth";
 import { CategoryTable } from "./category";
 import { CurrencyTable } from "./currency";
 import { InviteTable } from "./invites";
 import { MembersTable } from "./members";
-import { users } from "./user";
 
 export const HouseholdTable = pgTable("households", {
   id,
   name: text().notNull(),
   description: text(),
-  ownerId: uuid()
-    .references(() => users.id, { onDelete: "cascade" })
+  ownerId: text()
+    .references(() => user.id, { onDelete: "cascade" })
     .notNull(),
   currencyCode: text()
     .references(() => CurrencyTable.code, { onDelete: "no action" })
@@ -26,9 +26,9 @@ export const HouseholdRelationships = relations(
   ({ one, many }) => ({
     members: many(MembersTable),
     categories: many(CategoryTable),
-    user: one(users, {
+    user: one(user, {
       fields: [HouseholdTable.ownerId],
-      references: [users.id],
+      references: [user.id],
     }),
     currency: one(CurrencyTable, {
       fields: [HouseholdTable.currencyCode],

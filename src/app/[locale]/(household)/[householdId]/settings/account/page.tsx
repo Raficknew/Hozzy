@@ -1,5 +1,6 @@
 import { GlobalIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Suspense } from "react";
@@ -9,7 +10,6 @@ import { SignOutButton } from "@/components/atoms/SignOutButton";
 import { UserAvatar } from "@/components/atoms/UserAvatar";
 import { SectionHeader } from "@/components/molecules/SectionHeader";
 import { SettingsNavigationBar } from "@/components/organisms/SettingsNavigationBar";
-import { env } from "@/data/env/server";
 import { HouseholdLinkGenerate } from "@/features/household/components/HouseholdLinkGenerate";
 import { canAccessHouseholdSettings } from "@/features/household/permissions/household";
 import { UserForm } from "@/features/users/components/UserForm";
@@ -22,7 +22,9 @@ export default async function HouseholdAccountSettings({
   params: Promise<{ householdId: string }>;
 }) {
   const locale = await getLocale();
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const { householdId } = await params;
   const household = await getHousehold(householdId);
   const t = await getTranslations("Settings.account");
@@ -33,7 +35,7 @@ export default async function HouseholdAccountSettings({
     <>
       <MobileTopHeader title={t("title")}>
         <HouseholdLinkGenerate
-          url={env.FRONTEND_URL}
+          url={process.env.FRONTEND_URL!}
           householdId={householdId}
           link={household.invite?.link ?? ""}
         />

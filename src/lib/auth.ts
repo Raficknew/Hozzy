@@ -1,34 +1,17 @@
-import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import NextAuth, { type DefaultSession } from "next-auth";
-import Google from "next-auth/providers/google";
+import { betterAuth } from "better-auth";
+import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "@/drizzle";
 
-declare module "next-auth" {
-  interface Session {
-    user: {
-      google_mail: string;
-      _permissions: {
-        isAuthorized: boolean;
-      };
-    } & DefaultSession["user"];
-  }
-}
-
-export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: DrizzleAdapter(db),
-  providers: [Google],
-  callbacks: {
-    session({ session, user }) {
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          google_mail: user.email,
-          _permissions: {
-            isAuthorized: true,
-          },
-        },
-      };
+export const auth = betterAuth({
+  database: drizzleAdapter(db, {
+    provider: "pg",
+  }),
+  baseURL: process.env.FRONTEND_URL,
+  socialProviders: {
+    google: {
+      prompt: "select_account",
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     },
   },
 });

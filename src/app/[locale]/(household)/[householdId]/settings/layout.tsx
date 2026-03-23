@@ -1,12 +1,12 @@
 import { Delete02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 import { ActionButton } from "@/components/atoms/ActionButton";
 import { SettingsNavigationBar } from "@/components/organisms/SettingsNavigationBar";
 import { Sidebar } from "@/components/organisms/Sidebar";
-import { env } from "@/data/env/server";
 import { deleteHousehold } from "@/features/household/actions/household";
 import { HouseholdLinkGenerate } from "@/features/household/components/HouseholdLinkGenerate";
 import { canAccessHouseholdSettings } from "@/features/household/permissions/household";
@@ -20,7 +20,9 @@ export default async function HouseholdSettingsLayout({
   children: ReactNode;
   params: Promise<{ householdId: string }>;
 }>) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
   if (session == null) redirect(`/sign-in`);
 
@@ -61,7 +63,7 @@ async function TopBar({
       <div className="flex justify-between">
         <h1 className="text-2xl">{t("title")}</h1>
         <HouseholdLinkGenerate
-          url={env.FRONTEND_URL}
+          url={process.env.FRONTEND_URL!}
           householdId={householdId}
           link={link}
         />

@@ -2,6 +2,7 @@
 
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { getLocale, getTranslations } from "next-intl/server";
 import { validate as validateUuid } from "uuid";
 import type { z } from "zod";
@@ -21,7 +22,9 @@ export async function createTransaction(
   unsafeData: z.infer<typeof transactionsSchema>,
   householdId: string,
 ) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const t = await getTranslations("ReturnMessages");
 
   if (session?.user.id == null)
@@ -65,7 +68,9 @@ export async function updateTransaction(
   unsafeData: z.infer<typeof transactionsSchema>,
   householdId: string,
 ) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const t = await getTranslations("ReturnMessages");
 
   if (session?.user.id == null)
@@ -107,7 +112,9 @@ export async function deleteTransaction(
   transactionId: string,
   householdId: string,
 ) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const t = await getTranslations("ReturnMessages");
 
   if (session?.user.id == null)

@@ -15,6 +15,13 @@
       "when": 1773260221724,
       "tag": "0001_replace_price_double_precision_with_numeric",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1773742427464,
+      "tag": "0002_conscious_blockbuster",
+      "breakpoints": true
     }
   ]
 }

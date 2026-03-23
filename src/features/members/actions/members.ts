@@ -1,5 +1,6 @@
 "use server";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
 import { validate as validateUuid } from "uuid";
 import type { z } from "zod";
@@ -19,7 +20,9 @@ export async function createMember(
   unsafeData: z.infer<typeof membersSchema>,
   householdId: string,
 ) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const t = await getTranslations("ReturnMessages");
 
   if (session?.user.id == null)
@@ -36,12 +39,14 @@ export async function createMember(
 
   await insertMember(data, householdId);
 
-  revalidateTag(`/${householdId}/members`);
+  revalidatePath(`/${householdId}/members`);
   return { error: false, message: t("Members.createSuccess") };
 }
 
 export async function deleteMember(memberId: string, householdId: string) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const t = await getTranslations("ReturnMessages");
 
   if (session?.user.id == null)
@@ -67,7 +72,9 @@ export async function updateMember(
   memberId: string,
   householdId: string,
 ) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const t = await getTranslations("ReturnMessages");
 
   if (session?.user.id == null)
@@ -81,6 +88,6 @@ export async function updateMember(
 
   await updateMemberDB({ memberId, name: data.name }, householdId);
 
-  revalidateTag(`/${householdId}/members`);
+  revalidatePath(`/${householdId}/members`);
   return { error: false, message: t("Members.updateSuccess") };
 }

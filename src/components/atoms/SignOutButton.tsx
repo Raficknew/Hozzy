@@ -1,7 +1,7 @@
 "use client";
 import { Logout05Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import {
   AlertDialog,
@@ -13,11 +13,13 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { signOut } from "@/lib/auth-client";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "../ui/button";
 
 export function SignOutButton() {
   const t = useTranslations("SignOut");
+  const router = useRouter();
   return (
     <AlertDialog>
       <AlertDialogTrigger className="cursor-pointer self-center w-full sm:w-fit">
@@ -53,7 +55,17 @@ export function SignOutButton() {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
-          <AlertDialogAction onClick={() => signOut()}>
+          <AlertDialogAction
+            onClick={() =>
+              signOut({
+                fetchOptions: {
+                  onSuccess: () => {
+                    router.push("/sign-in");
+                  },
+                },
+              })
+            }
+          >
             {t("proceed")}
           </AlertDialogAction>
         </AlertDialogFooter>

@@ -1,4 +1,5 @@
 "use server";
+import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
 import { validate as validateUuid } from "uuid";
 import type { z } from "zod";
@@ -10,7 +11,9 @@ export async function updateUser(
   unsafeData: z.infer<typeof usersSchema>,
   userId: string,
 ) {
-  const session = await auth();
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
   const t = await getTranslations("ReturnMessages");
 
   if (session?.user.id == null)
