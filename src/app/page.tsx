@@ -3,7 +3,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { headers } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 import { HozzyLogo } from "@/components/atoms/HozzyLogo";
 import { getUserHouseholds } from "@/global/actions";
@@ -12,19 +12,17 @@ import { auth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 
 export default async function HomePage() {
-  const locale = await getLocale();
   const session = await auth.api.getSession({
     headers: await headers(),
   });
 
-  if (session?.user.id == null) redirect(`${locale}/hero`);
+  if (session?.user.id == null) redirect(`/hero`);
 
   return (
     <div className="flex justify-center h-screen w-full items-center px-2">
       <HozzyLogo variant="withText" size={90} />
       <Suspense>
         <UserHouseholdList
-          locale={locale}
           user={{
             id: session.user.id,
             name: session.user.name ?? session.user.email,
@@ -36,10 +34,8 @@ export default async function HomePage() {
 }
 
 async function UserHouseholdList({
-  locale,
   user,
 }: {
-  locale: string;
   user: { id: string; name: string };
 }) {
   const t = await getTranslations("HomePage");
@@ -61,7 +57,7 @@ async function UserHouseholdList({
           <p className="font-normal self-center">{t("chooseHousehold")}</p>
           <div className="flex flex-col gap-2">
             {households.map(({ household }) => (
-              <Link key={household.id} href={`/${locale}/${household.id}`}>
+              <Link key={household.id} href={`/${household.id}`}>
                 <div className="flex gap-2 bg-accent rounded-lg px-3 py-2">
                   <HugeiconsIcon strokeWidth={2} icon={Home12Icon} />
                   <p className="font-semibold">{household.name}</p>
@@ -81,7 +77,7 @@ async function UserHouseholdList({
       {households.length < MAX_HOUSEHOLD_PER_USER && (
         <div className="flex flex-col items-center gap-2">
           <p>{t("createHousehold")}</p>
-          <Link href={`/${locale}/create`}>
+          <Link href="/create">
             <div className="bg-accent p-2 rounded-full">
               <HugeiconsIcon strokeWidth={2} icon={PlusSignIcon} />
             </div>

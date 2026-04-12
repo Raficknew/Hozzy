@@ -3,7 +3,7 @@
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { validate as validateUuid } from "uuid";
 import type { z } from "zod";
 import { db } from "@/drizzle";
@@ -55,10 +55,8 @@ export async function createTransaction(
     memberId: data.memberId,
   });
 
-  const locale = await getLocale();
-
-  revalidatePath(`/${locale}/${householdId}`);
-  revalidatePath(`/${locale}/${householdId}/transactions`);
+  revalidatePath(`/${householdId}`);
+  revalidatePath(`/${householdId}/transactions`);
 
   return { error: false, message: t("Transactions.createSuccess") };
 }
@@ -100,10 +98,8 @@ export async function updateTransaction(
     memberId: data.memberId,
   });
 
-  const locale = await getLocale();
-
-  revalidatePath(`/${locale}/${householdId}`);
-  revalidatePath(`/${locale}/${householdId}/transactions`);
+  revalidatePath(`/${householdId}`);
+  revalidatePath(`/${householdId}/transactions`);
 
   return { error: false, message: t("Transactions.updateSucccess") };
 }

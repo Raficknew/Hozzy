@@ -7,16 +7,16 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { HozzyLogo } from "@/components/atoms/HozzyLogo";
 import { SignOutButton } from "@/components/atoms/SignOutButton";
 import { cn } from "@/lib/utils";
 
 export function Sidebar() {
   const { householdId } = useParams();
-  const locale = useLocale();
   const t = useTranslations("Sidebar");
-  const currentRoute = usePathname().split("/")[3];
+  const pathnameSegments = usePathname().split("/").filter(Boolean);
+  const currentRoute = pathnameSegments[1] ?? "";
 
   const searchParams = useSearchParams();
   const qs = searchParams?.toString();
@@ -25,12 +25,14 @@ export function Sidebar() {
   const routes = [
     {
       title: t("dashboard"),
-      url: withParams(`/${locale}/${householdId}`),
+      url: withParams(`/${householdId}`),
+      routeKey: "",
       icon: DashboardSquare03Icon,
     },
     {
       title: t("transactions"),
-      url: withParams(`/${locale}/${householdId}/transactions`),
+      url: withParams(`/${householdId}/transactions`),
+      routeKey: "transactions",
       icon: ArrowDataTransferHorizontalIcon,
     },
   ];
@@ -47,9 +49,9 @@ export function Sidebar() {
               key={route.title}
             >
               <Route
-                title={route.title}
                 currentRoute={currentRoute ?? ""}
                 url={route.url}
+                routeKey={route.routeKey}
                 icon={route.icon}
               />
               {routes.indexOf(route) < 1 && (
@@ -62,7 +64,8 @@ export function Sidebar() {
       <div className="self-center hidden sm:flex sm:flex-col gap-5">
         <Route
           currentRoute={currentRoute ?? ""}
-          url={`/${locale}/${householdId}/settings/account`}
+          url={`/${householdId}/settings/account`}
+          routeKey="settings"
           icon={Settings01Icon}
         />
         <SignOutButton />
@@ -75,17 +78,14 @@ function Route({
   icon,
   url,
   currentRoute,
-  title,
+  routeKey,
 }: {
   icon: typeof Settings01Icon;
   url: string;
   currentRoute: string;
-  title?: string;
+  routeKey: string;
 }) {
-  const isHovered =
-    currentRoute === url.split("/")[3] ||
-    currentRoute === url.split("/")[3]?.split("?")[0] ||
-    (currentRoute === "" && title === "Dashboard");
+  const isHovered = currentRoute === routeKey;
 
   return (
     <Link
