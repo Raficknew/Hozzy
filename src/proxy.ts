@@ -12,5 +12,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/:householdId/:path*", "/settings"],
+  matcher: ["/", "/create", "/:householdId([0-9a-fA-F-]{36})/:path*"],
 };
