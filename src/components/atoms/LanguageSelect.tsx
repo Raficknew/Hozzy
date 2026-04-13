@@ -6,6 +6,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { switchLanguage } from "@/global/actions";
 import { cn } from "@/lib/utils";
 
 export function LanguageSelect({
@@ -18,7 +19,7 @@ export function LanguageSelect({
   const languages = ["en", "pl"];
 
   function changeLanguage(language: string) {
-    return;
+    switchLanguage(language);
   }
 
   return (

@@ -1,6 +1,7 @@
 "use server";
 import { endOfMonth, startOfMonth } from "date-fns";
 import { and, asc, eq, gte, lte } from "drizzle-orm";
+import { cookies } from "next/headers";
 import { validate as validateUuid } from "uuid";
 import { db } from "@/drizzle";
 import {
@@ -83,4 +84,9 @@ export const getCategories = async (id: string) => {
     columns: { id: true, name: true, categoryType: true, icon: true },
     orderBy: [asc(CategoryTable.name)],
   });
+};
+
+export const switchLanguage = async (language: string) => {
+  const store = await cookies();
+  store.set("locale", language);
 };
