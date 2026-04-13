@@ -106,9 +106,9 @@ describe("countPricesOfTransactionsRelatedToTheirTypes", () => {
       },
     ];
 
-    const result = countPricesOfTransactionsRelatedToTheirTypes(categories);
+    const whenResult = countPricesOfTransactionsRelatedToTheirTypes(categories);
 
-    expect(result).toEqual({
+    expect(whenResult).toEqual({
       fixed: 150,
       fun: 30,
       future_you: 200,
@@ -121,9 +121,9 @@ describe("countPricesOfTransactionsRelatedToTheirTypes", () => {
   it("returns zeros when categories array is empty", () => {
     const categories: CategoryWithTransactions = [];
 
-    const result = countPricesOfTransactionsRelatedToTheirTypes(categories);
+    const whenResult = countPricesOfTransactionsRelatedToTheirTypes(categories);
 
-    expect(result).toEqual({
+    expect(whenResult).toEqual({
       fixed: 0,
       fun: 0,
       future_you: 0,
@@ -147,9 +147,9 @@ describe("countPricesOfTransactionsRelatedToTheirTypes", () => {
       },
     ];
 
-    const result = countPricesOfTransactionsRelatedToTheirTypes(categories);
+    const whenResult = countPricesOfTransactionsRelatedToTheirTypes(categories);
 
-    expect(result).toEqual({
+    expect(whenResult).toEqual({
       fixed: 0,
       fun: 0,
       future_you: 0,
@@ -207,10 +207,10 @@ describe("countPricesOfTransactionsRelatedToTheirTypes", () => {
       },
     ];
 
-    const result = countPricesOfTransactionsRelatedToTheirTypes(categories);
+    const whenResult = countPricesOfTransactionsRelatedToTheirTypes(categories);
 
-    expect(result.balance).toBe(-1000);
-    expect(result.incomes).toBe(1000);
-    expect(result.totalInExpenses).toBe(2000);
+    expect(whenResult.balance).toBe(-1000);
+    expect(whenResult.incomes).toBe(1000);
+    expect(whenResult.totalInExpenses).toBe(2000);
   });
 });

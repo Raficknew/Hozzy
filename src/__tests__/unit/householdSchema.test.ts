@@ -10,11 +10,11 @@ describe("householdSchema", () => {
       balance: 1000,
     };
 
-    const result = householdSchema.safeParse(validHousehold);
+    const whenResult = householdSchema.safeParse(validHousehold);
 
-    expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.data).toEqual(validHousehold);
+    expect(whenResult.success).toBe(true);
+    if (whenResult.success) {
+      expect(whenResult.data).toEqual(validHousehold);
     }
   });
 
@@ -27,9 +27,9 @@ describe("householdSchema", () => {
         balance: 0,
       };
 
-      const result = householdSchema.safeParse(invalidHousehold);
+      const whenResult = householdSchema.safeParse(invalidHousehold);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
 
     it("rejects name longer than 20 characters", () => {
@@ -40,9 +40,9 @@ describe("householdSchema", () => {
         balance: 0,
       };
 
-      const result = householdSchema.safeParse(invalidHousehold);
+      const whenResult = householdSchema.safeParse(invalidHousehold);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
 
     it("accepts name with exactly 3 characters", () => {
@@ -53,9 +53,9 @@ describe("householdSchema", () => {
         balance: 0,
       };
 
-      const result = householdSchema.safeParse(validHousehold);
+      const whenResult = householdSchema.safeParse(validHousehold);
 
-      expect(result.success).toBe(true);
+      expect(whenResult.success).toBe(true);
     });
 
     it("accepts name with exactly 20 characters", () => {
@@ -66,9 +66,9 @@ describe("householdSchema", () => {
         balance: 0,
       };
 
-      const result = householdSchema.safeParse(validHousehold);
+      const whenResult = householdSchema.safeParse(validHousehold);
 
-      expect(result.success).toBe(true);
+      expect(whenResult.success).toBe(true);
     });
 
     it("rejects missing name field", () => {
@@ -78,9 +78,9 @@ describe("householdSchema", () => {
         balance: 0,
       };
 
-      const result = householdSchema.safeParse(invalidHousehold);
+      const whenResult = householdSchema.safeParse(invalidHousehold);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
   });
 
@@ -93,9 +93,9 @@ describe("householdSchema", () => {
         balance: 0,
       };
 
-      const result = householdSchema.safeParse(validHousehold);
+      const whenResult = householdSchema.safeParse(validHousehold);
 
-      expect(result.success).toBe(true);
+      expect(whenResult.success).toBe(true);
     });
 
     it("rejects description longer than 30 characters", () => {
@@ -106,9 +106,9 @@ describe("householdSchema", () => {
         balance: 0,
       };
 
-      const result = householdSchema.safeParse(invalidHousehold);
+      const whenResult = householdSchema.safeParse(invalidHousehold);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
 
     it("accepts description with exactly 30 characters", () => {
@@ -119,9 +119,9 @@ describe("householdSchema", () => {
         balance: 0,
       };
 
-      const result = householdSchema.safeParse(validHousehold);
+      const whenResult = householdSchema.safeParse(validHousehold);
 
-      expect(result.success).toBe(true);
+      expect(whenResult.success).toBe(true);
     });
 
     it("rejects missing description field", () => {
@@ -131,9 +131,9 @@ describe("householdSchema", () => {
         balance: 0,
       };
 
-      const result = householdSchema.safeParse(invalidHousehold);
+      const whenResult = householdSchema.safeParse(invalidHousehold);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
   });
 
@@ -146,9 +146,9 @@ describe("householdSchema", () => {
         balance: 0,
       };
 
-      const result = householdSchema.safeParse(invalidHousehold);
+      const whenResult = householdSchema.safeParse(invalidHousehold);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
 
     it("rejects currencyCode longer than 3 characters", () => {
@@ -159,9 +159,9 @@ describe("householdSchema", () => {
         balance: 0,
       };
 
-      const result = householdSchema.safeParse(invalidHousehold);
+      const whenResult = householdSchema.safeParse(invalidHousehold);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
 
     it("accepts valid 3-character currency codes", () => {
@@ -175,8 +175,8 @@ describe("householdSchema", () => {
           balance: 0,
         };
 
-        const result = householdSchema.safeParse(validHousehold);
-        expect(result.success).toBe(true);
+        const whenResult = householdSchema.safeParse(validHousehold);
+        expect(whenResult.success).toBe(true);
       }
     });
 
@@ -187,9 +187,9 @@ describe("householdSchema", () => {
         balance: 0,
       };
 
-      const result = householdSchema.safeParse(invalidHousehold);
+      const whenResult = householdSchema.safeParse(invalidHousehold);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
   });
 
@@ -202,9 +202,9 @@ describe("householdSchema", () => {
         balance: 0,
       };
 
-      const result = householdSchema.safeParse(validHousehold);
+      const whenResult = householdSchema.safeParse(validHousehold);
 
-      expect(result.success).toBe(true);
+      expect(whenResult.success).toBe(true);
     });
 
     it("accepts positive balance", () => {
@@ -215,9 +215,9 @@ describe("householdSchema", () => {
         balance: 5000,
       };
 
-      const result = householdSchema.safeParse(validHousehold);
+      const whenResult = householdSchema.safeParse(validHousehold);
 
-      expect(result.success).toBe(true);
+      expect(whenResult.success).toBe(true);
     });
 
     it("rejects negative balance", () => {
@@ -228,9 +228,9 @@ describe("householdSchema", () => {
         balance: -100,
       };
 
-      const result = householdSchema.safeParse(invalidHousehold);
+      const whenResult = householdSchema.safeParse(invalidHousehold);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
 
     it("coerces string numbers to numbers", () => {
@@ -241,12 +241,12 @@ describe("householdSchema", () => {
         balance: "1000",
       };
 
-      const result = householdSchema.safeParse(validHousehold);
+      const whenResult = householdSchema.safeParse(validHousehold);
 
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data.balance).toBe(1000);
-        expect(typeof result.data.balance).toBe("number");
+      expect(whenResult.success).toBe(true);
+      if (whenResult.success) {
+        expect(whenResult.data.balance).toBe(1000);
+        expect(typeof whenResult.data.balance).toBe("number");
       }
     });
 
@@ -257,27 +257,27 @@ describe("householdSchema", () => {
         currencyCode: "USD",
       };
 
-      const result = householdSchema.safeParse(invalidHousehold);
+      const whenResult = householdSchema.safeParse(invalidHousehold);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
   });
 
   it("rejects completely empty object", () => {
-    const result = householdSchema.safeParse({});
+    const whenResult = householdSchema.safeParse({});
 
-    expect(result.success).toBe(false);
+    expect(whenResult.success).toBe(false);
   });
 
   it("rejects null value", () => {
-    const result = householdSchema.safeParse(null);
+    const whenResult = householdSchema.safeParse(null);
 
-    expect(result.success).toBe(false);
+    expect(whenResult.success).toBe(false);
   });
 
   it("rejects undefined value", () => {
-    const result = householdSchema.safeParse(undefined);
+    const whenResult = householdSchema.safeParse(undefined);
 
-    expect(result.success).toBe(false);
+    expect(whenResult.success).toBe(false);
   });
 });

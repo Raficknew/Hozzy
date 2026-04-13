@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { applyRateLimitDefaults } from "@/__tests__/mocks/unit-mocks";
 
 let assertTransactionsRateLimit: (userId: string) => Promise<void>;
 
@@ -42,17 +43,7 @@ vi.mock("@upstash/ratelimit", () => ({
 describe("assertTransactionsRateLimit", () => {
   beforeEach(async () => {
     vi.resetModules();
-
-    mocks.limitMock.mockReset();
-    mocks.limitMock.mockResolvedValue({ remaining: 1 });
-
-    mocks.slidingWindowMock.mockReset();
-    mocks.slidingWindowMock.mockReturnValue(mocks.limiterConfigMock);
-
-    mocks.redisFromEnvMock.mockReset();
-    mocks.redisFromEnvMock.mockReturnValue(mocks.redisClientMock);
-
-    mocks.RatelimitMock.mockClear();
+    applyRateLimitDefaults(mocks);
 
     ({ assertTransactionsRateLimit } = await import("../../global/ratelimit"));
   });
@@ -67,23 +58,33 @@ describe("assertTransactionsRateLimit", () => {
   });
 
   it("returns early when userId is empty", async () => {
-    await expect(assertTransactionsRateLimit("")).resolves.toBeUndefined();
+    const givenUserId = "";
+
+    const whenApplyingRateLimit = assertTransactionsRateLimit(givenUserId);
+
+    await expect(whenApplyingRateLimit).resolves.toBeUndefined();
     expect(mocks.limitMock).not.toHaveBeenCalled();
   });
 
   it("does not throw when requests are still available", async () => {
     mocks.limitMock.mockResolvedValueOnce({ remaining: 3 });
 
-    await expect(
-      assertTransactionsRateLimit("user-123"),
-    ).resolves.toBeUndefined();
+    const givenUserId = "user-123";
+
+    const whenApplyingRateLimit = assertTransactionsRateLimit(givenUserId);
+
+    await expect(whenApplyingRateLimit).resolves.toBeUndefined();
     expect(mocks.limitMock).toHaveBeenCalledWith("user-123");
   });
 
   it("throws RateLimitExceededException when no requests remain", async () => {
     mocks.limitMock.mockResolvedValueOnce({ remaining: 0 });
 
-    await expect(assertTransactionsRateLimit("user-123")).rejects.toThrow(
+    const givenUserId = "user-123";
+
+    const whenApplyingRateLimit = assertTransactionsRateLimit(givenUserId);
+
+    await expect(whenApplyingRateLimit).rejects.toThrow(
       "RateLimitExceededException",
     );
     expect(mocks.limitMock).toHaveBeenCalledWith("user-123");

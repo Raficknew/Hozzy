@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { applyMembersPermissionDefaults } from "@/__tests__/mocks/unit-mocks";
 
 let assertMemberWriteAccess: (householdId: string) => Promise<void>;
 let checkIfUserCanCreateNewMember: (householdId: string) => Promise<boolean>;
@@ -39,7 +40,7 @@ vi.mock("@/global/limits", () => ({
 describe("assertMemberWriteAccess", () => {
   beforeEach(async () => {
     vi.resetModules();
-    mocks.headersMock.mockResolvedValue({});
+    applyMembersPermissionDefaults(mocks);
 
     ({ assertMemberWriteAccess } = await import(
       "@/features/members/permissions/members"
@@ -54,9 +55,12 @@ describe("assertMemberWriteAccess", () => {
       ownerId: "user-123",
     });
 
-    await expect(
-      assertMemberWriteAccess("household-123"),
-    ).resolves.toBeUndefined();
+    const givenHouseholdId = "household-123";
+
+    const whenAssertingMemberWriteAccess =
+      assertMemberWriteAccess(givenHouseholdId);
+
+    await expect(whenAssertingMemberWriteAccess).resolves.toBeUndefined();
   });
 
   it("throws error when user is not the household owner", async () => {
@@ -67,7 +71,12 @@ describe("assertMemberWriteAccess", () => {
       ownerId: "user-123",
     });
 
-    await expect(assertMemberWriteAccess("household-123")).rejects.toBe(
+    const givenHouseholdId = "household-123";
+
+    const whenAssertingMemberWriteAccess =
+      assertMemberWriteAccess(givenHouseholdId);
+
+    await expect(whenAssertingMemberWriteAccess).rejects.toBe(
       "NotAllowedToWriteHouseholdException",
     );
   });
@@ -78,7 +87,12 @@ describe("assertMemberWriteAccess", () => {
       ownerId: "user-123",
     });
 
-    await expect(assertMemberWriteAccess("household-123")).rejects.toBe(
+    const givenHouseholdId = "household-123";
+
+    const whenAssertingMemberWriteAccess =
+      assertMemberWriteAccess(givenHouseholdId);
+
+    await expect(whenAssertingMemberWriteAccess).rejects.toBe(
       "NotAllowedToWriteHouseholdException",
     );
   });
@@ -89,7 +103,12 @@ describe("assertMemberWriteAccess", () => {
     });
     mocks.getHouseholdMock.mockResolvedValueOnce(null);
 
-    await expect(assertMemberWriteAccess("household-123")).rejects.toBe(
+    const givenHouseholdId = "household-123";
+
+    const whenAssertingMemberWriteAccess =
+      assertMemberWriteAccess(givenHouseholdId);
+
+    await expect(whenAssertingMemberWriteAccess).rejects.toBe(
       "NotAllowedToWriteHouseholdException",
     );
   });
@@ -98,6 +117,7 @@ describe("assertMemberWriteAccess", () => {
 describe("checkIfUserCanCreateNewMember", () => {
   beforeEach(async () => {
     vi.resetModules();
+    applyMembersPermissionDefaults(mocks);
 
     ({ checkIfUserCanCreateNewMember } = await import(
       "@/features/members/permissions/members"
@@ -109,9 +129,9 @@ describe("checkIfUserCanCreateNewMember", () => {
       members: null,
     });
 
-    const result = await checkIfUserCanCreateNewMember("household-123");
+    const whenResult = await checkIfUserCanCreateNewMember("household-123");
 
-    expect(result).toBe(true);
+    expect(whenResult).toBe(true);
   });
 
   it("returns true when household has undefined members", async () => {
@@ -119,9 +139,9 @@ describe("checkIfUserCanCreateNewMember", () => {
       members: undefined,
     });
 
-    const result = await checkIfUserCanCreateNewMember("household-123");
+    const whenResult = await checkIfUserCanCreateNewMember("household-123");
 
-    expect(result).toBe(true);
+    expect(whenResult).toBe(true);
   });
 
   it("returns true when members count is under the limit", async () => {
@@ -129,9 +149,9 @@ describe("checkIfUserCanCreateNewMember", () => {
       members: [{ id: "1" }, { id: "2" }, { id: "3" }],
     });
 
-    const result = await checkIfUserCanCreateNewMember("household-123");
+    const whenResult = await checkIfUserCanCreateNewMember("household-123");
 
-    expect(result).toBe(true);
+    expect(whenResult).toBe(true);
   });
 
   it("returns true when members count is at limit minus one", async () => {
@@ -139,9 +159,9 @@ describe("checkIfUserCanCreateNewMember", () => {
       members: Array(7).fill({ id: "member" }),
     });
 
-    const result = await checkIfUserCanCreateNewMember("household-123");
+    const whenResult = await checkIfUserCanCreateNewMember("household-123");
 
-    expect(result).toBe(true);
+    expect(whenResult).toBe(true);
   });
 
   it("returns false when members count equals the limit", async () => {
@@ -149,9 +169,9 @@ describe("checkIfUserCanCreateNewMember", () => {
       members: Array(8).fill({ id: "member" }),
     });
 
-    const result = await checkIfUserCanCreateNewMember("household-123");
+    const whenResult = await checkIfUserCanCreateNewMember("household-123");
 
-    expect(result).toBe(false);
+    expect(whenResult).toBe(false);
   });
 
   it("returns false when members count exceeds the limit", async () => {
@@ -159,9 +179,9 @@ describe("checkIfUserCanCreateNewMember", () => {
       members: Array(9).fill({ id: "member" }),
     });
 
-    const result = await checkIfUserCanCreateNewMember("household-123");
+    const whenResult = await checkIfUserCanCreateNewMember("household-123");
 
-    expect(result).toBe(false);
+    expect(whenResult).toBe(false);
   });
 
   it("returns true when household has empty members array", async () => {
@@ -169,9 +189,9 @@ describe("checkIfUserCanCreateNewMember", () => {
       members: [],
     });
 
-    const result = await checkIfUserCanCreateNewMember("household-123");
+    const whenResult = await checkIfUserCanCreateNewMember("household-123");
 
-    expect(result).toBe(true);
+    expect(whenResult).toBe(true);
   });
 
   it("returns true when household has one member", async () => {
@@ -179,8 +199,8 @@ describe("checkIfUserCanCreateNewMember", () => {
       members: [{ id: "1" }],
     });
 
-    const result = await checkIfUserCanCreateNewMember("household-123");
+    const whenResult = await checkIfUserCanCreateNewMember("household-123");
 
-    expect(result).toBe(true);
+    expect(whenResult).toBe(true);
   });
 });

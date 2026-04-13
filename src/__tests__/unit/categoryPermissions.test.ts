@@ -1,4 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { applyCategoryPermissionDefaults } from "@/__tests__/mocks/unit-mocks";
 
 let assertCategoryCreateAbility: (householdId: string) => Promise<void>;
 
@@ -44,11 +45,7 @@ describe("assertCategoryCreateAbility", () => {
   beforeEach(async () => {
     vi.resetModules();
 
-    mocks.selectMock.mockReturnValue({ from: mocks.fromMock });
-    mocks.fromMock.mockReturnValue({ where: mocks.whereMock });
-    mocks.whereMock.mockResolvedValue([{ count: 0 }]);
-    mocks.countMock.mockReturnValue("count-function");
-    mocks.eqMock.mockReturnValue("eq-condition");
+    applyCategoryPermissionDefaults(mocks);
 
     ({ assertCategoryCreateAbility } = await import(
       "@/features/categories/permissions/category"
@@ -56,17 +53,23 @@ describe("assertCategoryCreateAbility", () => {
   });
 
   it("throws error when householdId is empty", async () => {
-    await expect(assertCategoryCreateAbility("")).rejects.toBe(
-      "HouseholdNotFound",
-    );
+    const givenHouseholdId = "";
+
+    const whenAssertingCreateAbility =
+      assertCategoryCreateAbility(givenHouseholdId);
+
+    await expect(whenAssertingCreateAbility).rejects.toBe("HouseholdNotFound");
   });
 
   it("allows category creation when under the limit", async () => {
     mocks.whereMock.mockResolvedValueOnce([{ count: 50 }]);
 
-    await expect(
-      assertCategoryCreateAbility("household-123"),
-    ).resolves.toBeUndefined();
+    const givenHouseholdId = "household-123";
+
+    const whenAssertingCreateAbility =
+      assertCategoryCreateAbility(givenHouseholdId);
+
+    await expect(whenAssertingCreateAbility).resolves.toBeUndefined();
 
     expect(mocks.selectMock).toHaveBeenCalledWith({ count: "count-function" });
     expect(mocks.eqMock).toHaveBeenCalledWith("householdId", "household-123");
@@ -75,15 +78,23 @@ describe("assertCategoryCreateAbility", () => {
   it("allows category creation when at limit minus one", async () => {
     mocks.whereMock.mockResolvedValueOnce([{ count: 99 }]);
 
-    await expect(
-      assertCategoryCreateAbility("household-123"),
-    ).resolves.toBeUndefined();
+    const givenHouseholdId = "household-123";
+
+    const whenAssertingCreateAbility =
+      assertCategoryCreateAbility(givenHouseholdId);
+
+    await expect(whenAssertingCreateAbility).resolves.toBeUndefined();
   });
 
   it("throws error when category limit is reached", async () => {
     mocks.whereMock.mockResolvedValueOnce([{ count: 100 }]);
 
-    await expect(assertCategoryCreateAbility("household-123")).rejects.toBe(
+    const givenHouseholdId = "household-123";
+
+    const whenAssertingCreateAbility =
+      assertCategoryCreateAbility(givenHouseholdId);
+
+    await expect(whenAssertingCreateAbility).rejects.toBe(
       "YouReachedALimitOfCategories",
     );
   });
@@ -91,7 +102,12 @@ describe("assertCategoryCreateAbility", () => {
   it("throws error when category limit is exceeded", async () => {
     mocks.whereMock.mockResolvedValueOnce([{ count: 101 }]);
 
-    await expect(assertCategoryCreateAbility("household-123")).rejects.toBe(
+    const givenHouseholdId = "household-123";
+
+    const whenAssertingCreateAbility =
+      assertCategoryCreateAbility(givenHouseholdId);
+
+    await expect(whenAssertingCreateAbility).rejects.toBe(
       "YouReachedALimitOfCategories",
     );
   });
@@ -99,16 +115,22 @@ describe("assertCategoryCreateAbility", () => {
   it("handles zero categories correctly", async () => {
     mocks.whereMock.mockResolvedValueOnce([{ count: 0 }]);
 
-    await expect(
-      assertCategoryCreateAbility("household-123"),
-    ).resolves.toBeUndefined();
+    const givenHouseholdId = "household-123";
+
+    const whenAssertingCreateAbility =
+      assertCategoryCreateAbility(givenHouseholdId);
+
+    await expect(whenAssertingCreateAbility).resolves.toBeUndefined();
   });
 
   it("handles empty result array with default count", async () => {
     mocks.whereMock.mockResolvedValueOnce([]);
 
-    await expect(
-      assertCategoryCreateAbility("household-123"),
-    ).resolves.toBeUndefined();
+    const givenHouseholdId = "household-123";
+
+    const whenAssertingCreateAbility =
+      assertCategoryCreateAbility(givenHouseholdId);
+
+    await expect(whenAssertingCreateAbility).resolves.toBeUndefined();
   });
 });
