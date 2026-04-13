@@ -41,3 +41,17 @@ jobs:
       
       - name: Run Tests
         run: pnpm test
+  doctor:
+      runs-on: ubuntu-latest
+      env:
+        NO_COLOR: "1"
+      steps:
+        - uses: actions/checkout@v5
+          with:
+            fetch-depth: 0
+        
+        - name: Run React Doctor
+          uses: millionco/react-doctor@main
+          with:
+            diff: main
+            github-token: ${{ secrets.GITHUB_TOKEN }}
