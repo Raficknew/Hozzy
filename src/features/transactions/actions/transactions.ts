@@ -1,13 +1,11 @@
 "use server";
 
-import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { getTranslations } from "next-intl/server";
 import { validate as validateUuid } from "uuid";
 import type { z } from "zod";
-import { db } from "@/drizzle";
-import { HouseholdTable, type TransactionType } from "@/drizzle/schema";
+import type { TransactionType } from "@/drizzle/schema";
 import { assertHouseholdWriteAccess } from "@/features/household/permissions/household";
 import {
   deleteTransaction as deleteTransactionDB,
@@ -30,21 +28,14 @@ export async function createTransaction(
   if (session?.user.id == null)
     return { error: true, message: t("User.invalidId") };
 
-  await assertTransactionsRateLimit(session?.user.id);
-
-  await assertHouseholdWriteAccess(householdId);
+  await Promise.all([
+    assertTransactionsRateLimit(session.user.id),
+    assertHouseholdWriteAccess(householdId, session.user.id),
+  ]);
 
   const { success, data } = transactionsSchema.safeParse(unsafeData);
 
   if (!success) return { error: true, message: t("Transactions.createError") };
-
-  const household = await db.query.HouseholdTable.findFirst({
-    where: eq(HouseholdTable.id, householdId),
-  });
-
-  if (!household) {
-    return { error: true, message: t("Household.notFound") };
-  }
 
   await insertTransaction({
     name: data.name,
@@ -74,19 +65,11 @@ export async function updateTransaction(
   if (session?.user.id == null)
     return { error: true, message: t("User.invalidId") };
 
-  await assertHouseholdWriteAccess(householdId);
+  await assertHouseholdWriteAccess(householdId, session.user.id);
 
   const { success, data } = transactionsSchema.safeParse(unsafeData);
 
   if (!success) return { error: true, message: t("Transactions.updateError") };
-
-  const household = await db.query.HouseholdTable.findFirst({
-    where: eq(HouseholdTable.id, householdId),
-  });
-
-  if (!household) {
-    return { error: true, message: t("Household.notFound") };
-  }
 
   await updateTransactionDB({
     id: transactionId,
