@@ -57,7 +57,11 @@ async function UserHouseholdList({
           <p className="font-normal self-center">{t("chooseHousehold")}</p>
           <div className="flex flex-col gap-2">
             {households.map(({ household }) => (
-              <Link key={household.id} href={`/${household.id}`}>
+              <Link
+                key={household.id}
+                href={`/${household.id}`}
+                data-testid={`${household.id}`}
+              >
                 <div className="flex gap-2 bg-accent rounded-lg px-3 py-2">
                   <HugeiconsIcon strokeWidth={2} icon={Home12Icon} />
                   <p className="font-semibold">{household.name}</p>
@@ -77,7 +81,7 @@ async function UserHouseholdList({
       {households.length < MAX_HOUSEHOLD_PER_USER && (
         <div className="flex flex-col items-center gap-2">
           <p>{t("createHousehold")}</p>
-          <Link href="/create">
+          <Link href="/create" data-testid="create-household-btn">
             <div className="bg-accent p-2 rounded-full">
               <HugeiconsIcon strokeWidth={2} icon={PlusSignIcon} />
             </div>
