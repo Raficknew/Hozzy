@@ -1,4 +1,4 @@
-import test, { expect } from "@playwright/test";
+import { expect, test } from "@/playwright/fixtures";
 import { HomePage } from "./pages/HomePage";
 
 test.describe("Unauthenticated user", () => {
@@ -12,8 +12,9 @@ test.describe("Unauthenticated user", () => {
 
 test.describe("Authenticated user", () => {
   test("should be able to navigate to the create household page", async ({
-    page,
+    authenticatedUser,
   }) => {
+    const { page } = authenticatedUser;
     const homePage = new HomePage(page);
 
     await homePage.goTo();
