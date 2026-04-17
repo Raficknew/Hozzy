@@ -14,11 +14,10 @@ test.describe("Authenticated user", () => {
   test("should be able to navigate to the create household page", async ({
     authenticatedUser,
   }) => {
-    const { page } = authenticatedUser;
-    const homePage = new HomePage(page);
+    const homePage = new HomePage(authenticatedUser.page);
 
     await homePage.goTo();
     await homePage.goToCreateHousehold();
-    await expect(page).toHaveURL("/create");
+    await expect(authenticatedUser.page).toHaveURL("/create");
   });
 });
