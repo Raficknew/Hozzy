@@ -28,12 +28,14 @@ export function Sidebar() {
       url: withParams(`/${householdId}`),
       routeKey: "",
       icon: DashboardSquare03Icon,
+      dataTestId: "sidebar-dashboard",
     },
     {
       title: t("transactions"),
       url: withParams(`/${householdId}/transactions`),
       routeKey: "transactions",
       icon: ArrowDataTransferHorizontalIcon,
+      dataTestId: "sidebar-transactions",
     },
   ];
   return (
@@ -53,6 +55,7 @@ export function Sidebar() {
                 url={route.url}
                 routeKey={route.routeKey}
                 icon={route.icon}
+                dataTestId={route.dataTestId}
               />
               {routes.indexOf(route) < 1 && (
                 <div className="w-px sm:w-0 bg-[#616062]"></div>
@@ -67,6 +70,7 @@ export function Sidebar() {
           url={`/${householdId}/settings/account`}
           routeKey="settings"
           icon={Settings01Icon}
+          dataTestId="sidebar-settings"
         />
         <SignOutButton />
       </div>
@@ -79,17 +83,20 @@ function Route({
   url,
   currentRoute,
   routeKey,
+  dataTestId,
 }: {
   icon: typeof Settings01Icon;
   url: string;
   currentRoute: string;
   routeKey: string;
+  dataTestId: string;
 }) {
   const isHovered = currentRoute === routeKey;
 
   return (
     <Link
       href={url}
+      data-testid={dataTestId}
       className={cn(
         "self-center p-1 sm:p-2",
         isHovered && "sm:bg-accent rounded-full sm:shadow-xl",

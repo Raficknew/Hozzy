@@ -37,7 +37,9 @@ export class CreateFormPage {
 
   async selectCurrency(currencyCode: string) {
     await this.householdCurrencyLocator.click();
-    await this.page.getByRole("option", { name: currencyCode }).click();
+    await this.page
+      .getByTestId(`household-currency-option-${currencyCode.toLowerCase()}`)
+      .click();
   }
 
   async fillBalance(balance: string | number) {

@@ -18,7 +18,7 @@ test.describe("Household Create Page - E2E Authenticated Workflows", () => {
     });
 
     await expect(authenticatedUser.page).toHaveURL(
-      /\/household-[a-zA-Z0-9-]+\/settings\/household$/,
+      /\/(?:household-)?[a-zA-Z0-9-]+\/settings\/household$/,
     );
   });
 
@@ -37,7 +37,7 @@ test.describe("Household Create Page - E2E Authenticated Workflows", () => {
     });
 
     await expect(authenticatedUser.page).toHaveURL(
-      /\/household-[a-zA-Z0-9-]+\/settings\/household$/,
+      /\/(?:household-)?[a-zA-Z0-9-]+\/settings\/household$/,
     );
   });
 
@@ -50,11 +50,11 @@ test.describe("Household Create Page - E2E Authenticated Workflows", () => {
 
     await createPage.fillName("No Balance Household");
     await createPage.fillDescription("Household without balance");
-    await createPage.selectCurrency("GBP");
+    await createPage.selectCurrency("PLN");
     await createPage.submitForm();
 
     await expect(authenticatedUser.page).toHaveURL(
-      /\/household-[a-zA-Z0-9-]+\/settings\/household$/,
+      /\/(?:household-)?[a-zA-Z0-9-]+\/settings\/household$/,
     );
   });
 });

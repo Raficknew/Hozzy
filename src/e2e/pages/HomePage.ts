@@ -11,8 +11,10 @@ export class HomePage {
     await this.page.goto("/");
   }
 
-  async goToHouseholdDashbaord(householdId: string) {
-    await this.page.getByTestId(householdId).click();
+  async goToHouseholdDashbaord(householdName: string) {
+    await this.page
+      .getByRole("link", { name: householdName, exact: true })
+      .click();
   }
 
   async goToCreateHousehold() {

@@ -132,7 +132,11 @@ export function HouseholdForm({
                       </SelectTrigger>
                       <SelectContent>
                         {currencies.map((currency) => (
-                          <SelectItem key={currency.code} value={currency.code}>
+                          <SelectItem
+                            key={currency.code}
+                            value={currency.code}
+                            data-testid={`household-currency-option-${currency.code.toLowerCase()}`}
+                          >
                             {currency.code}
                           </SelectItem>
                         ))}
