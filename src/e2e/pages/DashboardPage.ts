@@ -1,4 +1,5 @@
 import type { Page } from "@playwright/test";
+import { expect } from "@/playwright/fixtures";
 
 export class DashboardPage {
   readonly page: Page;
@@ -23,9 +24,7 @@ export class DashboardPage {
     await this.page.getByTestId("signout-trigger").click();
     const confirmButton = this.page.getByTestId("signout-confirm");
     await confirmButton.waitFor({ state: "visible" });
-    await Promise.all([
-      this.page.waitForURL("**/sign-in"),
-      this.page.getByTestId("signout-confirm").click({ force: true }),
-    ]);
+    await confirmButton.click({ force: true });
+    await expect(this.page).toHaveURL(/\/sign-in$/);
   }
 }
