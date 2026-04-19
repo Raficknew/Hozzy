@@ -33,11 +33,12 @@ export function HouseholdLinkGenerate({
 
   return (
     <Popover>
-      <PopoverTrigger>
+      <PopoverTrigger data-testid="invite-link-trigger">
         <HugeiconsIcon strokeWidth={2} icon={AddTeamIcon} />
       </PopoverTrigger>
       <PopoverContent>
         <button
+          data-testid="invite-link-copy"
           type="button"
           onClick={handleCopyToClipboard}
           className="cursor-pointer text-start text-xs h-full flex flex-col w-full p-2 rounded-lg max-w-62.5 overflow-hidden "
@@ -45,9 +46,12 @@ export function HouseholdLinkGenerate({
           <span className="text-[10px] font-semibold text-[#828183]">
             {t("copy")}
           </span>
-          <p className="font-medium truncate">{inviteLink}</p>
+          <p data-testid="invite-link-text" className="font-medium truncate">
+            {inviteLink}
+          </p>
         </button>
         <ActionButton
+          data-testid="invite-link-regenerate"
           variant="submit"
           className="size-9"
           action={() => generateLinkForHousehold(householdId, link)}

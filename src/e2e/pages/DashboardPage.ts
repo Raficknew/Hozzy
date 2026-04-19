@@ -21,6 +21,11 @@ export class DashboardPage {
 
   async logOut() {
     await this.page.getByTestId("signout-trigger").click();
-    await this.page.getByTestId("signout-confirm").click();
+    const confirmButton = this.page.getByTestId("signout-confirm");
+    await confirmButton.waitFor({ state: "visible" });
+    await Promise.all([
+      this.page.waitForURL("**/sign-in"),
+      this.page.getByTestId("signout-confirm").click({ force: true }),
+    ]);
   }
 }
