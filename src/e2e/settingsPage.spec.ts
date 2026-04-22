@@ -1,5 +1,6 @@
 import { expect, test } from "@/playwright/fixtures";
 import {
+  createHouseholdAndGetInviteLink,
   createHouseholdFromHome,
   householdAccountSettingsUrlPattern,
   householdCategoriesSettingsUrlPattern,
@@ -48,31 +49,17 @@ test("should be able to navigate between account, categories and household setti
 test("should be able to copy and regenerate household invite link", async ({
   authenticatedUser,
 }) => {
-  await createHouseholdFromHome(authenticatedUser.page, {
-    name: "Invite Link E2E",
-    description: "Invite link flow",
-    currency: "USD",
-    balance: 500,
-  });
-
-  const dashboardPage = new DashboardPage(authenticatedUser.page);
-  await dashboardPage.goToDashboard();
-  await expect(authenticatedUser.page).toHaveURL(householdDashboardUrlPattern);
-
-  await dashboardPage.goToSettings();
-  await expect(authenticatedUser.page).toHaveURL(
-    householdAccountSettingsUrlPattern,
+  const initialLinkText = await createHouseholdAndGetInviteLink(
+    authenticatedUser.page,
+    {
+      name: "Invite Link E2E",
+      description: "Invite link flow",
+      currency: "USD",
+      balance: 500,
+    },
   );
 
   const settingsPage = new SettingsPage(authenticatedUser.page);
-
-  await settingsPage.openInviteLinkPopover();
-
-  const initialLinkText = await settingsPage.getInviteLinkText();
-  expect(initialLinkText).toBeTruthy();
-  expect(initialLinkText).toMatch(
-    /https?:\/\/[^/]+\/[a-zA-Z0-9-]+\/[a-zA-Z0-9-]+/,
-  );
 
   await settingsPage.copyInviteLink();
 

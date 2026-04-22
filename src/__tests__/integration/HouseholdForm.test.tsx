@@ -25,32 +25,43 @@ describe("HouseholdForm Integration Tests", () => {
     it("displays all required form fields for new household", () => {
       render(
         <HouseholdForm
-          currencies={[{ code: "USD" }, { code: "EUR" }, { code: "GBP" }]}
+          currencies={[
+            { code: "USD" },
+            { code: "EUR" },
+            { code: "CHF" },
+            { code: "PLN" },
+          ]}
         />,
       );
 
       expect(screen.getByLabelText(/name/i)).toBeInTheDocument();
       expect(screen.getByLabelText(/description/i)).toBeInTheDocument();
-      expect(screen.getByLabelText(/currency/i)).toBeInTheDocument();
+      expect(screen.getByTestId("household-currency")).toBeInTheDocument();
       expect(screen.getByLabelText(/balance/i)).toBeInTheDocument();
-      expect(
-        screen.getByRole("button", { name: /submit/i }),
-      ).toBeInTheDocument();
+      expect(screen.getByTestId("household-submit")).toBeInTheDocument();
     });
 
     it("fills and submits new household form with all fields", async () => {
       const { user } = render(
-        <HouseholdForm currencies={[{ code: "USD" }, { code: "EUR" }]} />,
+        <HouseholdForm
+          currencies={[
+            { code: "USD" },
+            { code: "EUR" },
+            { code: "CHF" },
+            { code: "PLN" },
+          ]}
+        />,
       );
 
       const nameInput = screen.getByLabelText(/name/i);
       const descriptionInput = screen.getByLabelText(/description/i);
       const balanceInput = screen.getByLabelText(/balance/i);
-      const submitButton = screen.getByRole("button", { name: /submit/i });
+      const submitButton = screen.getByTestId("household-submit");
 
       await user.type(nameInput, "My Household");
       await user.type(descriptionInput, "Test Description");
-      await user.selectOptions(screen.getByRole("combobox"), "USD");
+      await user.click(screen.getByTestId("household-currency"));
+      await user.click(screen.getByTestId("household-currency-option-usd"));
       await user.type(balanceInput, "1000");
       await user.click(submitButton);
 
@@ -72,11 +83,12 @@ describe("HouseholdForm Integration Tests", () => {
       const nameInput = screen.getByLabelText(/name/i);
       const descriptionInput = screen.getByLabelText(/description/i);
       const balanceInput = screen.getByLabelText(/balance/i);
-      const submitButton = screen.getByRole("button", { name: /submit/i });
+      const submitButton = screen.getByTestId("household-submit");
 
       await user.type(nameInput, "Decimal Household");
       await user.type(descriptionInput, "Testing decimals");
-      await user.selectOptions(screen.getByRole("combobox"), "EUR");
+      await user.click(screen.getByTestId("household-currency"));
+      await user.click(screen.getByTestId("household-currency-option-eur"));
       await user.type(balanceInput, "1234.56");
       await user.click(submitButton);
 
@@ -94,11 +106,12 @@ describe("HouseholdForm Integration Tests", () => {
 
       const nameInput = screen.getByLabelText(/name/i);
       const descriptionInput = screen.getByLabelText(/description/i);
-      const submitButton = screen.getByRole("button", { name: /submit/i });
+      const submitButton = screen.getByTestId("household-submit");
 
       await user.type(nameInput, "No Balance Household");
       await user.type(descriptionInput, "No balance provided");
-      await user.selectOptions(screen.getByRole("combobox"), "USD");
+      await user.click(screen.getByTestId("household-currency"));
+      await user.click(screen.getByTestId("household-currency-option-usd"));
       await user.click(submitButton);
 
       await waitFor(() => {
@@ -118,8 +131,8 @@ describe("HouseholdForm Integration Tests", () => {
           currencies={[
             { code: "USD" },
             { code: "EUR" },
-            { code: "GBP" },
-            { code: "JPY" },
+            { code: "CHF" },
+            { code: "PLN" },
           ]}
         />,
       );
@@ -199,7 +212,7 @@ describe("HouseholdForm Integration Tests", () => {
 
       expect(screen.getByRole("button", { name: /save/i })).toBeInTheDocument();
       expect(
-        screen.queryByRole("button", { name: /submit/i }),
+        screen.queryByRole("button", { name: /create/i }),
       ).not.toBeInTheDocument();
     });
   });
