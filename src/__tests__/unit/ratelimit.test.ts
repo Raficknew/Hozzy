@@ -48,7 +48,11 @@ describe("assertTransactionsRateLimit", () => {
     ({ assertTransactionsRateLimit } = await import("../../global/ratelimit"));
   });
 
-  it("configures the limiter with 30 requests per minute", () => {
+  it("configures the limiter with 30 requests per minute on first call", async () => {
+    mocks.limitMock.mockResolvedValueOnce({ remaining: 5 });
+
+    await assertTransactionsRateLimit("user-123");
+
     expect(mocks.redisFromEnvMock).toHaveBeenCalledTimes(1);
     expect(mocks.slidingWindowMock).toHaveBeenCalledWith(30, "1m");
     expect(mocks.RatelimitMock).toHaveBeenCalledWith({
