@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { applyRateLimitDefaults } from "@/__tests__/mocks/unit-mocks";
 
 let assertTransactionsRateLimit: (userId: string) => Promise<void>;
@@ -41,11 +41,18 @@ vi.mock("@upstash/ratelimit", () => ({
 }));
 
 describe("assertTransactionsRateLimit", () => {
+  const originalCI = process.env.CI;
+
   beforeEach(async () => {
+    delete process.env.CI;
     vi.resetModules();
     applyRateLimitDefaults(mocks);
 
     ({ assertTransactionsRateLimit } = await import("../../global/ratelimit"));
+  });
+
+  afterEach(() => {
+    process.env.CI = originalCI;
   });
 
   it("configures the limiter with 30 requests per minute on first call", async () => {
