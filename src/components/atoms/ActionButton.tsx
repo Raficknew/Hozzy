@@ -53,7 +53,11 @@ export function ActionButton({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
-            <AlertDialogAction disabled={isLoading} onClick={performAction}>
+            <AlertDialogAction
+              data-testid="confirm-action-btn"
+              disabled={isLoading}
+              onClick={performAction}
+            >
               <LoadingSwap isLoading={isLoading}>{t("proceed")}</LoadingSwap>
             </AlertDialogAction>
           </AlertDialogFooter>

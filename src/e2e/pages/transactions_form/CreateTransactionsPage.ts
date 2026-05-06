@@ -4,51 +4,68 @@ import { expect } from "@/playwright/fixtures";
 export class CreateTransactionsPage {
   readonly page: Page;
 
+  readonly addTransactionButtonLocator: Locator;
+  readonly dialogLocator: Locator;
+  readonly priceInputLocator: Locator;
+  readonly nameInputLocator: Locator;
+  readonly categorySelectLocator: Locator;
+  readonly submitButtonLocator: Locator;
+  readonly closeButtonLocator: Locator;
+  readonly categoryFirstOptionLocator: Locator;
+  readonly createSuccessToastLocator: Locator;
+
   constructor(page: Page) {
     this.page = page;
-  }
 
-  private visibleDialog(): Locator {
-    return this.page.locator('[role="dialog"]:visible').first();
+    this.addTransactionButtonLocator = this.page.getByTestId(
+      "add-transaction-btn-expense",
+    );
+    this.dialogLocator = this.page.getByTestId("create-transaction-dialog");
+    this.priceInputLocator = this.page.getByTestId("transaction-price");
+    this.nameInputLocator = this.page.getByTestId("transaction-name");
+    this.categorySelectLocator = this.page.getByTestId(
+      "transaction-category-select",
+    );
+    this.submitButtonLocator = this.page.getByTestId(
+      "transaction-create-submit",
+    );
+    this.closeButtonLocator = this.dialogLocator.getByRole("button", {
+      name: "Close",
+    });
+    this.categoryFirstOptionLocator = this.page.getByTestId(
+      "transaction-category-option",
+    );
+    this.createSuccessToastLocator = this.page.locator(
+      '[data-sonner-toast][data-type="success"]',
+    );
   }
 
   private tableRowByName(name: string): Locator {
-    return this.page.locator("tbody tr").filter({ hasText: name }).first();
+    return this.page.getByTestId(`transaction-row-${name}`);
   }
 
   async openCreateTransactionDialog() {
-    await this.page
-      .getByRole("button", { name: /add|dodaj/i })
-      .first()
-      .click();
-    await expect(this.visibleDialog()).toBeVisible();
+    await this.addTransactionButtonLocator.click();
+    await expect(this.dialogLocator).toBeVisible();
   }
 
   async fillPrice(price: number) {
-    await this.visibleDialog()
-      .getByLabel(/price|kwota/i)
-      .fill(String(price));
+    await this.priceInputLocator.click();
+    await this.priceInputLocator.fill(String(price));
   }
 
   async fillName(name: string) {
-    await this.visibleDialog()
-      .getByLabel(/name|nazwa/i)
-      .fill(name);
+    await this.nameInputLocator.click();
+    await this.nameInputLocator.fill(name);
   }
 
   async selectFirstCategory() {
-    await this.visibleDialog()
-      .locator('[role="combobox"]')
-      .filter({ hasText: /choose|wybierz/i })
-      .first()
-      .click();
-    await this.page.locator('[role="option"]').first().click();
+    await this.categorySelectLocator.click();
+    await this.categoryFirstOptionLocator.first().click();
   }
 
   async submitCreate() {
-    await this.visibleDialog()
-      .getByRole("button", { name: /add|dodaj/i })
-      .click();
+    await this.submitButtonLocator.click();
   }
 
   async fillAndSubmitCreate(data: { name: string; price: number }) {
@@ -59,13 +76,9 @@ export class CreateTransactionsPage {
   }
 
   async closeDialog() {
-    const closeButton = this.visibleDialog().getByRole("button", {
-      name: /close|zamknij/i,
-    });
-
-    if (await closeButton.isVisible()) {
-      await closeButton.click();
-      await expect(this.visibleDialog()).toHaveCount(0);
+    if (await this.closeButtonLocator.isVisible()) {
+      await this.closeButtonLocator.click();
+      await expect(this.dialogLocator).toHaveCount(0);
     }
   }
 
@@ -74,10 +87,6 @@ export class CreateTransactionsPage {
   }
 
   async expectCreateSuccessToast() {
-    await expect(
-      this.page.getByText(
-        /transaction created successfully|transakcja została pomyślnie utworzona/i,
-      ),
-    ).toBeVisible();
+    await expect(this.createSuccessToastLocator).toBeVisible();
   }
 }

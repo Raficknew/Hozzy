@@ -5,15 +5,26 @@ import { HomePage } from "../pages/HomePage";
 import { CreateFormPage } from "../pages/household_form/CreateFormPage";
 import { SettingsPage } from "../pages/SettingsPage";
 
-export const householdDashboardUrlPattern = /\/(?:household-)?[a-zA-Z0-9-]+$/;
-export const householdTransactionsUrlPattern =
-  /\/(?:household-)?[a-zA-Z0-9-]+\/transactions$/;
-export const householdSettingsUrlPattern =
-  /\/(?:household-)?[a-zA-Z0-9-]+\/settings\/household$/;
-export const householdAccountSettingsUrlPattern =
-  /\/(?:household-)?[a-zA-Z0-9-]+\/settings\/account$/;
-export const householdCategoriesSettingsUrlPattern =
-  /\/(?:household-)?[a-zA-Z0-9-]+\/settings\/categories$/;
+const householdIdPattern = "\\/(?:household-)?[a-zA-Z0-9-]+";
+
+export const householdDashboardUrlPattern = new RegExp(
+  `${householdIdPattern}$`,
+);
+export const householdTransactionsUrlPattern = new RegExp(
+  `${householdIdPattern}\\/transactions$`,
+);
+export const householdSettingsUrlPattern = new RegExp(
+  `${householdIdPattern}\\/settings\\/household$`,
+);
+export const householdAccountSettingsUrlPattern = new RegExp(
+  `${householdIdPattern}\\/settings\\/account$`,
+);
+export const householdCategoriesSettingsUrlPattern = new RegExp(
+  `${householdIdPattern}\\/settings\\/categories$`,
+);
+export const householdInviteLinkUrlPattern = new RegExp(
+  `https?:\\/\\/[^/]+${householdIdPattern}\\/[a-zA-Z0-9-]+`,
+);
 
 type HouseholdInput = {
   name: string;
@@ -55,7 +66,7 @@ export async function createHouseholdAndGetInviteLink(
   const inviteLink = await settingsPage.getInviteLinkText();
 
   expect(inviteLink).toBeTruthy();
-  expect(inviteLink).toMatch(/https?:\/\/[^/]+\/[a-zA-Z0-9-]+\/[a-zA-Z0-9-]+/);
+  expect(inviteLink).toMatch(householdInviteLinkUrlPattern);
 
   return inviteLink as string;
 }

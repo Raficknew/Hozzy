@@ -4,41 +4,54 @@ import { expect } from "@/playwright/fixtures";
 export class UpdateTransactionsPage {
   readonly page: Page;
 
+  readonly dialogLocator: Locator;
+  readonly priceInputLocator: Locator;
+  readonly nameInputLocator: Locator;
+  readonly saveButtonLocator: Locator;
+  readonly deleteConfirmButtonLocator: Locator;
+  readonly updateSuccessToastLocator: Locator;
+  readonly deleteSuccessToastLocator: Locator;
+
   constructor(page: Page) {
     this.page = page;
-  }
 
-  private visibleDialog(): Locator {
-    return this.page.locator('[role="dialog"]:visible').first();
+    this.dialogLocator = this.page.getByTestId("edit-transaction-dialog");
+    this.priceInputLocator = this.page.getByTestId("transaction-price");
+    this.nameInputLocator = this.page.getByTestId("transaction-name");
+    this.saveButtonLocator = this.page.getByTestId("transaction-edit-submit");
+    this.deleteConfirmButtonLocator =
+      this.page.getByTestId("confirm-action-btn");
+    this.updateSuccessToastLocator = this.page.locator(
+      '[data-sonner-toast][data-type="success"]',
+    );
+    this.deleteSuccessToastLocator = this.page.locator(
+      '[data-sonner-toast][data-type="success"]',
+    );
   }
 
   private tableRowByName(name: string): Locator {
-    return this.page.locator("tbody tr").filter({ hasText: name }).first();
+    return this.page.getByTestId(`transaction-row-${name}`);
   }
 
   async openEditTransaction(name: string) {
     const row = this.tableRowByName(name);
     await expect(row).toBeVisible();
-    await row.getByRole("button").first().click();
-    await expect(this.visibleDialog()).toBeVisible();
+    await row.getByTestId("transaction-edit-btn").click();
+    await expect(this.dialogLocator).toBeVisible();
   }
 
   async fillPrice(price: number) {
-    await this.visibleDialog()
-      .getByLabel(/price|kwota/i)
-      .fill(String(price));
+    await this.priceInputLocator.click();
+    await this.priceInputLocator.fill(String(price));
   }
 
   async fillName(name: string) {
-    await this.visibleDialog()
-      .getByLabel(/name|nazwa/i)
-      .fill(name);
+    await this.nameInputLocator.click();
+    await this.nameInputLocator.fill(name);
   }
 
   async submitEdit() {
-    await this.visibleDialog()
-      .getByRole("button", { name: /save|zapisz/i })
-      .click();
+    await this.saveButtonLocator.click();
   }
 
   async editTransaction(
@@ -54,8 +67,8 @@ export class UpdateTransactionsPage {
   async deleteTransaction(name: string) {
     const row = this.tableRowByName(name);
     await expect(row).toBeVisible();
-    await row.getByRole("button").nth(1).click();
-    await this.page.getByRole("button", { name: /yes|potwierd/i }).click();
+    await row.getByTestId("transaction-delete-btn").click();
+    await this.deleteConfirmButtonLocator.click();
   }
 
   async expectTransactionVisible(name: string) {
@@ -67,18 +80,10 @@ export class UpdateTransactionsPage {
   }
 
   async expectUpdateSuccessToast() {
-    await expect(
-      this.page.getByText(
-        /transaction updated successfully|transakcja została pomyślnie zaktualizowana/i,
-      ),
-    ).toBeVisible();
+    await expect(this.updateSuccessToastLocator).toBeVisible();
   }
 
   async expectDeleteSuccessToast() {
-    await expect(
-      this.page.getByText(
-        /transaction deleted successfully|transakcja została pomyślnie usunięta/i,
-      ),
-    ).toBeVisible();
+    await expect(this.deleteSuccessToastLocator).toBeVisible();
   }
 }

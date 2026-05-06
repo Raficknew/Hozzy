@@ -1,11 +1,15 @@
-import type { Page } from "@playwright/test";
+import type { Locator, Page } from "@playwright/test";
 import { expect } from "@/playwright/fixtures";
 
 export class JoinHouseholdPage {
   readonly page: Page;
 
+  readonly joinButtonLocator: Locator;
+
   constructor(page: Page) {
     this.page = page;
+
+    this.joinButtonLocator = this.page.getByTestId("join-household-btn");
   }
 
   async goToInviteLink(inviteLink: string) {
@@ -13,12 +17,10 @@ export class JoinHouseholdPage {
   }
 
   async joinHousehold() {
-    await this.page.getByRole("button", { name: /join|dołącz/i }).click();
+    await this.joinButtonLocator.click();
   }
 
   async expectJoinButtonVisible() {
-    await expect(
-      this.page.getByRole("button", { name: /join|dołącz/i }),
-    ).toBeVisible();
+    await expect(this.joinButtonLocator).toBeVisible();
   }
 }

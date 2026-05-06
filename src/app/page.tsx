@@ -60,7 +60,7 @@ async function UserHouseholdList({
               <Link
                 key={household.id}
                 href={`/${household.id}`}
-                data-testid={`${household.id}`}
+                data-testid={`household-link-${household.name}`}
               >
                 <div className="flex gap-2 bg-accent rounded-lg px-3 py-2">
                   <HugeiconsIcon strokeWidth={2} icon={Home12Icon} />

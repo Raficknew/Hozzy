@@ -26,6 +26,7 @@ export function SettingsNavigationBar({
       link: `/${householdId}/settings/categories`,
       title: t("categories.title"),
       icon: DashboardCircleIcon,
+      testId: "settings-categories-link",
     },
   ];
 
@@ -37,6 +38,7 @@ export function SettingsNavigationBar({
           link={`/${householdId}/settings/account`}
           icon={UserIcon}
           currentPath={currentPath ?? ""}
+          testId="settings-account-link"
         />
       </div>
       {canAccessHouseholdSettings && (
@@ -46,6 +48,7 @@ export function SettingsNavigationBar({
             link={`/${householdId}/settings/household`}
             icon={Home01Icon}
             currentPath={currentPath ?? ""}
+            testId="settings-household-link"
           />
         </div>
       )}
@@ -56,6 +59,7 @@ export function SettingsNavigationBar({
           link={navigation.link}
           icon={navigation.icon}
           currentPath={currentPath ?? ""}
+          testId={navigation.testId}
         />
       ))}
     </div>
@@ -67,11 +71,13 @@ function NavigationBar({
   title,
   icon,
   currentPath,
+  testId,
 }: {
   link: string;
   title: string;
   icon: typeof UserIcon;
   currentPath: string;
+  testId: string;
 }) {
   const isActive =
     currentPath === link.split("/")[3] ||
@@ -85,7 +91,7 @@ function NavigationBar({
       )}
       asChild
     >
-      <Link href={link}>
+      <Link href={link} data-testid={testId}>
         <div className="flex items-center gap-2">
           <HugeiconsIcon strokeWidth={3} width={20} height={20} icon={icon} />
           <p className="text-sm font-medium">{title}</p>
