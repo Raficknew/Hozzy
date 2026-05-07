@@ -21,11 +21,11 @@ export class UpdateTransactionsPage {
     this.saveButtonLocator = this.page.getByTestId("transaction-edit-submit");
     this.deleteConfirmButtonLocator =
       this.page.getByTestId("confirm-action-btn");
-    this.updateSuccessToastLocator = this.page.locator(
-      '[data-sonner-toast][data-type="success"]',
+    this.updateSuccessToastLocator = this.page.getByTestId(
+      "transaction-update-success-toast",
     );
-    this.deleteSuccessToastLocator = this.page.locator(
-      '[data-sonner-toast][data-type="success"]',
+    this.deleteSuccessToastLocator = this.page.getByTestId(
+      "transaction-delete-success-toast",
     );
   }
 

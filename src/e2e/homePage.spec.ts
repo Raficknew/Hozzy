@@ -1,8 +1,5 @@
 import { expect, test } from "@/playwright/fixtures";
-import {
-  createHouseholdFromHome,
-  householdDashboardUrlPattern,
-} from "./helpers/household";
+import { createHouseholdFromHome } from "./helpers/household";
 import { HomePage } from "./pages/HomePage";
 
 test.describe("Unauthenticated user", () => {
@@ -22,7 +19,6 @@ test.describe("Authenticated user", () => {
 
     await homePage.goTo();
     await homePage.goToCreateHousehold();
-    await expect(authenticatedUser.page).toHaveURL("/create");
   });
 
   test("should be able to navigate to a household dashboard", async ({
@@ -39,9 +35,5 @@ test.describe("Authenticated user", () => {
 
     await homePage.goTo();
     await homePage.goToHouseholdDashbaord("Test Household");
-
-    await expect(authenticatedUser.page).toHaveURL(
-      householdDashboardUrlPattern,
-    );
   });
 });

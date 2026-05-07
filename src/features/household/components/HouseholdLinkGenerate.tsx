@@ -28,7 +28,7 @@ export function HouseholdLinkGenerate({
 
   const handleCopyToClipboard = () => {
     navigator.clipboard.writeText(inviteLink);
-    toast.success(t("copied"));
+    toast.success(t("copied"), { testId: "invite-link-copy-success-toast" });
   };
 
   return (
@@ -54,6 +54,7 @@ export function HouseholdLinkGenerate({
           data-testid="invite-link-regenerate"
           variant="submit"
           className="size-9"
+          toastTestId="invite-link-regenerate-success-toast"
           action={() => generateLinkForHousehold(householdId, link)}
         >
           <HugeiconsIcon

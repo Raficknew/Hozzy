@@ -93,17 +93,25 @@ export function TransactionForm({
 
   async function onSubmit(data: TransactionsSchema) {
     startTransition(async () => {
-      await performFormSubmitAction(() =>
+      await performFormSubmitAction(
+        () =>
+          transaction
+            ? updateTransaction(
+                transaction.id,
+                {
+                  ...data,
+                  type: transactionType,
+                },
+                householdId,
+              )
+            : createTransaction(
+                { ...data, type: transactionType },
+                householdId,
+              ),
+        undefined,
         transaction
-          ? updateTransaction(
-              transaction.id,
-              {
-                ...data,
-                type: transactionType,
-              },
-              householdId,
-            )
-          : createTransaction({ ...data, type: transactionType }, householdId),
+          ? "transaction-update-success-toast"
+          : "transaction-create-success-toast",
       );
       onUpdateSuccess?.();
     });

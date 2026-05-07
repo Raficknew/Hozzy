@@ -43,8 +43,6 @@ export async function createHouseholdFromHome(
   await homePage.goTo();
   await homePage.goToCreateHousehold();
   await createHouseholdPage.fillAndSubmitForm(household);
-
-  await expect(page).toHaveURL(householdSettingsUrlPattern);
 }
 
 export async function createHouseholdAndGetInviteLink(
@@ -57,10 +55,7 @@ export async function createHouseholdAndGetInviteLink(
   const settingsPage = new SettingsPage(page);
 
   await dashboardPage.goToDashboard();
-  await expect(page).toHaveURL(householdDashboardUrlPattern);
-
   await dashboardPage.goToSettings();
-  await expect(page).toHaveURL(householdAccountSettingsUrlPattern);
 
   await settingsPage.openInviteLinkPopover();
   const inviteLink = await settingsPage.getInviteLinkText();

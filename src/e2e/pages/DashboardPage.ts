@@ -1,5 +1,10 @@
 import type { Locator, Page } from "@playwright/test";
 import { expect } from "@/playwright/fixtures";
+import {
+  householdAccountSettingsUrlPattern,
+  householdDashboardUrlPattern,
+  householdTransactionsUrlPattern,
+} from "../helpers/household";
 
 export class DashboardPage {
   readonly page: Page;
@@ -24,14 +29,17 @@ export class DashboardPage {
 
   async goToDashboard() {
     await this.sidebarDashboardLocator.click();
+    await expect(this.page).toHaveURL(householdDashboardUrlPattern);
   }
 
   async goToSettings() {
     await this.sidebarSettingsLocator.click();
+    await expect(this.page).toHaveURL(householdAccountSettingsUrlPattern);
   }
 
   async goToTransactions() {
     await this.sidebarTransactionsLocator.click();
+    await expect(this.page).toHaveURL(householdTransactionsUrlPattern);
   }
 
   async logOut() {

@@ -35,8 +35,8 @@ export class CreateTransactionsPage {
     this.categoryFirstOptionLocator = this.page.getByTestId(
       "transaction-category-option",
     );
-    this.createSuccessToastLocator = this.page.locator(
-      '[data-sonner-toast][data-type="success"]',
+    this.createSuccessToastLocator = this.page.getByTestId(
+      "transaction-create-success-toast",
     );
   }
 

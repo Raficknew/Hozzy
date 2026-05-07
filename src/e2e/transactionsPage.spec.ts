@@ -1,9 +1,5 @@
-import { expect, test } from "@/playwright/fixtures";
-import {
-  createHouseholdFromHome,
-  householdDashboardUrlPattern,
-  householdTransactionsUrlPattern,
-} from "./helpers/household";
+import { test } from "@/playwright/fixtures";
+import { createHouseholdFromHome } from "./helpers/household";
 import { DashboardPage } from "./pages/DashboardPage";
 import { CreateTransactionsPage } from "./pages/transactions_form/CreateTransactionsPage";
 import { UpdateTransactionsPage } from "./pages/transactions_form/UpdateTransactionsPage";
@@ -27,7 +23,6 @@ test("should create, edit and delete transaction", async ({
   );
 
   await dashboardPage.goToDashboard();
-  await expect(authenticatedUser.page).toHaveURL(householdDashboardUrlPattern);
 
   const createdTransactionName = "E2E Grocery Transaction";
   const updatedTransactionName = "E2E Grocery Transaction Updated";
@@ -42,9 +37,6 @@ test("should create, edit and delete transaction", async ({
   await createTransactionsPage.closeDialog();
 
   await dashboardPage.goToTransactions();
-  await expect(authenticatedUser.page).toHaveURL(
-    householdTransactionsUrlPattern,
-  );
 
   await updateTransactionsPage.expectTransactionVisible(createdTransactionName);
 

@@ -19,9 +19,11 @@ import { Button } from "@/components/ui/button";
 export function ActionButton({
   action,
   requireAreYouSure = false,
+  toastTestId,
   ...props
 }: Omit<ComponentPropsWithRef<typeof Button>, "onClick"> & {
   requireAreYouSure?: boolean;
+  toastTestId?: string;
   action: () => Promise<{ error: boolean; message: string }>;
 }) {
   const [isLoading, startTransition] = useTransition();
@@ -36,7 +38,9 @@ export function ActionButton({
         return;
       }
 
-      toast.success(performingAction.message ?? "Success");
+      toast.success(performingAction.message ?? "Success", {
+        testId: toastTestId,
+      });
     });
   }
 

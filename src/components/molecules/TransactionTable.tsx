@@ -71,6 +71,7 @@ export function TransactionTable({
               </TransactionDialog>
               <ActionButton
                 data-testid="transaction-delete-btn"
+                toastTestId="transaction-delete-success-toast"
                 action={() => deleteTransaction(transaction.id, householdId)}
                 requireAreYouSure
                 variant="destructive"

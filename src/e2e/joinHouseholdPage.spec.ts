@@ -1,8 +1,5 @@
-import { expect, test } from "@/playwright/fixtures";
-import {
-  createHouseholdAndGetInviteLink,
-  householdDashboardUrlPattern,
-} from "./helpers/household";
+import { test } from "@/playwright/fixtures";
+import { createHouseholdAndGetInviteLink } from "./helpers/household";
 import { JoinHouseholdPage } from "./pages/JoinHouseholdPage";
 
 test("should redirect to household dashboard when invited user already belongs to household", async ({
@@ -20,8 +17,7 @@ test("should redirect to household dashboard when invited user already belongs t
   const joinHouseholdPage = new JoinHouseholdPage(authenticatedUser.page);
 
   await joinHouseholdPage.goToInviteLink(inviteLink);
-
-  await expect(authenticatedUser.page).toHaveURL(householdDashboardUrlPattern);
+  await joinHouseholdPage.expectRedirectToDashboard();
 });
 
 test("should allow authenticated user outside household to join via invite link", async ({
@@ -44,14 +40,9 @@ test("should allow authenticated user outside household to join via invite link"
   await joinHouseholdPage.expectJoinButtonVisible();
 
   await joinHouseholdPage.joinHousehold();
-  await expect(secondAuthenticatedUser.page).toHaveURL(
-    householdDashboardUrlPattern,
-  );
 
   await joinHouseholdPage.goToInviteLink(inviteLink);
-  await expect(secondAuthenticatedUser.page).toHaveURL(
-    householdDashboardUrlPattern,
-  );
+  await joinHouseholdPage.expectRedirectToDashboard();
 });
 
 test("should redirect unauthenticated user from invite link to sign-in page", async ({
@@ -70,6 +61,5 @@ test("should redirect unauthenticated user from invite link to sign-in page", as
   const joinHouseholdPage = new JoinHouseholdPage(page);
 
   await joinHouseholdPage.goToInviteLink(inviteLink);
-
-  await expect(page).toHaveURL(/\/sign-in$/);
+  await joinHouseholdPage.expectRedirectToSignIn();
 });
