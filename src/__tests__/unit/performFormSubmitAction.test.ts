@@ -30,7 +30,9 @@ describe("performFormSubmitAction", () => {
 
     expect(givenAction).toHaveBeenCalledTimes(1);
     expect(givenOnSuccess).toHaveBeenCalledTimes(1);
-    expect(toast.success).toHaveBeenCalledWith("Operation successful");
+    expect(toast.success).toHaveBeenCalledWith("Operation successful", {
+      testId: undefined,
+    });
     expect(toast.error).not.toHaveBeenCalled();
   });
 
@@ -50,7 +52,9 @@ describe("performFormSubmitAction", () => {
 
     expect(givenAction).toHaveBeenCalledTimes(1);
     expect(givenOnSuccess).not.toHaveBeenCalled();
-    expect(toast.error).toHaveBeenCalledWith("Operation failed");
+    expect(toast.error).toHaveBeenCalledWith("Operation failed", {
+      testId: undefined,
+    });
     expect(toast.success).not.toHaveBeenCalled();
   });
 
@@ -65,7 +69,9 @@ describe("performFormSubmitAction", () => {
     await whenSubmitAction;
 
     expect(givenAction).toHaveBeenCalledTimes(1);
-    expect(toast.success).toHaveBeenCalledWith("Success without callback");
+    expect(toast.success).toHaveBeenCalledWith("Success without callback", {
+      testId: undefined,
+    });
   });
 
   it("handles async action execution", async () => {
@@ -91,6 +97,34 @@ describe("performFormSubmitAction", () => {
 
     expect(givenAction).toHaveBeenCalledTimes(1);
     expect(givenOnSuccess).toHaveBeenCalledTimes(1);
-    expect(toast.success).toHaveBeenCalledWith("Delayed success");
+    expect(toast.success).toHaveBeenCalledWith("Delayed success", {
+      testId: undefined,
+    });
+  });
+
+  it("forwards testId to success toast", async () => {
+    const givenAction = vi.fn().mockResolvedValue({
+      error: false,
+      message: "Saved",
+    });
+
+    await performFormSubmitAction(givenAction, undefined, "household-form");
+
+    expect(toast.success).toHaveBeenCalledWith("Saved", {
+      testId: "household-form",
+    });
+  });
+
+  it("forwards testId with -error suffix to error toast", async () => {
+    const givenAction = vi.fn().mockResolvedValue({
+      error: true,
+      message: "Boom",
+    });
+
+    await performFormSubmitAction(givenAction, undefined, "household-form");
+
+    expect(toast.error).toHaveBeenCalledWith("Boom", {
+      testId: "household-form-error",
+    });
   });
 });
