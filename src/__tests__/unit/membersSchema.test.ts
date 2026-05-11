@@ -7,11 +7,11 @@ describe("membersSchema", () => {
       name: "John Doe",
     };
 
-    const result = membersSchema.safeParse(validMember);
+    const whenResult = membersSchema.safeParse(validMember);
 
-    expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.data).toEqual(validMember);
+    expect(whenResult.success).toBe(true);
+    if (whenResult.success) {
+      expect(whenResult.data).toEqual(validMember);
     }
   });
 
@@ -21,9 +21,9 @@ describe("membersSchema", () => {
         name: "",
       };
 
-      const result = membersSchema.safeParse(invalidMember);
+      const whenResult = membersSchema.safeParse(invalidMember);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
 
     it("accepts name with 1 character", () => {
@@ -31,9 +31,9 @@ describe("membersSchema", () => {
         name: "A",
       };
 
-      const result = membersSchema.safeParse(validMember);
+      const whenResult = membersSchema.safeParse(validMember);
 
-      expect(result.success).toBe(true);
+      expect(whenResult.success).toBe(true);
     });
 
     it("accepts name with exactly 35 characters", () => {
@@ -41,9 +41,9 @@ describe("membersSchema", () => {
         name: "a".repeat(35),
       };
 
-      const result = membersSchema.safeParse(validMember);
+      const whenResult = membersSchema.safeParse(validMember);
 
-      expect(result.success).toBe(true);
+      expect(whenResult.success).toBe(true);
     });
 
     it("rejects name longer than 35 characters", () => {
@@ -51,9 +51,9 @@ describe("membersSchema", () => {
         name: "a".repeat(36),
       };
 
-      const result = membersSchema.safeParse(invalidMember);
+      const whenResult = membersSchema.safeParse(invalidMember);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
 
     it("accepts name with spaces", () => {
@@ -61,9 +61,9 @@ describe("membersSchema", () => {
         name: "John Doe Smith",
       };
 
-      const result = membersSchema.safeParse(validMember);
+      const whenResult = membersSchema.safeParse(validMember);
 
-      expect(result.success).toBe(true);
+      expect(whenResult.success).toBe(true);
     });
 
     it("accepts name with special characters", () => {
@@ -71,17 +71,17 @@ describe("membersSchema", () => {
         name: "O'Brien-Smith",
       };
 
-      const result = membersSchema.safeParse(validMember);
+      const whenResult = membersSchema.safeParse(validMember);
 
-      expect(result.success).toBe(true);
+      expect(whenResult.success).toBe(true);
     });
 
     it("rejects missing name field", () => {
       const invalidMember = {};
 
-      const result = membersSchema.safeParse(invalidMember);
+      const whenResult = membersSchema.safeParse(invalidMember);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
 
     it("rejects null name", () => {
@@ -89,9 +89,9 @@ describe("membersSchema", () => {
         name: null,
       };
 
-      const result = membersSchema.safeParse(invalidMember);
+      const whenResult = membersSchema.safeParse(invalidMember);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
 
     it("rejects undefined name", () => {
@@ -99,28 +99,28 @@ describe("membersSchema", () => {
         name: undefined,
       };
 
-      const result = membersSchema.safeParse(invalidMember);
+      const whenResult = membersSchema.safeParse(invalidMember);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
   });
 
   it("rejects completely empty object", () => {
-    const result = membersSchema.safeParse({});
+    const whenResult = membersSchema.safeParse({});
 
-    expect(result.success).toBe(false);
+    expect(whenResult.success).toBe(false);
   });
 
   it("rejects null value", () => {
-    const result = membersSchema.safeParse(null);
+    const whenResult = membersSchema.safeParse(null);
 
-    expect(result.success).toBe(false);
+    expect(whenResult.success).toBe(false);
   });
 
   it("rejects undefined value", () => {
-    const result = membersSchema.safeParse(undefined);
+    const whenResult = membersSchema.safeParse(undefined);
 
-    expect(result.success).toBe(false);
+    expect(whenResult.success).toBe(false);
   });
 
   it("ignores extra fields not in schema", () => {
@@ -130,13 +130,13 @@ describe("membersSchema", () => {
       anotherExtra: 123,
     };
 
-    const result = membersSchema.safeParse(memberWithExtra);
+    const whenResult = membersSchema.safeParse(memberWithExtra);
 
-    expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.data).toEqual({ name: "John Doe" });
-      expect(result.data).not.toHaveProperty("extraField");
-      expect(result.data).not.toHaveProperty("anotherExtra");
+    expect(whenResult.success).toBe(true);
+    if (whenResult.success) {
+      expect(whenResult.data).toEqual({ name: "John Doe" });
+      expect(whenResult.data).not.toHaveProperty("extraField");
+      expect(whenResult.data).not.toHaveProperty("anotherExtra");
     }
   });
 });

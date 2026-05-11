@@ -9,11 +9,11 @@ describe("categorySchema", () => {
       categoryType: "fixed",
     };
 
-    const result = categorySchema.safeParse(validCategory);
+    const whenResult = categorySchema.safeParse(validCategory);
 
-    expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.data).toEqual(validCategory);
+    expect(whenResult.success).toBe(true);
+    if (whenResult.success) {
+      expect(whenResult.data).toEqual(validCategory);
     }
   });
 
@@ -25,9 +25,9 @@ describe("categorySchema", () => {
         categoryType: "fixed",
       };
 
-      const result = categorySchema.safeParse(invalidCategory);
+      const whenResult = categorySchema.safeParse(invalidCategory);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
 
     it("rejects name longer than 20 characters", () => {
@@ -37,9 +37,9 @@ describe("categorySchema", () => {
         categoryType: "fixed",
       };
 
-      const result = categorySchema.safeParse(invalidCategory);
+      const whenResult = categorySchema.safeParse(invalidCategory);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
 
     it("accepts name with exactly 3 characters", () => {
@@ -49,9 +49,9 @@ describe("categorySchema", () => {
         categoryType: "fixed",
       };
 
-      const result = categorySchema.safeParse(validCategory);
+      const whenResult = categorySchema.safeParse(validCategory);
 
-      expect(result.success).toBe(true);
+      expect(whenResult.success).toBe(true);
     });
 
     it("accepts name with exactly 20 characters", () => {
@@ -61,9 +61,9 @@ describe("categorySchema", () => {
         categoryType: "fixed",
       };
 
-      const result = categorySchema.safeParse(validCategory);
+      const whenResult = categorySchema.safeParse(validCategory);
 
-      expect(result.success).toBe(true);
+      expect(whenResult.success).toBe(true);
     });
 
     it("rejects missing name field", () => {
@@ -72,9 +72,9 @@ describe("categorySchema", () => {
         categoryType: "fixed",
       };
 
-      const result = categorySchema.safeParse(invalidCategory);
+      const whenResult = categorySchema.safeParse(invalidCategory);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
   });
 
@@ -86,9 +86,9 @@ describe("categorySchema", () => {
         categoryType: "fixed",
       };
 
-      const result = categorySchema.safeParse(invalidCategory);
+      const whenResult = categorySchema.safeParse(invalidCategory);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
 
     it("accepts single character icon", () => {
@@ -98,9 +98,9 @@ describe("categorySchema", () => {
         categoryType: "fixed",
       };
 
-      const result = categorySchema.safeParse(validCategory);
+      const whenResult = categorySchema.safeParse(validCategory);
 
-      expect(result.success).toBe(true);
+      expect(whenResult.success).toBe(true);
     });
 
     it("rejects missing icon field", () => {
@@ -109,9 +109,9 @@ describe("categorySchema", () => {
         categoryType: "fixed",
       };
 
-      const result = categorySchema.safeParse(invalidCategory);
+      const whenResult = categorySchema.safeParse(invalidCategory);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
   });
 
@@ -123,9 +123,9 @@ describe("categorySchema", () => {
         categoryType: "",
       };
 
-      const result = categorySchema.safeParse(invalidCategory);
+      const whenResult = categorySchema.safeParse(invalidCategory);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
 
     it("accepts valid categoryType values", () => {
@@ -138,8 +138,8 @@ describe("categorySchema", () => {
           categoryType: type,
         };
 
-        const result = categorySchema.safeParse(validCategory);
-        expect(result.success).toBe(true);
+        const whenResult = categorySchema.safeParse(validCategory);
+        expect(whenResult.success).toBe(true);
       }
     });
 
@@ -149,27 +149,27 @@ describe("categorySchema", () => {
         icon: "🛒",
       };
 
-      const result = categorySchema.safeParse(invalidCategory);
+      const whenResult = categorySchema.safeParse(invalidCategory);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
   });
 
   it("rejects completely empty object", () => {
-    const result = categorySchema.safeParse({});
+    const whenResult = categorySchema.safeParse({});
 
-    expect(result.success).toBe(false);
+    expect(whenResult.success).toBe(false);
   });
 
   it("rejects null value", () => {
-    const result = categorySchema.safeParse(null);
+    const whenResult = categorySchema.safeParse(null);
 
-    expect(result.success).toBe(false);
+    expect(whenResult.success).toBe(false);
   });
 
   it("rejects undefined value", () => {
-    const result = categorySchema.safeParse(undefined);
+    const whenResult = categorySchema.safeParse(undefined);
 
-    expect(result.success).toBe(false);
+    expect(whenResult.success).toBe(false);
   });
 });

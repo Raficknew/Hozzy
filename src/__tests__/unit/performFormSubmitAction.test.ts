@@ -15,49 +15,67 @@ describe("performFormSubmitAction", () => {
   });
 
   it("shows success toast and calls onSuccess when action succeeds", async () => {
-    const action = vi.fn().mockResolvedValue({
+    const givenAction = vi.fn().mockResolvedValue({
       error: false,
       message: "Operation successful",
     });
-    const onSuccess = vi.fn();
+    const givenOnSuccess = vi.fn();
 
-    await performFormSubmitAction(action, onSuccess);
+    const whenSubmitAction = performFormSubmitAction(
+      givenAction,
+      givenOnSuccess,
+    );
 
-    expect(action).toHaveBeenCalledTimes(1);
-    expect(onSuccess).toHaveBeenCalledTimes(1);
-    expect(toast.success).toHaveBeenCalledWith("Operation successful");
+    await whenSubmitAction;
+
+    expect(givenAction).toHaveBeenCalledTimes(1);
+    expect(givenOnSuccess).toHaveBeenCalledTimes(1);
+    expect(toast.success).toHaveBeenCalledWith("Operation successful", {
+      testId: undefined,
+    });
     expect(toast.error).not.toHaveBeenCalled();
   });
 
   it("shows error toast and does not call onSuccess when action fails", async () => {
-    const action = vi.fn().mockResolvedValue({
+    const givenAction = vi.fn().mockResolvedValue({
       error: true,
       message: "Operation failed",
     });
-    const onSuccess = vi.fn();
+    const givenOnSuccess = vi.fn();
 
-    await performFormSubmitAction(action, onSuccess);
+    const whenSubmitAction = performFormSubmitAction(
+      givenAction,
+      givenOnSuccess,
+    );
 
-    expect(action).toHaveBeenCalledTimes(1);
-    expect(onSuccess).not.toHaveBeenCalled();
-    expect(toast.error).toHaveBeenCalledWith("Operation failed");
+    await whenSubmitAction;
+
+    expect(givenAction).toHaveBeenCalledTimes(1);
+    expect(givenOnSuccess).not.toHaveBeenCalled();
+    expect(toast.error).toHaveBeenCalledWith("Operation failed", {
+      testId: undefined,
+    });
     expect(toast.success).not.toHaveBeenCalled();
   });
 
   it("works without onSuccess callback", async () => {
-    const action = vi.fn().mockResolvedValue({
+    const givenAction = vi.fn().mockResolvedValue({
       error: false,
       message: "Success without callback",
     });
 
-    await performFormSubmitAction(action);
+    const whenSubmitAction = performFormSubmitAction(givenAction);
 
-    expect(action).toHaveBeenCalledTimes(1);
-    expect(toast.success).toHaveBeenCalledWith("Success without callback");
+    await whenSubmitAction;
+
+    expect(givenAction).toHaveBeenCalledTimes(1);
+    expect(toast.success).toHaveBeenCalledWith("Success without callback", {
+      testId: undefined,
+    });
   });
 
   it("handles async action execution", async () => {
-    const action = vi
+    const givenAction = vi
       .fn()
       .mockImplementation(
         () =>
@@ -68,12 +86,45 @@ describe("performFormSubmitAction", () => {
             ),
           ),
       );
-    const onSuccess = vi.fn();
+    const givenOnSuccess = vi.fn();
 
-    await performFormSubmitAction(action, onSuccess);
+    const whenSubmitAction = performFormSubmitAction(
+      givenAction,
+      givenOnSuccess,
+    );
 
-    expect(action).toHaveBeenCalledTimes(1);
-    expect(onSuccess).toHaveBeenCalledTimes(1);
-    expect(toast.success).toHaveBeenCalledWith("Delayed success");
+    await whenSubmitAction;
+
+    expect(givenAction).toHaveBeenCalledTimes(1);
+    expect(givenOnSuccess).toHaveBeenCalledTimes(1);
+    expect(toast.success).toHaveBeenCalledWith("Delayed success", {
+      testId: undefined,
+    });
+  });
+
+  it("forwards testId to success toast", async () => {
+    const givenAction = vi.fn().mockResolvedValue({
+      error: false,
+      message: "Saved",
+    });
+
+    await performFormSubmitAction(givenAction, undefined, "household-form");
+
+    expect(toast.success).toHaveBeenCalledWith("Saved", {
+      testId: "household-form",
+    });
+  });
+
+  it("forwards testId with -error suffix to error toast", async () => {
+    const givenAction = vi.fn().mockResolvedValue({
+      error: true,
+      message: "Boom",
+    });
+
+    await performFormSubmitAction(givenAction, undefined, "household-form");
+
+    expect(toast.error).toHaveBeenCalledWith("Boom", {
+      testId: "household-form-error",
+    });
   });
 });

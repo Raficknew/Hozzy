@@ -37,16 +37,19 @@ export const countPricesOfTransactionsRelatedToTheirTypes = (
 export const performFormSubmitAction = async (
   action: () => Promise<{ error: boolean; message: string }>,
   onSuccess?: () => void,
+  testId?: string,
 ) => {
   const result = await action();
 
   if (result.error) {
-    toast.error(result.message);
+    toast.error(result.message, {
+      testId: testId ? `${testId}-error` : undefined,
+    });
     return;
   }
 
   onSuccess?.();
-  toast.success(result.message);
+  toast.success(result.message, { testId });
 };
 
 export const sortTransactionsByDateAndCreation = (

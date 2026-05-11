@@ -27,8 +27,8 @@ jobs:
       
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with: 
-          version: latest
+        with:
+          version: 10.30.3
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -41,3 +41,17 @@ jobs:
       
       - name: Run Tests
         run: pnpm test
+  doctor:
+      runs-on: ubuntu-latest
+      env:
+        NO_COLOR: "1"
+      steps:
+        - uses: actions/checkout@v5
+          with:
+            fetch-depth: 0
+        
+        - name: Run React Doctor
+          uses: millionco/react-doctor@main
+          with:
+            diff: main
+            github-token: ${{ secrets.GITHUB_TOKEN }}

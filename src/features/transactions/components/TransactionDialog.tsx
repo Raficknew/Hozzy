@@ -21,10 +21,15 @@ export function TransactionDialog({
   members: Member[];
 }) {
   const [isOpen, setIsOpen] = useState(false);
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       {children}
-      <DialogContent>
+      <DialogContent
+        data-testid={
+          transaction ? "edit-transaction-dialog" : "create-transaction-dialog"
+        }
+      >
         <DialogTitle className="hidden"></DialogTitle>
         <DialogDescription className="hidden"></DialogDescription>
         <TransactionForm

@@ -12,11 +12,11 @@ describe("transactionsSchema", () => {
       categoryId: "category-456",
     };
 
-    const result = transactionsSchema.safeParse(validTransaction);
+    const whenResult = transactionsSchema.safeParse(validTransaction);
 
-    expect(result.success).toBe(true);
-    if (result.success) {
-      expect(result.data).toEqual(validTransaction);
+    expect(whenResult.success).toBe(true);
+    if (whenResult.success) {
+      expect(whenResult.data).toEqual(validTransaction);
     }
   });
 
@@ -31,9 +31,9 @@ describe("transactionsSchema", () => {
         categoryId: "category-456",
       };
 
-      const result = transactionsSchema.safeParse(validTransaction);
+      const whenResult = transactionsSchema.safeParse(validTransaction);
 
-      expect(result.success).toBe(true);
+      expect(whenResult.success).toBe(true);
     });
 
     it("accepts maximum price of 100000", () => {
@@ -46,9 +46,9 @@ describe("transactionsSchema", () => {
         categoryId: "category-456",
       };
 
-      const result = transactionsSchema.safeParse(validTransaction);
+      const whenResult = transactionsSchema.safeParse(validTransaction);
 
-      expect(result.success).toBe(true);
+      expect(whenResult.success).toBe(true);
     });
 
     it("rejects negative price", () => {
@@ -61,9 +61,9 @@ describe("transactionsSchema", () => {
         categoryId: "category-456",
       };
 
-      const result = transactionsSchema.safeParse(invalidTransaction);
+      const whenResult = transactionsSchema.safeParse(invalidTransaction);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
 
     it("rejects price greater than 100000", () => {
@@ -76,9 +76,9 @@ describe("transactionsSchema", () => {
         categoryId: "category-456",
       };
 
-      const result = transactionsSchema.safeParse(invalidTransaction);
+      const whenResult = transactionsSchema.safeParse(invalidTransaction);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
 
     it("coerces string numbers to numbers", () => {
@@ -91,12 +91,12 @@ describe("transactionsSchema", () => {
         categoryId: "category-456",
       };
 
-      const result = transactionsSchema.safeParse(validTransaction);
+      const whenResult = transactionsSchema.safeParse(validTransaction);
 
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data.price).toBe(500);
-        expect(typeof result.data.price).toBe("number");
+      expect(whenResult.success).toBe(true);
+      if (whenResult.success) {
+        expect(whenResult.data.price).toBe(500);
+        expect(typeof whenResult.data.price).toBe("number");
       }
     });
 
@@ -110,9 +110,9 @@ describe("transactionsSchema", () => {
         categoryId: "category-456",
       };
 
-      const result = transactionsSchema.safeParse(validTransaction);
+      const whenResult = transactionsSchema.safeParse(validTransaction);
 
-      expect(result.success).toBe(true);
+      expect(whenResult.success).toBe(true);
     });
 
     it("rejects missing price field", () => {
@@ -124,9 +124,9 @@ describe("transactionsSchema", () => {
         categoryId: "category-456",
       };
 
-      const result = transactionsSchema.safeParse(invalidTransaction);
+      const whenResult = transactionsSchema.safeParse(invalidTransaction);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
   });
 
@@ -144,8 +144,8 @@ describe("transactionsSchema", () => {
           categoryId: "category-456",
         };
 
-        const result = transactionsSchema.safeParse(validTransaction);
-        expect(result.success).toBe(true);
+        const whenResult = transactionsSchema.safeParse(validTransaction);
+        expect(whenResult.success).toBe(true);
       }
     });
 
@@ -159,9 +159,9 @@ describe("transactionsSchema", () => {
         categoryId: "category-456",
       };
 
-      const result = transactionsSchema.safeParse(invalidTransaction);
+      const whenResult = transactionsSchema.safeParse(invalidTransaction);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
 
     it("rejects missing type field", () => {
@@ -173,9 +173,9 @@ describe("transactionsSchema", () => {
         categoryId: "category-456",
       };
 
-      const result = transactionsSchema.safeParse(invalidTransaction);
+      const whenResult = transactionsSchema.safeParse(invalidTransaction);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
   });
 
@@ -190,9 +190,9 @@ describe("transactionsSchema", () => {
         categoryId: "category-456",
       };
 
-      const result = transactionsSchema.safeParse(invalidTransaction);
+      const whenResult = transactionsSchema.safeParse(invalidTransaction);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
 
     it("accepts name with exactly 3 characters", () => {
@@ -205,9 +205,9 @@ describe("transactionsSchema", () => {
         categoryId: "category-456",
       };
 
-      const result = transactionsSchema.safeParse(validTransaction);
+      const whenResult = transactionsSchema.safeParse(validTransaction);
 
-      expect(result.success).toBe(true);
+      expect(whenResult.success).toBe(true);
     });
 
     it("accepts name with exactly 40 characters", () => {
@@ -220,9 +220,9 @@ describe("transactionsSchema", () => {
         categoryId: "category-456",
       };
 
-      const result = transactionsSchema.safeParse(validTransaction);
+      const whenResult = transactionsSchema.safeParse(validTransaction);
 
-      expect(result.success).toBe(true);
+      expect(whenResult.success).toBe(true);
     });
 
     it("rejects name longer than 40 characters", () => {
@@ -235,9 +235,9 @@ describe("transactionsSchema", () => {
         categoryId: "category-456",
       };
 
-      const result = transactionsSchema.safeParse(invalidTransaction);
+      const whenResult = transactionsSchema.safeParse(invalidTransaction);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
 
     it("rejects missing name field", () => {
@@ -249,9 +249,9 @@ describe("transactionsSchema", () => {
         categoryId: "category-456",
       };
 
-      const result = transactionsSchema.safeParse(invalidTransaction);
+      const whenResult = transactionsSchema.safeParse(invalidTransaction);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
   });
 
@@ -266,9 +266,9 @@ describe("transactionsSchema", () => {
         categoryId: "category-456",
       };
 
-      const result = transactionsSchema.safeParse(validTransaction);
+      const whenResult = transactionsSchema.safeParse(validTransaction);
 
-      expect(result.success).toBe(true);
+      expect(whenResult.success).toBe(true);
     });
 
     it("rejects empty memberId", () => {
@@ -281,9 +281,9 @@ describe("transactionsSchema", () => {
         categoryId: "category-456",
       };
 
-      const result = transactionsSchema.safeParse(invalidTransaction);
+      const whenResult = transactionsSchema.safeParse(invalidTransaction);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
 
     it("rejects missing memberId field", () => {
@@ -295,9 +295,9 @@ describe("transactionsSchema", () => {
         categoryId: "category-456",
       };
 
-      const result = transactionsSchema.safeParse(invalidTransaction);
+      const whenResult = transactionsSchema.safeParse(invalidTransaction);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
   });
 
@@ -312,9 +312,9 @@ describe("transactionsSchema", () => {
         categoryId: "category-456",
       };
 
-      const result = transactionsSchema.safeParse(validTransaction);
+      const whenResult = transactionsSchema.safeParse(validTransaction);
 
-      expect(result.success).toBe(true);
+      expect(whenResult.success).toBe(true);
     });
 
     it("rejects string date", () => {
@@ -327,9 +327,9 @@ describe("transactionsSchema", () => {
         categoryId: "category-456",
       };
 
-      const result = transactionsSchema.safeParse(invalidTransaction);
+      const whenResult = transactionsSchema.safeParse(invalidTransaction);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
 
     it("rejects missing date field", () => {
@@ -341,9 +341,9 @@ describe("transactionsSchema", () => {
         categoryId: "category-456",
       };
 
-      const result = transactionsSchema.safeParse(invalidTransaction);
+      const whenResult = transactionsSchema.safeParse(invalidTransaction);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
   });
 
@@ -358,9 +358,9 @@ describe("transactionsSchema", () => {
         categoryId: "category-456",
       };
 
-      const result = transactionsSchema.safeParse(validTransaction);
+      const whenResult = transactionsSchema.safeParse(validTransaction);
 
-      expect(result.success).toBe(true);
+      expect(whenResult.success).toBe(true);
     });
 
     it("rejects empty categoryId", () => {
@@ -373,9 +373,9 @@ describe("transactionsSchema", () => {
         categoryId: "",
       };
 
-      const result = transactionsSchema.safeParse(invalidTransaction);
+      const whenResult = transactionsSchema.safeParse(invalidTransaction);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
 
     it("rejects missing categoryId field", () => {
@@ -387,27 +387,27 @@ describe("transactionsSchema", () => {
         date: new Date("2024-01-15"),
       };
 
-      const result = transactionsSchema.safeParse(invalidTransaction);
+      const whenResult = transactionsSchema.safeParse(invalidTransaction);
 
-      expect(result.success).toBe(false);
+      expect(whenResult.success).toBe(false);
     });
   });
 
   it("rejects completely empty object", () => {
-    const result = transactionsSchema.safeParse({});
+    const whenResult = transactionsSchema.safeParse({});
 
-    expect(result.success).toBe(false);
+    expect(whenResult.success).toBe(false);
   });
 
   it("rejects null value", () => {
-    const result = transactionsSchema.safeParse(null);
+    const whenResult = transactionsSchema.safeParse(null);
 
-    expect(result.success).toBe(false);
+    expect(whenResult.success).toBe(false);
   });
 
   it("rejects undefined value", () => {
-    const result = transactionsSchema.safeParse(undefined);
+    const whenResult = transactionsSchema.safeParse(undefined);
 
-    expect(result.success).toBe(false);
+    expect(whenResult.success).toBe(false);
   });
 });

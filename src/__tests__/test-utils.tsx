@@ -2,15 +2,7 @@ import { type RenderOptions, render } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import { NextIntlClientProvider } from "next-intl";
 import type { ReactElement } from "react";
-
-const messages = {
-  AreYouSureDialog: {
-    title: "Are you absolutely sure?",
-    description: "This action cannot be undone",
-    cancel: "Cancel",
-    proceed: "Yes",
-  },
-};
+import messages from "../../messages/en.json";
 
 const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
   return (

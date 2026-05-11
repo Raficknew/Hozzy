@@ -1,0 +1,55 @@
+name: Playwright Tests
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: hozzy_e2e
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d hozzy_e2e"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+    env:
+      CI: true
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/hozzy_e2e
+      BETTER_AUTH_URL: http://localhost:3000
+      FRONTEND_URL: http://localhost:3000
+      BETTER_AUTH_SECRET: test-secret
+      GOOGLE_CLIENT_ID: test-google-client-id
+      GOOGLE_CLIENT_SECRET: test-google-client-secret
+      UPSTASH_REDIS_REST_URL: https://placeholder.upstash.io
+      UPSTASH_REDIS_REST_TOKEN: placeholder-token
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20.19.0
+    - name: Install dependencies
+      run: npm install -g pnpm@10.30.3 && pnpm install --frozen-lockfile
+    - name: Run database migrations
+      run: pnpm db:migrate
+    - name: Seed database
+      run: pnpm db:seed
+    - name: Install Playwright Browsers
+      run: pnpm exec playwright install --with-deps
+    - name: Run Playwright tests
+      run: pnpm exec playwright test
+    - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 30

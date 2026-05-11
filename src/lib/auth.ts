@@ -1,6 +1,9 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { testUtils } from "better-auth/plugins";
 import { db } from "@/drizzle";
+
+const isProduction = process.env.NODE_ENV === "production";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -14,4 +17,5 @@ export const auth = betterAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     },
   },
+  plugins: isProduction ? [] : [testUtils()],
 });

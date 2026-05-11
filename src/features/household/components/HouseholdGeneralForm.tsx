@@ -84,6 +84,7 @@ export function HouseholdForm({
                 <Input
                   className={household && "bg-[#161616]"}
                   placeholder={t("name.placeholder")}
+                  data-testid="household-name"
                   {...field}
                 />
               </FormControl>
@@ -101,6 +102,7 @@ export function HouseholdForm({
                 <Input
                   className={household && "bg-[#161616]"}
                   placeholder={t("description.placeholder")}
+                  data-testid="household-description"
                   {...field}
                 />
               </FormControl>
@@ -122,12 +124,19 @@ export function HouseholdForm({
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
-                      <SelectTrigger className="w-full sm:w-38.75">
+                      <SelectTrigger
+                        className="w-full sm:w-38.75"
+                        data-testid="household-currency"
+                      >
                         <SelectValue placeholder={t("currency.placeholder")} />
                       </SelectTrigger>
                       <SelectContent>
                         {currencies.map((currency) => (
-                          <SelectItem key={currency.code} value={currency.code}>
+                          <SelectItem
+                            key={currency.code}
+                            value={currency.code}
+                            data-testid={`household-currency-option-${currency.code.toLowerCase()}`}
+                          >
                             {currency.code}
                           </SelectItem>
                         ))}
@@ -149,6 +158,7 @@ export function HouseholdForm({
                       min={0}
                       type="number"
                       step="0.01"
+                      data-testid="household-balance"
                       {...field}
                       onFocus={(e) => {
                         if (e.target.value === "0") {
@@ -172,6 +182,7 @@ export function HouseholdForm({
           variant="submit"
           className={cn("mt-2", household ? "" : "w-full")}
           type="submit"
+          data-testid="household-submit"
           disabled={form.formState.isSubmitting || isPending}
         >
           <LoadingSwap isLoading={form.formState.isSubmitting || isPending}>

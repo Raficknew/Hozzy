@@ -43,12 +43,15 @@ describe("sortTransactionsByDateAndCreation", () => {
       },
     ];
 
-    const sorted = sortTransactionsByDateAndCreation(transactions);
+    const givenTransactions = transactions;
 
-    expect(sorted).toHaveLength(3);
-    expect(sorted[0]?.id).toBe("t2");
-    expect(sorted[1]?.id).toBe("t1");
-    expect(sorted[2]?.id).toBe("t3");
+    const whenSortedTransactions =
+      sortTransactionsByDateAndCreation(givenTransactions);
+
+    expect(whenSortedTransactions).toHaveLength(3);
+    expect(whenSortedTransactions[0]?.id).toBe("t2");
+    expect(whenSortedTransactions[1]?.id).toBe("t1");
+    expect(whenSortedTransactions[2]?.id).toBe("t3");
   });
 
   it("sorts by createdAt when dates are the same", () => {
@@ -91,18 +94,25 @@ describe("sortTransactionsByDateAndCreation", () => {
       },
     ];
 
-    const sorted = sortTransactionsByDateAndCreation(transactions);
+    const givenTransactions = transactions;
 
-    expect(sorted).toHaveLength(3);
-    expect(sorted[0]?.id).toBe("t2");
-    expect(sorted[1]?.id).toBe("t1");
-    expect(sorted[2]?.id).toBe("t3");
+    const whenSortedTransactions =
+      sortTransactionsByDateAndCreation(givenTransactions);
+
+    expect(whenSortedTransactions).toHaveLength(3);
+    expect(whenSortedTransactions[0]?.id).toBe("t2");
+    expect(whenSortedTransactions[1]?.id).toBe("t1");
+    expect(whenSortedTransactions[2]?.id).toBe("t3");
   });
 
   it("handles empty array", () => {
     const transactions: Transaction[] = [];
-    const sorted = sortTransactionsByDateAndCreation(transactions);
-    expect(sorted).toEqual([]);
+    const givenTransactions = transactions;
+
+    const whenSortedTransactions =
+      sortTransactionsByDateAndCreation(givenTransactions);
+
+    expect(whenSortedTransactions).toEqual([]);
   });
 
   it("handles single transaction", () => {
@@ -121,9 +131,13 @@ describe("sortTransactionsByDateAndCreation", () => {
       },
     ];
 
-    const sorted = sortTransactionsByDateAndCreation(transactions);
-    expect(sorted).toHaveLength(1);
-    expect(sorted[0]?.id).toBe("t1");
+    const givenTransactions = transactions;
+
+    const whenSortedTransactions =
+      sortTransactionsByDateAndCreation(givenTransactions);
+
+    expect(whenSortedTransactions).toHaveLength(1);
+    expect(whenSortedTransactions[0]?.id).toBe("t1");
   });
 
   it("maintains stable sort for identical dates and creation times", () => {
@@ -154,7 +168,11 @@ describe("sortTransactionsByDateAndCreation", () => {
       },
     ];
 
-    const sorted = sortTransactionsByDateAndCreation(transactions);
-    expect(sorted).toHaveLength(2);
+    const givenTransactions = transactions;
+
+    const whenSortedTransactions =
+      sortTransactionsByDateAndCreation(givenTransactions);
+
+    expect(whenSortedTransactions).toHaveLength(2);
   });
 });

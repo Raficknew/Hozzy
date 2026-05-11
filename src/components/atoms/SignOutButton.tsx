@@ -22,7 +22,10 @@ export function SignOutButton() {
   const router = useRouter();
   return (
     <AlertDialog>
-      <AlertDialogTrigger className="cursor-pointer self-center w-full sm:w-fit">
+      <AlertDialogTrigger
+        className="cursor-pointer self-center w-full sm:w-fit"
+        data-testid="signout-trigger"
+      >
         <div className="hidden sm:block self-center">
           <HugeiconsIcon
             strokeWidth={2}
@@ -56,6 +59,7 @@ export function SignOutButton() {
         <AlertDialogFooter>
           <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
           <AlertDialogAction
+            data-testid="signout-confirm"
             onClick={() =>
               signOut({
                 fetchOptions: {

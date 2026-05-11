@@ -221,10 +221,8 @@ describe("ActionButton Integration Tests", () => {
       const proceedButton = screen.getByRole("button", { name: /yes/i });
       await user.click(proceedButton);
 
-      // Button should be disabled immediately after clicking
       expect(proceedButton).toBeDisabled();
 
-      // Wait for action to complete
       await waitFor(() => {
         expect(mockAction).toHaveBeenCalledTimes(1);
       });

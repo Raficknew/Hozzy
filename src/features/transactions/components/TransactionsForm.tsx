@@ -93,17 +93,25 @@ export function TransactionForm({
 
   async function onSubmit(data: TransactionsSchema) {
     startTransition(async () => {
-      await performFormSubmitAction(() =>
+      await performFormSubmitAction(
+        () =>
+          transaction
+            ? updateTransaction(
+                transaction.id,
+                {
+                  ...data,
+                  type: transactionType,
+                },
+                householdId,
+              )
+            : createTransaction(
+                { ...data, type: transactionType },
+                householdId,
+              ),
+        undefined,
         transaction
-          ? updateTransaction(
-              transaction.id,
-              {
-                ...data,
-                type: transactionType,
-              },
-              householdId,
-            )
-          : createTransaction({ ...data, type: transactionType }, householdId),
+          ? "transaction-update-success-toast"
+          : "transaction-create-success-toast",
       );
       onUpdateSuccess?.();
     });
@@ -125,6 +133,7 @@ export function TransactionForm({
                   <FormLabel>{ts("price")}</FormLabel>
                   <FormControl>
                     <Input
+                      data-testid="transaction-price"
                       min={0}
                       type="number"
                       step="0.01"
@@ -191,7 +200,11 @@ export function TransactionForm({
             <FormItem>
               <FormLabel>{ts("name.label")}</FormLabel>
               <FormControl>
-                <Input placeholder={ts("name.placeholder")} {...field} />
+                <Input
+                  placeholder={ts("name.placeholder")}
+                  data-testid="transaction-name"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -281,12 +294,19 @@ export function TransactionForm({
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
-                  <SelectTrigger className="w-full">
+                  <SelectTrigger
+                    className="w-full"
+                    data-testid="transaction-category-select"
+                  >
                     <SelectValue placeholder={ts("category.placeholder")} />
                   </SelectTrigger>
                   <SelectContent>
                     {currentCategories.map((category) => (
-                      <SelectItem value={category.id} key={category.id}>
+                      <SelectItem
+                        value={category.id}
+                        key={category.id}
+                        data-testid="transaction-category-option"
+                      >
                         {category.name}
                       </SelectItem>
                     ))}
@@ -299,6 +319,11 @@ export function TransactionForm({
         />
         <div className="flex justify-center pt-3.5">
           <Button
+            data-testid={
+              transaction
+                ? "transaction-edit-submit"
+                : "transaction-create-submit"
+            }
             variant="submit"
             type="submit"
             disabled={form.formState.isSubmitting || isPending}

@@ -50,7 +50,10 @@ export function TransactionTable({
       </TableHeader>
       <TableBody>
         {transactions.map((transaction) => (
-          <TableRow key={transaction.id}>
+          <TableRow
+            key={transaction.id}
+            data-testid={`transaction-row-${transaction.name}`}
+          >
             <TableCell className="flex gap-2">
               <TransactionDialog
                 householdId={householdId}
@@ -59,7 +62,7 @@ export function TransactionTable({
                 members={members}
                 categories={categories}
               >
-                <DialogTrigger>
+                <DialogTrigger data-testid="transaction-edit-btn">
                   <HugeiconsIcon
                     className="cursor-pointer"
                     icon={PencilEdit02Icon}
@@ -67,6 +70,8 @@ export function TransactionTable({
                 </DialogTrigger>
               </TransactionDialog>
               <ActionButton
+                data-testid="transaction-delete-btn"
+                toastTestId="transaction-delete-success-toast"
                 action={() => deleteTransaction(transaction.id, householdId)}
                 requireAreYouSure
                 variant="destructive"

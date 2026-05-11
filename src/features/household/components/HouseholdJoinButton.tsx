@@ -13,6 +13,7 @@ export function HouseholdJoinButton({
 }) {
   return (
     <ActionButton
+      data-testid="join-household-btn"
       variant="submit"
       action={() => joinHousehold(householdId, userId)}
     >

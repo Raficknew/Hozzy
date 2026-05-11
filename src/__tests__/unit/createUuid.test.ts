@@ -7,8 +7,9 @@ vi.mock("uuid", () => ({
 
 describe("createUuid", () => {
   it("returns a UUID string", () => {
-    const uuid = createUuid();
-    expect(uuid).toBe("mocked-uuid-1234");
-    expect(typeof uuid).toBe("string");
+    const whenUuidGenerated = createUuid();
+
+    expect(whenUuidGenerated).toBe("mocked-uuid-1234");
+    expect(typeof whenUuidGenerated).toBe("string");
   });
 });

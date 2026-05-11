@@ -1,8 +1,14 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { applyHouseholdPermissionDefaults } from "@/__tests__/mocks/unit-mocks";
 
 let assertHouseholdCreateAbility: (userId: string) => Promise<void>;
-let assertHouseholdWriteAccess: (householdId: string) => Promise<void>;
+let assertHouseholdWriteAccess: (
+  householdId: string,
+  userId?: string,
+) => Promise<void>;
 let canAccessHouseholdSettings: (householdId: string) => Promise<boolean>;
+
+const VALID_HOUSEHOLD_ID = "83bf65e8-d238-43a6-9c2d-209bee011e1e";
 
 const mocks = vi.hoisted(() => {
   const selectMock = vi.fn();
@@ -10,9 +16,12 @@ const mocks = vi.hoisted(() => {
   const whereMock = vi.fn();
   const countMock = vi.fn();
   const eqMock = vi.fn();
+  const andMock = vi.fn();
   const getSessionMock = vi.fn();
   const getHouseholdMock = vi.fn();
   const headersMock = vi.fn();
+  const householdFindFirstMock = vi.fn();
+  const membersFindFirstMock = vi.fn();
 
   return {
     selectMock,
@@ -20,11 +29,22 @@ const mocks = vi.hoisted(() => {
     whereMock,
     countMock,
     eqMock,
+    andMock,
     getSessionMock,
     getHouseholdMock,
     headersMock,
+    householdFindFirstMock,
+    membersFindFirstMock,
     dbMock: {
       select: selectMock,
+      query: {
+        HouseholdTable: {
+          findFirst: householdFindFirstMock,
+        },
+        MembersTable: {
+          findFirst: membersFindFirstMock,
+        },
+      },
     },
     authMock: {
       api: {
@@ -41,11 +61,17 @@ vi.mock("@/drizzle", () => ({
 vi.mock("drizzle-orm", () => ({
   count: mocks.countMock,
   eq: mocks.eqMock,
+  and: mocks.andMock,
 }));
 
 vi.mock("@/drizzle/schema", () => ({
   HouseholdTable: {
+    id: "householdId",
     ownerId: "ownerId",
+  },
+  MembersTable: {
+    householdId: "membersHouseholdId",
+    userId: "membersUserId",
   },
 }));
 
@@ -68,12 +94,9 @@ vi.mock("next/headers", () => ({
 describe("assertHouseholdCreateAbility", () => {
   beforeEach(async () => {
     vi.resetModules();
+    vi.clearAllMocks();
 
-    mocks.selectMock.mockReturnValue({ from: mocks.fromMock });
-    mocks.fromMock.mockReturnValue({ where: mocks.whereMock });
-    mocks.whereMock.mockResolvedValue([{ count: 0 }]);
-    mocks.countMock.mockReturnValue("count-function");
-    mocks.eqMock.mockReturnValue("eq-condition");
+    applyHouseholdPermissionDefaults(mocks);
 
     ({ assertHouseholdCreateAbility } = await import(
       "@/features/household/permissions/household"
@@ -81,15 +104,23 @@ describe("assertHouseholdCreateAbility", () => {
   });
 
   it("throws error when userId is empty", async () => {
-    await expect(assertHouseholdCreateAbility("")).rejects.toBe("UserNotFound");
+    const givenUserId = "";
+
+    const whenAssertingCreateAbility =
+      assertHouseholdCreateAbility(givenUserId);
+
+    await expect(whenAssertingCreateAbility).rejects.toBe("UserNotFound");
   });
 
   it("allows household creation when under the limit", async () => {
     mocks.whereMock.mockResolvedValueOnce([{ count: 1 }]);
 
-    await expect(
-      assertHouseholdCreateAbility("user-123"),
-    ).resolves.toBeUndefined();
+    const givenUserId = "user-123";
+
+    const whenAssertingCreateAbility =
+      assertHouseholdCreateAbility(givenUserId);
+
+    await expect(whenAssertingCreateAbility).resolves.toBeUndefined();
 
     expect(mocks.selectMock).toHaveBeenCalledWith({ count: "count-function" });
     expect(mocks.eqMock).toHaveBeenCalledWith("ownerId", "user-123");
@@ -98,15 +129,23 @@ describe("assertHouseholdCreateAbility", () => {
   it("allows household creation when at limit minus one", async () => {
     mocks.whereMock.mockResolvedValueOnce([{ count: 2 }]);
 
-    await expect(
-      assertHouseholdCreateAbility("user-123"),
-    ).resolves.toBeUndefined();
+    const givenUserId = "user-123";
+
+    const whenAssertingCreateAbility =
+      assertHouseholdCreateAbility(givenUserId);
+
+    await expect(whenAssertingCreateAbility).resolves.toBeUndefined();
   });
 
   it("throws error when household limit is reached", async () => {
     mocks.whereMock.mockResolvedValueOnce([{ count: 3 }]);
 
-    await expect(assertHouseholdCreateAbility("user-123")).rejects.toBe(
+    const givenUserId = "user-123";
+
+    const whenAssertingCreateAbility =
+      assertHouseholdCreateAbility(givenUserId);
+
+    await expect(whenAssertingCreateAbility).rejects.toBe(
       "YouReachedALimitOfHouseholds",
     );
   });
@@ -114,7 +153,12 @@ describe("assertHouseholdCreateAbility", () => {
   it("throws error when household limit is exceeded", async () => {
     mocks.whereMock.mockResolvedValueOnce([{ count: 4 }]);
 
-    await expect(assertHouseholdCreateAbility("user-123")).rejects.toBe(
+    const givenUserId = "user-123";
+
+    const whenAssertingCreateAbility =
+      assertHouseholdCreateAbility(givenUserId);
+
+    await expect(whenAssertingCreateAbility).rejects.toBe(
       "YouReachedALimitOfHouseholds",
     );
   });
@@ -122,24 +166,38 @@ describe("assertHouseholdCreateAbility", () => {
   it("handles zero households correctly", async () => {
     mocks.whereMock.mockResolvedValueOnce([{ count: 0 }]);
 
-    await expect(
-      assertHouseholdCreateAbility("user-123"),
-    ).resolves.toBeUndefined();
+    const givenUserId = "user-123";
+
+    const whenAssertingCreateAbility =
+      assertHouseholdCreateAbility(givenUserId);
+
+    await expect(whenAssertingCreateAbility).resolves.toBeUndefined();
   });
 
   it("handles empty result array with default count", async () => {
     mocks.whereMock.mockResolvedValueOnce([]);
 
-    await expect(
-      assertHouseholdCreateAbility("user-123"),
-    ).resolves.toBeUndefined();
+    const givenUserId = "user-123";
+
+    const whenAssertingCreateAbility =
+      assertHouseholdCreateAbility(givenUserId);
+
+    await expect(whenAssertingCreateAbility).resolves.toBeUndefined();
   });
 });
 
 describe("assertHouseholdWriteAccess", () => {
   beforeEach(async () => {
     vi.resetModules();
+    vi.clearAllMocks();
     mocks.headersMock.mockResolvedValue({});
+    mocks.eqMock.mockReturnValue("eq-condition");
+    mocks.andMock.mockReturnValue("and-condition");
+    mocks.householdFindFirstMock.mockResolvedValue({
+      id: VALID_HOUSEHOLD_ID,
+      ownerId: "user-123",
+    });
+    mocks.membersFindFirstMock.mockResolvedValue(null);
 
     ({ assertHouseholdWriteAccess } = await import(
       "@/features/household/permissions/household"
@@ -149,60 +207,79 @@ describe("assertHouseholdWriteAccess", () => {
   it("throws error when user is not authenticated", async () => {
     mocks.getSessionMock.mockResolvedValueOnce(null);
 
-    await expect(assertHouseholdWriteAccess("household-123")).rejects.toBe(
-      "UserNotFound",
-    );
+    const givenHouseholdId = VALID_HOUSEHOLD_ID;
+
+    const whenAssertingWriteAccess =
+      assertHouseholdWriteAccess(givenHouseholdId);
+
+    await expect(whenAssertingWriteAccess).rejects.toBe("UserNotFound");
   });
 
   it("throws error when household is not found", async () => {
     mocks.getSessionMock.mockResolvedValueOnce({
       user: { id: "user-123" },
     });
-    mocks.getHouseholdMock.mockResolvedValueOnce(null);
+    mocks.householdFindFirstMock.mockResolvedValueOnce(null);
 
-    await expect(assertHouseholdWriteAccess("household-123")).rejects.toBe(
-      "HouseholdNotFound",
-    );
+    const givenHouseholdId = VALID_HOUSEHOLD_ID;
+
+    const whenAssertingWriteAccess =
+      assertHouseholdWriteAccess(givenHouseholdId);
+
+    await expect(whenAssertingWriteAccess).rejects.toBe("HouseholdNotFound");
   });
 
   it("allows access when user is the owner", async () => {
     mocks.getSessionMock.mockResolvedValueOnce({
       user: { id: "user-123" },
     });
-    mocks.getHouseholdMock.mockResolvedValueOnce({
+    mocks.householdFindFirstMock.mockResolvedValueOnce({
+      id: VALID_HOUSEHOLD_ID,
       ownerId: "user-123",
-      members: [],
     });
 
-    await expect(
-      assertHouseholdWriteAccess("household-123"),
-    ).resolves.toBeUndefined();
+    const givenHouseholdId = VALID_HOUSEHOLD_ID;
+
+    const whenAssertingWriteAccess =
+      assertHouseholdWriteAccess(givenHouseholdId);
+
+    await expect(whenAssertingWriteAccess).resolves.toBeUndefined();
   });
 
   it("allows access when user is a member", async () => {
     mocks.getSessionMock.mockResolvedValueOnce({
       user: { id: "user-456" },
     });
-    mocks.getHouseholdMock.mockResolvedValueOnce({
+    mocks.householdFindFirstMock.mockResolvedValueOnce({
+      id: VALID_HOUSEHOLD_ID,
       ownerId: "user-123",
-      members: [{ userId: "user-456" }, { userId: "user-789" }],
     });
+    mocks.membersFindFirstMock.mockResolvedValueOnce({ id: "member-1" });
 
-    await expect(
-      assertHouseholdWriteAccess("household-123"),
-    ).resolves.toBeUndefined();
+    const givenHouseholdId = VALID_HOUSEHOLD_ID;
+
+    const whenAssertingWriteAccess =
+      assertHouseholdWriteAccess(givenHouseholdId);
+
+    await expect(whenAssertingWriteAccess).resolves.toBeUndefined();
   });
 
   it("throws error when user is neither owner nor member", async () => {
     mocks.getSessionMock.mockResolvedValueOnce({
       user: { id: "user-999" },
     });
-    mocks.getHouseholdMock.mockResolvedValueOnce({
+    mocks.householdFindFirstMock.mockResolvedValueOnce({
+      id: VALID_HOUSEHOLD_ID,
       ownerId: "user-123",
-      members: [{ userId: "user-456" }],
     });
+    mocks.membersFindFirstMock.mockResolvedValueOnce(null);
 
-    await expect(assertHouseholdWriteAccess("household-123")).rejects.toBe(
+    const givenHouseholdId = VALID_HOUSEHOLD_ID;
+
+    const whenAssertingWriteAccess =
+      assertHouseholdWriteAccess(givenHouseholdId);
+
+    await expect(whenAssertingWriteAccess).rejects.toBe(
       "NotAllowedToWriteHouseholdException",
     );
   });
@@ -211,20 +288,40 @@ describe("assertHouseholdWriteAccess", () => {
     mocks.getSessionMock.mockResolvedValueOnce({
       user: { id: "user-999" },
     });
-    mocks.getHouseholdMock.mockResolvedValueOnce({
+    mocks.householdFindFirstMock.mockResolvedValueOnce({
+      id: VALID_HOUSEHOLD_ID,
       ownerId: "user-123",
-      members: [],
     });
+    mocks.membersFindFirstMock.mockResolvedValueOnce(null);
 
-    await expect(assertHouseholdWriteAccess("household-123")).rejects.toBe(
+    const givenHouseholdId = VALID_HOUSEHOLD_ID;
+
+    const whenAssertingWriteAccess =
+      assertHouseholdWriteAccess(givenHouseholdId);
+
+    await expect(whenAssertingWriteAccess).rejects.toBe(
       "NotAllowedToWriteHouseholdException",
     );
+  });
+
+  it("throws HouseholdNotFound when household id is invalid", async () => {
+    mocks.getSessionMock.mockResolvedValueOnce({
+      user: { id: "user-123" },
+    });
+
+    const givenHouseholdId = "household-123";
+
+    const whenAssertingWriteAccess =
+      assertHouseholdWriteAccess(givenHouseholdId);
+
+    await expect(whenAssertingWriteAccess).rejects.toBe("HouseholdNotFound");
   });
 });
 
 describe("canAccessHouseholdSettings", () => {
   beforeEach(async () => {
     vi.resetModules();
+    vi.clearAllMocks();
     mocks.headersMock.mockResolvedValue({});
 
     ({ canAccessHouseholdSettings } = await import(
@@ -240,9 +337,9 @@ describe("canAccessHouseholdSettings", () => {
       ownerId: "user-123",
     });
 
-    const result = await canAccessHouseholdSettings("household-123");
+    const whenResult = await canAccessHouseholdSettings(VALID_HOUSEHOLD_ID);
 
-    expect(result).toBe(true);
+    expect(whenResult).toBe(true);
   });
 
   it("returns false when user is not the owner", async () => {
@@ -253,9 +350,9 @@ describe("canAccessHouseholdSettings", () => {
       ownerId: "user-123",
     });
 
-    const result = await canAccessHouseholdSettings("household-123");
+    const whenResult = await canAccessHouseholdSettings(VALID_HOUSEHOLD_ID);
 
-    expect(result).toBe(false);
+    expect(whenResult).toBe(false);
   });
 
   it("returns false when user is not authenticated", async () => {
@@ -264,9 +361,9 @@ describe("canAccessHouseholdSettings", () => {
       ownerId: "user-123",
     });
 
-    const result = await canAccessHouseholdSettings("household-123");
+    const whenResult = await canAccessHouseholdSettings(VALID_HOUSEHOLD_ID);
 
-    expect(result).toBe(false);
+    expect(whenResult).toBe(false);
   });
 
   it("returns false when household is not found", async () => {
@@ -275,8 +372,8 @@ describe("canAccessHouseholdSettings", () => {
     });
     mocks.getHouseholdMock.mockResolvedValueOnce(null);
 
-    const result = await canAccessHouseholdSettings("household-123");
+    const whenResult = await canAccessHouseholdSettings(VALID_HOUSEHOLD_ID);
 
-    expect(result).toBe(false);
+    expect(whenResult).toBe(false);
   });
 });
