@@ -1,7 +1,11 @@
 "use client";
-import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 import { useState } from "react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { TransactionForm } from "@/features/transactions/components/TransactionsForm";
 import type { Category, Member, Transaction } from "@/global/types";
 
