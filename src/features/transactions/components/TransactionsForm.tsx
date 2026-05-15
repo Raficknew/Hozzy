@@ -219,11 +219,7 @@ export function TransactionForm({
                 <FormItem>
                   <FormLabel>{ts("member")}</FormLabel>
                   <FormControl>
-                    <Select
-                      value={field.value}
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
+                    <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger className="w-full truncate">
                         <SelectValue placeholder={currentMember?.name} />
                       </SelectTrigger>
@@ -249,13 +245,15 @@ export function TransactionForm({
                 <FormItem>
                   <FormLabel>{ts("dateLabel")}</FormLabel>
                   <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button className="w-35" variant="datePicker">
-                          {format(field.value, "dd/MM/yyyy")}
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
+                    <PopoverTrigger
+                      render={
+                        <FormControl>
+                          <Button className="w-35" variant="outline">
+                            {format(field.value, "dd/MM/yyyy")}
+                          </Button>
+                        </FormControl>
+                      }
+                    />
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
                         mode="single"
@@ -289,11 +287,7 @@ export function TransactionForm({
             <FormItem>
               <FormLabel>{ts("category.label")}</FormLabel>
               <FormControl>
-                <Select
-                  value={field.value}
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+                <Select value={field.value} onValueChange={field.onChange}>
                   <SelectTrigger
                     className="w-full"
                     data-testid="transaction-category-select"
@@ -324,7 +318,7 @@ export function TransactionForm({
                 ? "transaction-edit-submit"
                 : "transaction-create-submit"
             }
-            variant="submit"
+            variant="default"
             type="submit"
             disabled={form.formState.isSubmitting || isPending}
           >

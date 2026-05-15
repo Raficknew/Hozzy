@@ -37,7 +37,7 @@ export function Member({
           <ActionButton
             action={() => deleteMember(member.id, householdId)}
             requireAreYouSure
-            variant="ghostDestructive"
+            variant="destructive"
           >
             <HugeiconsIcon
               className="cursor-pointer md:size-6 size-5"

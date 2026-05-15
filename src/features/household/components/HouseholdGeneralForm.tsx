@@ -120,10 +120,7 @@ export function HouseholdForm({
                 <FormItem className="w-full sm:w-38.75">
                   <FormLabel>{t("currency.label")}</FormLabel>
                   <FormControl>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
+                    <Select value={field.value} onValueChange={field.onChange}>
                       <SelectTrigger
                         className="w-full sm:w-38.75"
                         data-testid="household-currency"
@@ -179,7 +176,7 @@ export function HouseholdForm({
           </div>
         )}
         <Button
-          variant="submit"
+          variant="default"
           className={cn("mt-2", household ? "" : "w-full")}
           type="submit"
           data-testid="household-submit"

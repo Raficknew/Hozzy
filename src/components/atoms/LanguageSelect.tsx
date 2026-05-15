@@ -25,10 +25,12 @@ export function LanguageSelect({
   return (
     <div className={cn("flex items-center gap-2", className)}>
       <Select
-        defaultValue={currentLocale}
-        onValueChange={(value) =>
-          value !== currentLocale && changeLanguage(value)
-        }
+        value={currentLocale}
+        onValueChange={(value) => {
+          if (value && value !== currentLocale) {
+            changeLanguage(value);
+          }
+        }}
       >
         <SelectTrigger>
           <SelectValue placeholder={currentLocale} />

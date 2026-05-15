@@ -113,10 +113,7 @@ export function CategoryForm({
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
+                  <Select value={field.value} onValueChange={field.onChange}>
                     <SelectTrigger className="w-full bg-[#212122]">
                       <SelectValue placeholder="Wybierz nadkategorie" />
                     </SelectTrigger>
@@ -170,7 +167,8 @@ export function CategoryForm({
 
           <Button
             className="w-fit self-end"
-            variant="submit"
+            variant="default"
+            type="submit"
             disabled={form.formState.isSubmitting || isPending}
           >
             <LoadingSwap isLoading={form.formState.isSubmitting || isPending}>

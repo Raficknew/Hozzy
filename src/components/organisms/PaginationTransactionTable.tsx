@@ -71,7 +71,11 @@ export function PaginationTransactionTable({
           {pages > 1 && (
             <Select
               value={String(currentPage)}
-              onValueChange={(value: string) => handlePageChange(Number(value))}
+              onValueChange={(value) => {
+                if (value) {
+                  handlePageChange(Number(value));
+                }
+              }}
             >
               <SelectTrigger>
                 <SelectValue placeholder={String(currentPage)} />

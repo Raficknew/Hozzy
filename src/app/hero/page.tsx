@@ -77,7 +77,7 @@ export default function HeroPage() {
                 }}
               >
                 <Link
-                  className={cn(buttonVariants({ variant: "submit" }))}
+                  className={cn(buttonVariants({ variant: "default" }))}
                   href={`/sign-in`}
                 >
                   {t("join")}

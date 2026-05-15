@@ -52,7 +52,7 @@ export function HouseholdLinkGenerate({
         </button>
         <ActionButton
           data-testid="invite-link-regenerate"
-          variant="submit"
+          variant="default"
           className="size-9"
           toastTestId="invite-link-regenerate-success-toast"
           action={() => generateLinkForHousehold(householdId, link)}

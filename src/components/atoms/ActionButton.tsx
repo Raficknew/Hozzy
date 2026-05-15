@@ -47,9 +47,7 @@ export function ActionButton({
   if (requireAreYouSure) {
     return (
       <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <Button {...props} />
-        </AlertDialogTrigger>
+        <AlertDialogTrigger render={<Button {...props} />} />
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>{t("title")}</AlertDialogTitle>

@@ -34,7 +34,7 @@ export default async function HouseholdEditPage({
     <>
       <MobileTopHeader title={t("mobileTitle")}>
         <ActionButton
-          variant="ghostDestructive"
+          variant="destructive"
           action={deleteHousehold.bind(null, householdId)}
           requireAreYouSure
         >

@@ -22,7 +22,7 @@ export default function SignInPage() {
       <HozzyLogo link variant="withText" size={90} />
       <div className="flex flex-col gap-3 w-full p-5 max-w-112.5 text-center">
         <PageTitle title={t("title")} subtitle={t("subtitle")} />
-        <Button variant="submit" onClick={handleSignIn} className="px-3 py-2">
+        <Button variant="default" onClick={handleSignIn} className="px-3 py-2">
           <HugeiconsIcon strokeWidth={2} icon={GoogleIcon} />
           <p className="font-semibold">{t("google")}</p>
         </Button>

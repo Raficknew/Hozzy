@@ -45,7 +45,7 @@ export function CategoryList({
             className={cn(
               "cursor-pointer py-1 inline-block sm:w-full w-1/3",
               currentCategoryType === categoryType &&
-                "border-b-2 rounded-sm border-[#9B8DF8] text-[#9B8DF8]",
+                "border-b-2 rounded-sm border-primary text-primary",
             )}
             onClick={() => {
               if (currentCategoryType !== categoryType) {

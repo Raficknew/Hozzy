@@ -62,7 +62,7 @@ export function UserForm({ user }: { user: User }) {
         />
         <Button
           className="self-end w-full sm:w-fit"
-          variant="submit"
+          variant="default"
           type="submit"
           disabled={form.formState.isSubmitting || isPending}
         >

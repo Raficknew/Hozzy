@@ -76,7 +76,7 @@ async function TopBar({
           householdId={householdId}
         />
         <ActionButton
-          variant="ghostDestructive"
+          variant="destructive"
           action={deleteHousehold.bind(null, householdId)}
           requireAreYouSure
         >

@@ -79,7 +79,8 @@ export function MemberForm({
 
           <DialogFooter>
             <Button
-              variant="submit"
+              variant="default"
+              type="submit"
               disabled={form.formState.isSubmitting || isPending}
             >
               <LoadingSwap isLoading={form.formState.isSubmitting || isPending}>
