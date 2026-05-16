@@ -1,17 +1,8 @@
 "use client";
-import { PlusSignIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Spacer } from "@/components/atoms/Spacer";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { ResponsiveDialog } from "@/components/organisms/ResponsiveDialog";
 import {
   type CategoriesOfExpanse,
   categoriesOfExpanse,
@@ -95,29 +86,17 @@ function AddCategoryButton({
   const [isOpen, setIsOpen] = useState(false);
   const t = useTranslations("Settings.categories");
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger className="self-center cursor-pointer">
-        <div className="flex items-center gap-2 bg-primary sm:px-4 px-2.5 py-2.5 rounded-lg">
-          <HugeiconsIcon
-            strokeWidth={2}
-            width={15}
-            height={15}
-            icon={PlusSignIcon}
-          />
-          <p className="text-sm font-semibold">{t("add")}</p>
-        </div>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{t("add")}</DialogTitle>
-        </DialogHeader>
-        <DialogDescription className="hidden"></DialogDescription>
-        <CategoryForm
-          householdId={householdId}
-          onSuccess={() => setIsOpen(false)}
-          categoryType={category}
-        />
-      </DialogContent>
-    </Dialog>
+    <ResponsiveDialog
+      open={isOpen}
+      setIsOpen={setIsOpen}
+      triggerTitle={t("add")}
+      title={t("add")}
+    >
+      <CategoryForm
+        householdId={householdId}
+        onSuccess={() => setIsOpen(false)}
+        categoryType={category}
+      />
+    </ResponsiveDialog>
   );
 }

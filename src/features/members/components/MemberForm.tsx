@@ -60,7 +60,6 @@ export function MemberForm({
             <Field className="grow" data-invalid={fieldState.invalid}>
               <Input
                 id={field.name}
-                className="bg-[#161616]"
                 placeholder={t("placeholder")}
                 aria-invalid={fieldState.invalid}
                 {...field}

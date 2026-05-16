@@ -207,16 +207,18 @@ export function TransactionForm({
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel htmlFor={field.name}>{ts("member")}</FieldLabel>
-              <Select
-                value={members.find((m) => m.id === field.value)?.name}
-                onValueChange={field.onChange}
-              >
+              <Select value={field.value ?? ""} onValueChange={field.onChange}>
                 <SelectTrigger
                   id={field.name}
                   className="w-full truncate"
                   aria-invalid={fieldState.invalid}
                 >
-                  <SelectValue placeholder={currentMember?.name} />
+                  <SelectValue placeholder={currentMember?.name}>
+                    {(value) =>
+                      members.find((m) => m.id === value)?.name ??
+                      currentMember?.name
+                    }
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
                   {members.map((member) => (
@@ -285,14 +287,19 @@ export function TransactionForm({
         render={({ field, fieldState }) => (
           <Field data-invalid={fieldState.invalid}>
             <FieldLabel htmlFor={field.name}>{ts("category.label")}</FieldLabel>
-            <Select value={field.value} onValueChange={field.onChange}>
+            <Select value={field.value ?? ""} onValueChange={field.onChange}>
               <SelectTrigger
                 id={field.name}
                 className="w-full"
                 data-testid="transaction-category-select"
                 aria-invalid={fieldState.invalid}
               >
-                <SelectValue placeholder={ts("category.placeholder")} />
+                <SelectValue placeholder={ts("category.placeholder")}>
+                  {(value) =>
+                    currentCategories.find((c) => c.id === value)?.name ??
+                    ts("category.placeholder")
+                  }
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 {currentCategories.map((category) => (
