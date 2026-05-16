@@ -14,7 +14,7 @@ export function UserAvatar({
     <div className="cursor-pointer flex justify-center">
       <Avatar className={cn("size-8", className)}>
         <AvatarImage src={image ?? undefined} />
-        <AvatarFallback className="bg-accent">
+        <AvatarFallback>
           <HugeiconsIcon icon={User02FreeIcons} />
         </AvatarFallback>
       </Avatar>

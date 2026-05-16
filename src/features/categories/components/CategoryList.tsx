@@ -97,7 +97,7 @@ function AddCategoryButton({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger className="self-center cursor-pointer">
-        <div className="flex items-center gap-2 bg-accent sm:px-4 px-2.5 py-2.5 rounded-lg">
+        <div className="flex items-center gap-2 bg-primary sm:px-4 px-2.5 py-2.5 rounded-lg">
           <HugeiconsIcon
             strokeWidth={2}
             width={15}

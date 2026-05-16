@@ -59,18 +59,14 @@ describe("CategoryForm Integration Tests", () => {
   });
 
   it("submits created category values", async () => {
-    const { user, container } = render(
+    const { user } = render(
       <CategoryForm householdId="household-1" categoryType="fixed" />,
     );
 
     const givenNameInput = screen.getByPlaceholderText(/groceries/i);
     await user.type(givenNameInput, "New Category");
 
-    const givenIconButton = container.querySelector("button.rounded-lg");
-    expect(givenIconButton).not.toBeNull();
-    if (!givenIconButton) {
-      return;
-    }
+    const [givenIconButton] = screen.getAllByTestId("category-icon-option");
     await user.click(givenIconButton);
 
     const givenSubmitButton = screen.getByRole("button", { name: /add/i });

@@ -62,7 +62,7 @@ async function UserHouseholdList({
                 href={`/${household.id}`}
                 data-testid={`household-link-${household.name}`}
               >
-                <div className="flex gap-2 bg-accent rounded-lg px-3 py-2">
+                <div className="flex gap-2 bg-primary rounded-lg px-3 py-2">
                   <HugeiconsIcon strokeWidth={2} icon={Home12Icon} />
                   <p className="font-semibold">{household.name}</p>
                 </div>
@@ -82,7 +82,7 @@ async function UserHouseholdList({
         <div className="flex flex-col items-center gap-2">
           <p>{t("createHousehold")}</p>
           <Link href="/create" data-testid="create-household-btn">
-            <div className="bg-accent p-2 rounded-full">
+            <div className="bg-primary p-2 rounded-full">
               <HugeiconsIcon strokeWidth={2} icon={PlusSignIcon} />
             </div>
           </Link>

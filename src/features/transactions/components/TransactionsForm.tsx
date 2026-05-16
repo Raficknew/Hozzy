@@ -172,7 +172,7 @@ export function TransactionForm({
                           className={cn(
                             "bg-card hover:bg-[#747474] text-white/20 hover:text-foreground px-3",
                             field.value === t &&
-                              "bg-accent hover:bg-accent text-foreground",
+                              "bg-primary hover:bg-primary text-foreground",
                           )}
                           type="button"
                           onClick={() => {

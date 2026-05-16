@@ -99,7 +99,7 @@ function Route({
       data-testid={dataTestId}
       className={cn(
         "self-center p-1 sm:p-2",
-        isHovered && "sm:bg-accent rounded-full sm:shadow-xl",
+        isHovered && "sm:bg-primary rounded-full sm:shadow-xl",
       )}
     >
       <div className="sm:hidden flex">
