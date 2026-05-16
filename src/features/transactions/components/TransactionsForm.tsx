@@ -3,18 +3,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { useTranslations } from "next-intl";
 import { useState, useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { LoadingSwap } from "@/components/atoms/LoadingSwap";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import {
   Popover,
@@ -121,213 +114,218 @@ export function TransactionForm({
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full">
-        <div className="flex justify-center items-center gap-2 w-full sm:flex-nowrap sm:flex-row flex-col-reverse flex-wrap">
-          <div className="w-full">
-            <FormField
-              control={form.control}
-              name="price"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{ts("price")}</FormLabel>
-                  <FormControl>
-                    <Input
-                      data-testid="transaction-price"
-                      min={0}
-                      type="number"
-                      step="0.01"
-                      {...field}
-                      onFocus={(e) => {
-                        if (
-                          e.target.value === "0.00" ||
-                          e.target.value === "0"
-                        ) {
-                          e.target.value = "";
-                        }
-                      }}
-                      onBlur={(e) => {
-                        const value = e.target.value.replace(",", ".");
-                        e.target.value = Number(value).toFixed(2);
-                      }}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className="flex flex-col gap-2">
-            <FormField
-              control={form.control}
-              name="type"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="opacity-0">t</FormLabel>
-                  <FormControl>
-                    <div className="flex gap-2 justify-center">
-                      {transactionTypes.map((t) => (
-                        <Button
-                          key={t}
-                          className={cn(
-                            "bg-card hover:bg-[#747474] text-white/20 hover:text-foreground px-3",
-                            field.value === t &&
-                              "bg-primary hover:bg-primary text-foreground",
-                          )}
-                          type="button"
-                          onClick={() => {
-                            setTransactionType(t);
-                            field.onChange(t);
-                            form.resetField("categoryId");
-                          }}
-                        >
-                          {ts(`transactionTypes.${t}`)}
-                        </Button>
-                      ))}
-                    </div>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-        </div>
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full">
+      <div className="flex justify-center items-center gap-2 w-full sm:flex-nowrap sm:flex-row flex-col-reverse flex-wrap">
+        <Controller
+          control={form.control}
+          name="price"
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name}>{ts("price")}</FieldLabel>
+              <Input
+                id={field.name}
+                data-testid="transaction-price"
+                min={0}
+                type="number"
+                step="0.01"
+                aria-invalid={fieldState.invalid}
+                {...field}
+                onFocus={(e) => {
+                  if (e.target.value === "0.00" || e.target.value === "0") {
+                    e.target.value = "";
+                  }
+                }}
+                onBlur={(e) => {
+                  const value = e.target.value.replace(",", ".");
+                  e.target.value = Number(value).toFixed(2);
+                }}
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
 
-        <FormField
+        <div className="flex flex-col gap-2">
+          <Controller
+            control={form.control}
+            name="type"
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={field.name} className="opacity-0">
+                  t
+                </FieldLabel>
+                <div className="flex gap-2 justify-center">
+                  {transactionTypes.map((t) => (
+                    <Button
+                      key={t}
+                      className={cn(
+                        "bg-card hover:bg-[#747474] text-white/20 hover:text-foreground px-3",
+                        field.value === t &&
+                          "bg-primary hover:bg-primary text-foreground",
+                      )}
+                      type="button"
+                      onClick={() => {
+                        setTransactionType(t);
+                        field.onChange(t);
+                        form.resetField("categoryId");
+                      }}
+                    >
+                      {ts(`transactionTypes.${t}`)}
+                    </Button>
+                  ))}
+                </div>
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
+        </div>
+      </div>
+
+      <Controller
+        control={form.control}
+        name="name"
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor={field.name}>{ts("name.label")}</FieldLabel>
+            <Input
+              id={field.name}
+              placeholder={ts("name.placeholder")}
+              data-testid="transaction-name"
+              aria-invalid={fieldState.invalid}
+              {...field}
+            />
+            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+          </Field>
+        )}
+      />
+      <div className="flex gap-2">
+        <Controller
           control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{ts("name.label")}</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder={ts("name.placeholder")}
-                  data-testid="transaction-name"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          name="memberId"
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name}>{ts("member")}</FieldLabel>
+              <Select
+                value={members.find((m) => m.id === field.value)?.name}
+                onValueChange={field.onChange}
+              >
+                <SelectTrigger
+                  id={field.name}
+                  className="w-full truncate"
+                  aria-invalid={fieldState.invalid}
+                >
+                  <SelectValue placeholder={currentMember?.name} />
+                </SelectTrigger>
+                <SelectContent>
+                  {members.map((member) => (
+                    <SelectItem value={member.id} key={member.id}>
+                      {member.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
           )}
         />
-        <div className="flex gap-2">
-          <div className="w-full">
-            <FormField
-              control={form.control}
-              name="memberId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{ts("member")}</FormLabel>
-                  <FormControl>
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-full truncate">
-                        <SelectValue placeholder={currentMember?.name} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {members.map((member) => (
-                          <SelectItem value={member.id} key={member.id}>
-                            {member.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div>
-            <FormField
-              control={form.control}
-              name="date"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{ts("dateLabel")}</FormLabel>
-                  <Popover>
-                    <PopoverTrigger
-                      render={
-                        <FormControl>
-                          <Button className="w-35" variant="outline">
-                            {format(field.value, "dd/MM/yyyy")}
-                          </Button>
-                        </FormControl>
-                      }
-                    />
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={field.value}
-                        onSelect={(date) => {
-                          if (!date) {
-                            return;
-                          }
-                          const utcDate = new Date(
-                            Date.UTC(
-                              date.getFullYear(),
-                              date.getMonth(),
-                              date.getDate(),
-                            ),
-                          );
-                          field.onChange(utcDate);
-                        }}
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-        </div>
-        <FormField
-          control={form.control}
-          name="categoryId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{ts("category.label")}</FormLabel>
-              <FormControl>
-                <Select value={field.value} onValueChange={field.onChange}>
-                  <SelectTrigger
-                    className="w-full"
-                    data-testid="transaction-category-select"
-                  >
-                    <SelectValue placeholder={ts("category.placeholder")} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {currentCategories.map((category) => (
-                      <SelectItem
-                        value={category.id}
-                        key={category.id}
-                        data-testid="transaction-category-option"
+
+        <div>
+          <Controller
+            control={form.control}
+            name="date"
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor={field.name}>{ts("dateLabel")}</FieldLabel>
+                <Popover>
+                  <PopoverTrigger
+                    render={
+                      <Button
+                        id={field.name}
+                        className="w-35"
+                        variant="outline"
+                        aria-invalid={fieldState.invalid}
                       >
-                        {category.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <div className="flex justify-center pt-3.5">
-          <Button
-            data-testid={
-              transaction
-                ? "transaction-edit-submit"
-                : "transaction-create-submit"
-            }
-            variant="default"
-            type="submit"
-            disabled={form.formState.isSubmitting || isPending}
-          >
-            <LoadingSwap isLoading={form.formState.isSubmitting || isPending}>
-              {transaction ? ts("save") : ts("submit")}
-            </LoadingSwap>
-          </Button>
+                        {format(field.value, "dd/MM/yyyy")}
+                      </Button>
+                    }
+                  />
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={field.value}
+                      onSelect={(date) => {
+                        if (!date) {
+                          return;
+                        }
+                        const utcDate = new Date(
+                          Date.UTC(
+                            date.getFullYear(),
+                            date.getMonth(),
+                            date.getDate(),
+                          ),
+                        );
+                        field.onChange(utcDate);
+                      }}
+                    />
+                  </PopoverContent>
+                </Popover>
+                {fieldState.invalid && (
+                  <FieldError errors={[fieldState.error]} />
+                )}
+              </Field>
+            )}
+          />
         </div>
-      </form>
-    </Form>
+      </div>
+      <Controller
+        control={form.control}
+        name="categoryId"
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor={field.name}>{ts("category.label")}</FieldLabel>
+            <Select value={field.value} onValueChange={field.onChange}>
+              <SelectTrigger
+                id={field.name}
+                className="w-full"
+                data-testid="transaction-category-select"
+                aria-invalid={fieldState.invalid}
+              >
+                <SelectValue placeholder={ts("category.placeholder")} />
+              </SelectTrigger>
+              <SelectContent>
+                {currentCategories.map((category) => (
+                  <SelectItem
+                    value={category.id}
+                    key={category.id}
+                    data-testid="transaction-category-option"
+                  >
+                    {category.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+          </Field>
+        )}
+      />
+      <div className="flex justify-center pt-3.5">
+        <Button
+          data-testid={
+            transaction
+              ? "transaction-edit-submit"
+              : "transaction-create-submit"
+          }
+          variant="default"
+          type="submit"
+          disabled={form.formState.isSubmitting || isPending}
+        >
+          <LoadingSwap isLoading={form.formState.isSubmitting || isPending}>
+            {transaction ? ts("save") : ts("submit")}
+          </LoadingSwap>
+        </Button>
+      </div>
+    </form>
   );
 }
