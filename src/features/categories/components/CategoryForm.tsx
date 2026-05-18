@@ -102,12 +102,9 @@ export function CategoryForm({
         name="categoryType"
         render={({ field, fieldState }) => (
           <Field className="w-full" data-invalid={fieldState.invalid}>
-            <Select
-              value={t(`types.${field.value}`)}
-              onValueChange={field.onChange}
-            >
+            <Select value={field.value} onValueChange={field.onChange}>
               <SelectTrigger className="w-full bg-[#212122]">
-                <SelectValue />
+                <SelectValue>{t(`types.${field.value}`)}</SelectValue>
               </SelectTrigger>
               <SelectContent>
                 {categoriesOfExpanse.map((type) => (
@@ -127,8 +124,8 @@ export function CategoryForm({
         control={form.control}
         name="icon"
         render={({ field, fieldState }) => (
-          <Field className="w-full" data-invalid={fieldState.invalid}>
-            <ul className="grid sm:grid-cols-10 grid-cols-5 gap-3 decoration-0">
+          <Field className="flex w-full" data-invalid={fieldState.invalid}>
+            <ul className="grid sm:grid-cols-10 grid-cols-5 gap-3 decoration-0 max-w-full">
               {Object.keys(icons)
                 .filter((icon) => icon !== "default")
                 .map((icon) => (
@@ -142,6 +139,7 @@ export function CategoryForm({
                       form.setValue("icon", icon);
                     }}
                     className={cn(
+                      "w-full",
                       field.value === icon ? "bg-primary" : "bg-[#212122]",
                     )}
                   >

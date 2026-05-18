@@ -82,6 +82,7 @@ function SelectContent({
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Positioner
+        disableAnchorTracking
         side={side}
         sideOffset={sideOffset}
         align={align}

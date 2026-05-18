@@ -86,7 +86,7 @@ function NavigationBar({
       href={link}
       data-testid={testId}
       className={cn(
-        "flex items-center p-2 rounded-full",
+        "flex items-center p-2 rounded-full justify-between",
         isActive && "bg-primary",
       )}
     >

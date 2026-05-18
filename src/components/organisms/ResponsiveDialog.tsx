@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -10,9 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -38,7 +36,16 @@ export function ResponsiveDialog({
     return (
       <Dialog open={open} onOpenChange={setIsOpen}>
         <DialogTrigger
-          render={<Button variant="outline">{triggerTitle}</Button>}
+          render={
+            <Button
+              type="button"
+              variant="default"
+              size="lg"
+              className="self-center"
+            >
+              {triggerTitle}
+            </Button>
+          }
         />
         <DialogContent className="sm:max-w-106.25">
           <DialogHeader>
@@ -52,19 +59,14 @@ export function ResponsiveDialog({
 
   return (
     <Drawer open={open} onOpenChange={setIsOpen}>
-      <DrawerTrigger asChild>
-        <Button variant="outline">{triggerTitle}</Button>
+      <DrawerTrigger className={buttonVariants({ variant: "default" })}>
+        {triggerTitle}
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader className="text-left">
           <DrawerTitle>{title}</DrawerTitle>
         </DrawerHeader>
         {children}
-        <DrawerFooter className="pt-2">
-          <DrawerClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DrawerClose>
-        </DrawerFooter>
       </DrawerContent>
     </Drawer>
   );
