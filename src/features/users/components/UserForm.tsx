@@ -47,7 +47,6 @@ export function UserForm({ user }: { user: User }) {
             <FieldLabel htmlFor={field.name}>{t("label")}</FieldLabel>
             <Input
               id={field.name}
-              className="bg-[#161616]"
               aria-invalid={fieldState.invalid}
               {...field}
             />

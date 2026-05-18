@@ -40,7 +40,7 @@ export function TransactionDialog({
       }
       mobileButtonVariant="outline"
       hideTriggerTitleOnMobile
-      mobileTriggerClassName="h-full w-[90px]"
+      mobileTriggerClassName={transaction ? "" : "h-full w-[90px]"}
     >
       <TransactionForm
         householdId={householdId}

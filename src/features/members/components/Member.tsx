@@ -18,7 +18,7 @@ export function Member({
   ownerId: string;
 }) {
   return (
-    <div className="flex md:flex-col md:justify-center justify-between items-center sm:bg-[#161616] bg-sidebar md:px-5 md:py-4 pl-3 py-2 rounded-xl gap-4 drop-shadow-lg">
+    <div className="flex md:flex-col md:justify-center justify-between items-center sm:bg-secondary bg-sidebar md:px-5 md:py-4 pl-3 py-2 rounded-xl gap-4 drop-shadow-lg">
       <div className="flex md:flex-col items-center gap-3">
         <UserAvatar image={member.user?.image} className="md:size-16" />
         <p className="max-w-25 truncate">{member.name}</p>

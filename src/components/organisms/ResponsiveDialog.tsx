@@ -22,7 +22,7 @@ import { cn } from "@/lib/utils";
 export function ResponsiveDialog({
   icon,
   buttonVariant = "default",
-  mobileButtonVariant = "default",
+  mobileButtonVariant,
   hideTriggerTitleOnMobile = false,
   triggerTestId,
   mobileTriggerClassName,
@@ -47,6 +47,7 @@ export function ResponsiveDialog({
   setIsOpen: (open: boolean) => void;
 }) {
   const isDesktop = useMediaQuery("(min-width: 768px)");
+  const resolvedMobileButtonVariant = mobileButtonVariant ?? buttonVariant;
 
   if (isDesktop) {
     return (
@@ -79,7 +80,7 @@ export function ResponsiveDialog({
     <Drawer open={open} onOpenChange={setIsOpen}>
       <DrawerTrigger
         className={cn(
-          buttonVariants({ variant: mobileButtonVariant, size: "lg" }),
+          buttonVariants({ variant: resolvedMobileButtonVariant, size: "lg" }),
           "gap-1",
           mobileTriggerClassName,
         )}

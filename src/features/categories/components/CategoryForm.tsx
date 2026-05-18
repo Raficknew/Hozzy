@@ -88,11 +88,7 @@ export function CategoryForm({
         name="name"
         render={({ field, fieldState }) => (
           <Field className="grow" data-invalid={fieldState.invalid}>
-            <Input
-              className="bg-[#212122]"
-              placeholder={t("placeholders.name")}
-              {...field}
-            />
+            <Input placeholder={t("placeholders.name")} {...field} />
             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
           </Field>
         )}
@@ -103,7 +99,7 @@ export function CategoryForm({
         render={({ field, fieldState }) => (
           <Field className="w-full" data-invalid={fieldState.invalid}>
             <Select value={field.value} onValueChange={field.onChange}>
-              <SelectTrigger className="w-full bg-[#212122]">
+              <SelectTrigger className="w-full">
                 <SelectValue>{t(`types.${field.value}`)}</SelectValue>
               </SelectTrigger>
               <SelectContent>
@@ -140,7 +136,7 @@ export function CategoryForm({
                     }}
                     className={cn(
                       "w-full",
-                      field.value === icon ? "bg-primary" : "bg-[#212122]",
+                      field.value === icon ? "bg-primary" : "bg-secondary",
                     )}
                   >
                     <CategoryIcon categoryIconName={icon as CategoryIconKeys} />
