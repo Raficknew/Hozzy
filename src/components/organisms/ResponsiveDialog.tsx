@@ -1,5 +1,6 @@
 "use client";
 
+import { HugeiconsIcon, type IconSvgElement } from "@hugeicons/react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Dialog,
@@ -16,15 +17,30 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { useMediaQuery } from "@/lib/use-media-query";
+import { cn } from "@/lib/utils";
 
 export function ResponsiveDialog({
+  icon,
+  buttonVariant = "default",
+  mobileButtonVariant = "default",
+  hideTriggerTitleOnMobile = false,
+  triggerTestId,
+  mobileTriggerClassName,
+  testId,
   triggerTitle,
   title,
   children,
   open,
   setIsOpen,
 }: {
-  triggerTitle: string;
+  icon: IconSvgElement;
+  testId: string;
+  buttonVariant?: "default" | "outline";
+  mobileButtonVariant?: "default" | "outline";
+  hideTriggerTitleOnMobile?: boolean;
+  triggerTestId?: string;
+  mobileTriggerClassName?: string;
+  triggerTitle?: string;
   title: string;
   children: React.ReactNode;
   open: boolean;
@@ -39,15 +55,17 @@ export function ResponsiveDialog({
           render={
             <Button
               type="button"
-              variant="default"
+              variant={buttonVariant}
               size="lg"
-              className="self-center"
+              className="self-center gap-2"
+              data-testid={triggerTestId}
             >
+              <HugeiconsIcon size={20} icon={icon} />
               {triggerTitle}
             </Button>
           }
         />
-        <DialogContent className="sm:max-w-106.25">
+        <DialogContent className="sm:max-w-106.25" data-testid={testId}>
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
           </DialogHeader>
@@ -59,10 +77,18 @@ export function ResponsiveDialog({
 
   return (
     <Drawer open={open} onOpenChange={setIsOpen}>
-      <DrawerTrigger className={buttonVariants({ variant: "default" })}>
-        {triggerTitle}
+      <DrawerTrigger
+        className={cn(
+          buttonVariants({ variant: mobileButtonVariant, size: "lg" }),
+          "gap-1",
+          mobileTriggerClassName,
+        )}
+        data-testid={triggerTestId}
+      >
+        <HugeiconsIcon size={20} icon={icon} />
+        {!hideTriggerTitleOnMobile && triggerTitle}
       </DrawerTrigger>
-      <DrawerContent>
+      <DrawerContent data-testid={testId}>
         <DrawerHeader className="text-left">
           <DrawerTitle>{title}</DrawerTitle>
         </DrawerHeader>

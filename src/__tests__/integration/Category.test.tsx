@@ -11,12 +11,15 @@ describe("Category Integration Tests", () => {
       categoryType: "fixed" as const,
     };
 
-    const { container } = render(
-      <Category category={givenCategory} householdId="household-1" />,
-    );
+    render(<Category category={givenCategory} householdId="household-1" />);
 
     const thenCategoryName = screen.getByText("Groceries");
     expect(thenCategoryName).toBeInTheDocument();
-    expect(container.querySelector("button")).not.toBeNull();
+    expect(
+      screen.getByTestId("category-edit-btn-category-1"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByTestId("category-delete-btn-category-1"),
+    ).toBeInTheDocument();
   });
 });

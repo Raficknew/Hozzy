@@ -1,6 +1,6 @@
 "use client";
 import { useTranslations } from "next-intl";
-import { type ReactNode, useState } from "react";
+import { cloneElement, isValidElement, type ReactNode, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -8,32 +8,38 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { MemberForm } from "@/features/members/components/MemberForm";
+import type { Member } from "@/global/types";
 
-export function MemberEditDialog({
+export function MemberDialog({
   children,
   member,
   householdId,
+  triggerTestId,
 }: {
   children: ReactNode;
-  member: {
-    id: string;
-    name: string;
-    user: {
-      id: string;
-      image: string | null;
-    } | null;
-  };
+  member?: Member;
   householdId: string;
+  triggerTestId?: string;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const t = useTranslations("Settings.household.members");
+  const trigger =
+    triggerTestId && isValidElement(children)
+      ? cloneElement(children, { "data-testid": triggerTestId })
+      : children;
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      {children}
+      {trigger}
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {t("edit")} {member.name}
+            {member ? (
+              <p>
+                {t("edit")} {member.name}
+              </p>
+            ) : (
+              t("add")
+            )}
           </DialogTitle>
         </DialogHeader>
         <MemberForm

@@ -79,6 +79,7 @@ async function TopBar({
           variant="destructive"
           action={deleteHousehold.bind(null, householdId)}
           requireAreYouSure
+          size="lg"
         >
           <HugeiconsIcon
             strokeWidth={2}

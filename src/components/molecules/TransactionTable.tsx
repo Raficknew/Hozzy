@@ -1,11 +1,10 @@
 "use client";
-import { Cancel01Icon, PencilEdit02Icon } from "@hugeicons/core-free-icons";
+import { Cancel01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useTranslations } from "next-intl";
 import { ActionButton } from "@/components/atoms/ActionButton";
 import { Price } from "@/components/atoms/Price";
 import { UserAvatar } from "@/components/atoms/UserAvatar";
-import { DialogTrigger } from "@/components/ui/dialog";
 import {
   Table,
   TableBody,
@@ -61,20 +60,14 @@ export function TransactionTable({
                 defaultTransactionType={transaction.type}
                 members={members}
                 categories={categories}
-              >
-                <DialogTrigger data-testid="transaction-edit-btn">
-                  <HugeiconsIcon
-                    className="cursor-pointer"
-                    icon={PencilEdit02Icon}
-                  />
-                </DialogTrigger>
-              </TransactionDialog>
+              />
               <ActionButton
                 data-testid="transaction-delete-btn"
                 toastTestId="transaction-delete-success-toast"
                 action={() => deleteTransaction(transaction.id, householdId)}
                 requireAreYouSure
                 variant="destructive"
+                size="lg"
               >
                 <HugeiconsIcon icon={Cancel01Icon} />
               </ActionButton>

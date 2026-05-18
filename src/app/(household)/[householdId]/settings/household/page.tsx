@@ -11,7 +11,7 @@ import { deleteHousehold } from "@/features/household/actions/household";
 import { HouseholdForm } from "@/features/household/components/HouseholdGeneralForm";
 import { assertHouseholdWriteAccess } from "@/features/household/permissions/household";
 import { Member } from "@/features/members/components/Member";
-import { MemberAddDialog } from "@/features/members/components/MemberAddDialog";
+import { MemberDialog } from "@/features/members/components/MemberDialog";
 import { MemberForm } from "@/features/members/components/MemberForm";
 import { getCurrencies, getHousehold, getMembers } from "@/global/actions";
 import { MAX_MEMBERS_PER_HOUSEHOLD } from "@/global/limits";
@@ -83,14 +83,17 @@ export default async function HouseholdEditPage({
               />
             ))}
             {members.length < MAX_MEMBERS_PER_HOUSEHOLD && (
-              <MemberAddDialog householdId={householdId}>
+              <MemberDialog
+                householdId={householdId}
+                triggerTestId="member-add-btn"
+              >
                 <DialogTrigger className="md:flex flex-col items-center justify-center h-[184px] hidden rounded-lg ring ring-accent cursor-pointer">
                   <HugeiconsIcon
                     className="size-12 text-accent"
                     icon={PlusSignCircleIcon}
                   />
                 </DialogTrigger>
-              </MemberAddDialog>
+              </MemberDialog>
             )}
           </div>
         </div>

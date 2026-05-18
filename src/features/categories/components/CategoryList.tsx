@@ -1,4 +1,5 @@
 "use client";
+import { Plus } from "@hugeicons/core-free-icons";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Spacer } from "@/components/atoms/Spacer";
@@ -38,6 +39,7 @@ export function CategoryList({
               currentCategoryType === categoryType &&
                 "border-b-2 rounded-sm border-primary text-primary",
             )}
+            data-testid={`category-tab-${categoryType}`}
             onClick={() => {
               if (currentCategoryType !== categoryType) {
                 setCurrentCategoryType(categoryType);
@@ -91,6 +93,9 @@ function AddCategoryButton({
       setIsOpen={setIsOpen}
       triggerTitle={t("add")}
       title={t("add")}
+      icon={Plus}
+      testId="category-add-button"
+      triggerTestId="category-add-btn"
     >
       <CategoryForm
         householdId={householdId}

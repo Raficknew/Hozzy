@@ -96,7 +96,7 @@ export function DatePicker() {
                 type="button"
                 key={callendarYear}
                 className={cn(
-                  "cursor-pointer px-2 py-1 text-sm rounded-full hover:bg-white/50",
+                  "cursor-pointer px-2 py-1 text-sm rounded-full hover:bg-secondary/50",
                 )}
                 onClick={() => handleYearChange(callendarYear)}
               >

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { render, screen } from "@/__tests__/test-utils";
 import { DialogTrigger } from "@/components/ui/dialog";
-import { MemberEditDialog } from "@/features/members/components/MemberEditDialog";
+import { MemberDialog } from "@/features/members/components/MemberDialog";
 
 describe("MemberEditDialog Integration Tests", () => {
   it("opens dialog and renders member edit title", async () => {
@@ -15,12 +15,16 @@ describe("MemberEditDialog Integration Tests", () => {
     };
 
     const { user } = render(
-      <MemberEditDialog householdId="household-1" member={givenMember}>
+      <MemberDialog
+        householdId="household-1"
+        member={givenMember}
+        triggerTestId="member-edit-btn-member-1"
+      >
         <DialogTrigger>Edit member</DialogTrigger>
-      </MemberEditDialog>,
+      </MemberDialog>,
     );
 
-    const givenTrigger = screen.getByRole("button", { name: /edit member/i });
+    const givenTrigger = screen.getByTestId("member-edit-btn-member-1");
     await user.click(givenTrigger);
 
     const thenDialogTitle = await screen.findByText(/edit john/i);

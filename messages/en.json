@@ -90,6 +90,10 @@
     "submit": "Add",
     "save": "Save"
   },
+  "TransactionDialog": {
+    "add": "Add Transaction",
+    "edit": "Edit Transaction"
+  },
   "DefaultCategories": {
     "rent": "Rent",
     "loan": "Loan",

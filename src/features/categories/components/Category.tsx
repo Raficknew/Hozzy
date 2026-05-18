@@ -1,10 +1,9 @@
 "use client";
-import { Cancel01Icon, PencilEdit02Icon } from "@hugeicons/core-free-icons";
+import { Cancel01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ActionButton } from "@/components/atoms/ActionButton";
-import { DialogTrigger } from "@/components/ui/dialog";
 import { deleteCategory } from "@/features/categories/actions/category";
-import { CategoryEditDialog } from "@/features/categories/components/CategoryEditDialog";
+import { CategoryDialog } from "@/features/categories/components/CategoryDialog";
 import {
   CategoryIcon,
   type CategoryIconKeys,
@@ -24,17 +23,19 @@ export function Category({
         <CategoryIcon categoryIconName={category.icon as CategoryIconKeys} />
         <p>{category.name}</p>
       </div>
-      <div className="flex items-center gap-6">
-        <CategoryEditDialog householdId={householdId} category={category}>
-          <DialogTrigger className="cursor-pointer">
-            <HugeiconsIcon size={20} icon={PencilEdit02Icon} />
-          </DialogTrigger>
-        </CategoryEditDialog>
+      <div className="flex items-center gap-2">
+        <CategoryDialog
+          householdId={householdId}
+          category={category}
+          triggerTestId={`category-edit-btn-${category.id}`}
+        />
 
         <ActionButton
           action={() => deleteCategory(category.id, householdId)}
           requireAreYouSure
           variant="destructive"
+          size="lg"
+          data-testid={`category-delete-btn-${category.id}`}
         >
           <HugeiconsIcon size={20} icon={Cancel01Icon} />
         </ActionButton>
