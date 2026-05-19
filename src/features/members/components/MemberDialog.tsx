@@ -1,6 +1,12 @@
 "use client";
 import { useTranslations } from "next-intl";
-import { cloneElement, isValidElement, type ReactNode, useState } from "react";
+import {
+  cloneElement,
+  isValidElement,
+  type ReactElement,
+  type ReactNode,
+  useState,
+} from "react";
 import {
   Dialog,
   DialogContent,
@@ -24,7 +30,7 @@ export function MemberDialog({
   const [isOpen, setIsOpen] = useState(false);
   const t = useTranslations("Settings.household.members");
   const trigger =
-    triggerTestId && isValidElement(children)
+    triggerTestId && isValidElement<{ "data-testid"?: string }>(children)
       ? cloneElement(children, { "data-testid": triggerTestId })
       : children;
   return (
