@@ -33,7 +33,9 @@ export function LanguageSelect({
         }}
       >
         <SelectTrigger>
-          <SelectValue placeholder={currentLocale} />
+          <SelectValue placeholder={currentLocale}>
+            {currentLocale.toUpperCase()}
+          </SelectValue>
         </SelectTrigger>
         <SelectContent>
           {languages.map((lang) => (
