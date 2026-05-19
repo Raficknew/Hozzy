@@ -73,7 +73,7 @@ export function ExpenseProgressBar({
         categoriesCounted={categoriesCounted}
         balance={totalInTransactions}
       />
-      <div className="flex flex-col gap-2 w-full bg-[#161616] rounded-lg py-2 px-4">
+      <div className="flex flex-col gap-2 w-full bg-secondary rounded-lg py-2 px-4">
         <div className="flex justify-between">
           <div className="flex gap-1">
             <p
@@ -125,9 +125,9 @@ export function ExpenseProgressBar({
           <p
             className={cn(
               "text-lg font-semibold",
-              currentCategoryType === "fixed" && "text-[#7047EB]",
-              currentCategoryType === "fun" && "text-[#9B8DF8]",
-              currentCategoryType === "future_you" && "text-[#BDB6FC]",
+              currentCategoryType === "fixed" && "text-primary",
+              currentCategoryType === "fun" && "text-chart-4",
+              currentCategoryType === "future_you" && "text-chart-1",
             )}
           >
             {t(`${currentCategoryType}`)}
@@ -160,7 +160,7 @@ function ProgressBar({
     <div className="flex h-6 grow bg-neutral-600 rounded-sm">
       <div
         className={cn(
-          "bg-[#7047EB] z-10 rounded-l-sm",
+          "bg-primary z-10 rounded-l-sm",
           fixedPercent === 100 && "rounded-sm",
         )}
         style={{
@@ -169,7 +169,7 @@ function ProgressBar({
       ></div>
       <div
         className={cn(
-          " bg-[#9B8DF8] z-10",
+          " bg-chart-4 z-10",
           fixedPercent === 0 && "rounded-l-sm",
           funPercent === 100 && "rounded-sm",
         )}
@@ -179,7 +179,7 @@ function ProgressBar({
       ></div>
       <div
         className={cn(
-          " bg-[#BDB6FC] z-10 rounded-r-sm",
+          " bg-chart-1 z-10 rounded-r-sm",
           fixedPercent === 0 && funPercent === 0 && "rounded-l-sm",
           futureYouPercent === 100 && "rounded-sm",
         )}

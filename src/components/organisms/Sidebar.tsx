@@ -58,7 +58,7 @@ export function Sidebar() {
                 dataTestId={route.dataTestId}
               />
               {routes.indexOf(route) < 1 && (
-                <div className="w-px sm:w-0 bg-[#616062]"></div>
+                <div className="w-px sm:w-0 bg-sidebar-ring"></div>
               )}
             </div>
           ))}
@@ -99,14 +99,14 @@ function Route({
       data-testid={dataTestId}
       className={cn(
         "self-center p-1 sm:p-2",
-        isHovered && "sm:bg-accent rounded-full sm:shadow-xl",
+        isHovered && "sm:bg-primary rounded-full sm:shadow-xl",
       )}
     >
       <div className="sm:hidden flex">
         <HugeiconsIcon
           strokeWidth={2}
           width={22}
-          color={cn(isHovered && "#7047EB")}
+          color={cn(isHovered && "#8200db")}
           height={22}
           icon={icon}
         />

@@ -1,9 +1,6 @@
-import { PlusSignIcon } from "@hugeicons/core-free-icons";
-import { HugeiconsIcon } from "@hugeicons/react";
 import { getTranslations } from "next-intl/server";
 import { Price } from "@/components/atoms/Price";
 import { TransactionBarChart } from "@/components/molecules/TransactionBarChart";
-import { DialogTrigger } from "@/components/ui/dialog";
 import { TransactionDialog } from "@/features/transactions/components/TransactionDialog";
 import { getCategories, getMembers } from "@/global/actions";
 import type { CategoryWithTransactions } from "@/global/types";
@@ -51,26 +48,15 @@ export async function FinancialSummaryChart({
           members={members}
         />
       </div>
-      <div className="flex items-start w-full justify-end z-10">
+      <div className="z-10">
         <TransactionDialog
           householdId={householdId}
           defaultTransactionType={defaultTransactionType}
           members={members}
           categories={categoriesForTransactions}
-        >
-          <DialogTrigger
-            data-testid={`add-transaction-btn-${defaultTransactionType}`}
-            className="md:bg-[#7047EB] bg-[#0F0F0F] md:rounded-full rounded-r-xs px-5 py-2 text-xs flex items-center gap-1 cursor-pointer md:h-max h-full"
-          >
-            <HugeiconsIcon
-              className="md:size-5 size-10"
-              icon={PlusSignIcon}
-              strokeWidth={2}
-            />
-            <p className="md:block hidden">{t("add")}</p>
-          </DialogTrigger>
-        </TransactionDialog>
+        />
       </div>
+
       <div
         className="absolute inset-0 z-1 w-full h-full"
         style={{

@@ -4,17 +4,10 @@ import type { User } from "better-auth";
 import { notFound } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useTransition } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { LoadingSwap } from "@/components/atoms/LoadingSwap";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { updateUser } from "@/features/users/actions/users";
 import { type UsersSchema, usersSchema } from "@/features/users/schema/users";
@@ -42,35 +35,35 @@ export function UserForm({ user }: { user: User }) {
   }
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-4 w-full flex flex-col"
+    <form
+      onSubmit={form.handleSubmit(onSubmit)}
+      className="space-y-4 w-full flex flex-col"
+    >
+      <Controller
+        control={form.control}
+        name="name"
+        render={({ field, fieldState }) => (
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor={field.name}>{t("label")}</FieldLabel>
+            <Input
+              id={field.name}
+              aria-invalid={fieldState.invalid}
+              {...field}
+            />
+            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+          </Field>
+        )}
+      />
+      <Button
+        className="self-end w-full sm:w-fit"
+        variant="default"
+        type="submit"
+        disabled={form.formState.isSubmitting || isPending}
       >
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{t("label")}</FormLabel>
-              <FormControl>
-                <Input className="bg-[#161616]" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button
-          className="self-end w-full sm:w-fit"
-          variant="submit"
-          type="submit"
-          disabled={form.formState.isSubmitting || isPending}
-        >
-          <LoadingSwap isLoading={form.formState.isSubmitting || isPending}>
-            {t("save")}
-          </LoadingSwap>
-        </Button>
-      </form>
-    </Form>
+        <LoadingSwap isLoading={form.formState.isSubmitting || isPending}>
+          {t("save")}
+        </LoadingSwap>
+      </Button>
+    </form>
   );
 }

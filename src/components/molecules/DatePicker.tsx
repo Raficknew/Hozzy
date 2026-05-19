@@ -27,7 +27,7 @@ export function DatePicker() {
   const router = useRouter();
 
   const currentYear = new Date().getFullYear();
-  const startYear = 2024;
+  const startYear = 2025;
   const years = Array.from(
     { length: currentYear - startYear + 1 },
     (_, i) => startYear + i,
@@ -96,7 +96,7 @@ export function DatePicker() {
                 type="button"
                 key={callendarYear}
                 className={cn(
-                  "cursor-pointer px-2 py-1 text-sm rounded-full hover:bg-white/50",
+                  "cursor-pointer px-2 py-1 text-sm rounded-full hover:bg-secondary/50",
                 )}
                 onClick={() => handleYearChange(callendarYear)}
               >

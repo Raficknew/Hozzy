@@ -1,12 +1,23 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Figtree, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
 import { Toaster } from "sonner";
+import { cn } from "@/lib/utils";
+
+const figtree = Figtree({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
@@ -23,8 +34,18 @@ export default async function RootLayout({
   const locale = await getLocale();
   return (
     <NextIntlClientProvider>
-      <html lang={locale}>
-        <body className={`${geistSans.variable} antialiased bg-background`}>
+      <html
+        lang={locale}
+        className={cn(
+          "dark",
+          "h-full",
+          figtree.variable,
+          geistSans.variable,
+          geistMono.variable,
+        )}
+        style={{ colorScheme: "dark" }}
+      >
+        <body className="antialiased bg-background text-foreground font-sans">
           {children}
           <Toaster
             theme="dark"

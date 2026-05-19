@@ -56,7 +56,7 @@ export default async function HouseholdAccountSettings({
         </div>
         <div className="flex flex-col gap-2 sm:hidden">
           <SectionHeader title={t("contain")} />
-          <div className="bg-[#212122] p-2.5 rounded-lg">
+          <div className="bg-secondary p-2.5 rounded-lg">
             <SettingsNavigationBar
               canAccessHouseholdSettings={
                 await canAccessHouseholdSettings(householdId)
@@ -67,7 +67,7 @@ export default async function HouseholdAccountSettings({
         </div>
         <div className="flex flex-col gap-2">
           <SectionHeader title={t("preferences")} />
-          <div className="flex justify-between items-center w-full md:bg-transparent bg-[#212122] px-2 py-1 rounded-lg">
+          <div className="flex justify-between items-center w-full md:bg-transparent bg-secondary px-2 py-1 rounded-lg">
             <div className="flex items-center gap-2 h-full">
               <HugeiconsIcon size={20} icon={GlobalIcon} />
               <p>{t("language")}</p>

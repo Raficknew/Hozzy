@@ -26,7 +26,7 @@ describe("CategoryList Integration Tests", () => {
     const thenFixedCategory = screen.getByText("Rent");
     expect(thenFixedCategory).toBeInTheDocument();
 
-    const givenFunTab = screen.getByRole("button", { name: /fun/i });
+    const givenFunTab = screen.getByTestId("category-tab-fun");
     await user.click(givenFunTab);
 
     const thenFunCategory = await screen.findByText("Movies");

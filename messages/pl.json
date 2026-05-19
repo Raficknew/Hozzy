@@ -90,6 +90,10 @@
     "submit": "Dodaj",
     "save": "Zapisz"
   },
+  "TransactionDialog": {
+    "add": "Dodaj transakcję",
+    "edit": "Edytuj transakcję"
+  },
   "DefaultCategories": {
     "rent": "Czynsz",
     "loan": "Kredyt",
