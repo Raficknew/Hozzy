@@ -10,8 +10,11 @@ export default async function HouseholdCategorySettingsPage({
   params: Promise<{ householdId: string }>;
 }) {
   const { householdId } = await params;
-  const categories = await getCategories(householdId);
-  const t = await getTranslations("Settings.categories");
+
+  const [categories, t] = await Promise.all([
+    getCategories(householdId),
+    getTranslations("Settings.categories"),
+  ]);
 
   return (
     <>

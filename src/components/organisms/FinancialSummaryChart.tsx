@@ -1,4 +1,3 @@
-import { getTranslations } from "next-intl/server";
 import { Price } from "@/components/atoms/Price";
 import { TransactionBarChart } from "@/components/molecules/TransactionBarChart";
 import { TransactionDialog } from "@/features/transactions/components/TransactionDialog";
@@ -23,9 +22,10 @@ export async function FinancialSummaryChart({
   gradient: string;
   currency: string;
 }) {
-  const members = await getMembers(householdId);
-  const t = await getTranslations("Dashboard.charts");
-  const categoriesForTransactions = await getCategories(householdId);
+  const [members, categoriesForTransactions] = await Promise.all([
+    getMembers(householdId),
+    getCategories(householdId),
+  ]);
   return (
     <div className="flex relative bg-card rounded-lg md:p-4 gap-10 justify-between 2xl:w-1/2 w-full md:h-[300px] h-[150px]">
       <div className="w-full z-10 ml-4 mt-4 md:m-0">

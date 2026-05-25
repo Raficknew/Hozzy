@@ -122,26 +122,35 @@ export function CategoryForm({
         render={({ field, fieldState }) => (
           <Field className="flex w-full" data-invalid={fieldState.invalid}>
             <ul className="grid sm:grid-cols-10 grid-cols-5 gap-3 decoration-0 max-w-full">
-              {Object.keys(icons)
-                .filter((icon) => icon !== "default")
-                .map((icon) => (
-                  <Button
-                    type="button"
-                    variant="default"
-                    size="icon-lg"
-                    key={icon}
-                    data-testid="category-icon-option"
-                    onClick={() => {
-                      form.setValue("icon", icon);
-                    }}
-                    className={cn(
-                      "w-full",
-                      field.value === icon ? "bg-primary" : "bg-secondary",
-                    )}
-                  >
-                    <CategoryIcon categoryIconName={icon as CategoryIconKeys} />
-                  </Button>
-                ))}
+              {(() => {
+                const iconOptions = [];
+                for (const icon of Object.keys(icons)) {
+                  if (icon === "default") continue;
+
+                  iconOptions.push(
+                    <Button
+                      type="button"
+                      variant="default"
+                      size="icon-lg"
+                      key={icon}
+                      data-testid="category-icon-option"
+                      onClick={() => {
+                        form.setValue("icon", icon);
+                      }}
+                      className={cn(
+                        "w-full",
+                        field.value === icon ? "bg-primary" : "bg-secondary",
+                      )}
+                    >
+                      <CategoryIcon
+                        categoryIconName={icon as CategoryIconKeys}
+                      />
+                    </Button>,
+                  );
+                }
+
+                return iconOptions;
+              })()}
             </ul>
 
             {fieldState.invalid && <FieldError errors={[fieldState.error]} />}

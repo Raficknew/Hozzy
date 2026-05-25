@@ -21,13 +21,19 @@ export default async function HouseholdAccountSettings({
 }: {
   params: Promise<{ householdId: string }>;
 }) {
-  const locale = await getLocale();
+  const [locale, requestHeaders, { householdId }] = await Promise.all([
+    getLocale(),
+    headers(),
+    params,
+  ]);
   const session = await auth.api.getSession({
-    headers: await headers(),
+    headers: requestHeaders,
   });
-  const { householdId } = await params;
-  const household = await getHousehold(householdId);
-  const t = await getTranslations("Settings.account");
+  const [household, t, canAccessHousehold] = await Promise.all([
+    getHousehold(householdId),
+    getTranslations("Settings.account"),
+    canAccessHouseholdSettings(householdId),
+  ]);
 
   if (!household || !session) notFound();
 
@@ -58,9 +64,7 @@ export default async function HouseholdAccountSettings({
           <SectionHeader title={t("contain")} />
           <div className="bg-secondary p-2.5 rounded-lg">
             <SettingsNavigationBar
-              canAccessHouseholdSettings={
-                await canAccessHouseholdSettings(householdId)
-              }
+              canAccessHouseholdSettings={canAccessHousehold}
               householdId={householdId}
             />
           </div>

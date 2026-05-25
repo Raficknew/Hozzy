@@ -2,7 +2,7 @@
 import { ScratchCardIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { TransactionTable } from "@/components/molecules/TransactionTable";
 import {
   Select,
@@ -27,35 +27,18 @@ export function PaginationTransactionTable({
   categories: Category[];
 }) {
   const TRANSACTIONS_PER_PAGE = 20;
-  const [currentShowingTransactions, setCurrentShowingTransactions] = useState<
-    Transaction[]
-  >(transactions.slice(0, TRANSACTIONS_PER_PAGE));
   const pages = Math.ceil(transactions.length / TRANSACTIONS_PER_PAGE);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const t = useTranslations("TransactionsPage");
 
-  useEffect(() => {
-    setCurrentPage(1);
-    setCurrentShowingTransactions(transactions.slice(0, TRANSACTIONS_PER_PAGE));
-  }, [transactions]);
-
-  useEffect(() => {
-    setCurrentShowingTransactions(
-      transactions.slice(
-        (currentPage - 1) * TRANSACTIONS_PER_PAGE,
-        currentPage * TRANSACTIONS_PER_PAGE,
-      ),
-    );
-  }, [currentPage, transactions]);
+  const safePage = Math.min(currentPage, Math.max(1, pages));
+  const currentShowingTransactions = transactions.slice(
+    (safePage - 1) * TRANSACTIONS_PER_PAGE,
+    safePage * TRANSACTIONS_PER_PAGE,
+  );
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
-    setCurrentShowingTransactions(
-      transactions.slice(
-        (pageNumber - 1) * TRANSACTIONS_PER_PAGE,
-        pageNumber * TRANSACTIONS_PER_PAGE,
-      ),
-    );
   };
 
   return (
@@ -70,7 +53,7 @@ export function PaginationTransactionTable({
         <div>
           {pages > 1 && (
             <Select
-              value={String(currentPage)}
+              value={String(safePage)}
               onValueChange={(value) => {
                 if (value) {
                   handlePageChange(Number(value));
@@ -78,7 +61,7 @@ export function PaginationTransactionTable({
               }}
             >
               <SelectTrigger>
-                <SelectValue placeholder={String(currentPage)} />
+                <SelectValue placeholder={String(safePage)} />
               </SelectTrigger>
               <SelectContent>
                 {Array.from({ length: pages }, (_, i) => i + 1).map((page) => (

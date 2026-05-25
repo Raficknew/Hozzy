@@ -3,6 +3,7 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const nextConfig: NextConfig = {
   reactStrictMode: false,
+  devIndicators: false,
   env: {
     BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
   },

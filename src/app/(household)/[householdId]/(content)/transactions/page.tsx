@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { PaginationTransactionTable } from "@/components/organisms/PaginationTransactionTable";
@@ -8,6 +9,11 @@ import {
 } from "@/global/actions";
 import { sortTransactionsByDateAndCreation } from "@/global/functions";
 
+export const metadata: Metadata = {
+  title: "Transactions",
+  description: "View and filter household transactions.",
+};
+
 export default async function HouseholdTransactionsPage({
   params,
   searchParams,
@@ -15,20 +21,20 @@ export default async function HouseholdTransactionsPage({
   params: Promise<{ householdId: string }>;
   searchParams: Promise<{ date: string }>;
 }) {
-  const { householdId } = await params;
-  const household = await getHousehold(householdId);
-  const categoriesForTransactions = await getCategories(householdId);
-  const t = await getTranslations("TransactionsPage");
+  const [{ householdId }, { date }] = await Promise.all([params, searchParams]);
+  const currentDate = date ? new Date(date) : new Date();
+  const [household, categoriesForTransactions, t, categories] =
+    await Promise.all([
+      getHousehold(householdId),
+      getCategories(householdId),
+      getTranslations("TransactionsPage"),
+      getCategoriesWithTransactions(householdId, currentDate),
+    ]);
 
   if (household == null) notFound();
+  const categoriesWithTransactions = categories || [];
 
-  const { date } = await searchParams;
-  const currentDate = date ? new Date(date) : new Date();
-
-  const categories =
-    (await getCategoriesWithTransactions(householdId, currentDate)) || [];
-
-  const allTransactions = categories.flatMap((cat) =>
+  const allTransactions = categoriesWithTransactions.flatMap((cat) =>
     cat.transactions.map((transaction) => ({
       ...transaction,
       categoryName: cat.name,

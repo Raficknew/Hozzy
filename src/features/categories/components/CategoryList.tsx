@@ -30,7 +30,7 @@ export function CategoryList({
 
   return (
     <div className="flex flex-col gap-4 bg-sidebar p-2 rounded-lg">
-      <div className="sm:grid sm:grid-cols-4 text-center w-full hide-scrollbar-mobile overflow-auto whitespace-nowrap sm:space-x-0 sm:gap-4 space-x-2 ">
+      <div className="sm:grid sm:grid-cols-4 text-center w-full hide-scrollbar-mobile overflow-auto whitespace-nowrap sm:gap-x-0 sm:gap-4 gap-x-2 ">
         {categoriesOfExpanse.map((categoryType) => (
           <button
             type="button"

@@ -22,10 +22,12 @@ export default async function HouseholdEditPage({
   params: Promise<{ householdId: string }>;
 }) {
   const { householdId } = await params;
-  const household = await getHousehold(householdId);
-  const currencies = await getCurrencies();
-  const members = await getMembers(householdId);
-  const t = await getTranslations("Settings.household");
+  const [household, currencies, members, t] = await Promise.all([
+    getHousehold(householdId),
+    getCurrencies(),
+    getMembers(householdId),
+    getTranslations("Settings.household"),
+  ]);
 
   if (household == null || (await assertHouseholdWriteAccess(householdId)))
     notFound();
