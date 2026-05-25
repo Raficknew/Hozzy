@@ -1,5 +1,6 @@
 "use client";
-import { LoaderCircle } from "lucide-react";
+import { Loading02Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { motion } from "motion/react";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
@@ -33,7 +34,7 @@ export function LoadingSwap({
           duration: 1,
         }}
       >
-        <LoaderCircle />
+        <HugeiconsIcon icon={Loading02Icon} />
       </motion.div>
     </div>
   );

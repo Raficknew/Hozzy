@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Figtree, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { RscBoundaryProvider } from "@rsc-boundary/next";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
 import { Toaster } from "sonner";
@@ -33,28 +34,30 @@ export default async function RootLayout({
 }>) {
   const locale = await getLocale();
   return (
-    <NextIntlClientProvider>
-      <html
-        lang={locale}
-        className={cn(
-          "dark",
-          "h-full",
-          figtree.variable,
-          geistSans.variable,
-          geistMono.variable,
-        )}
-        style={{ colorScheme: "dark" }}
-      >
-        <body className="antialiased bg-background text-foreground font-sans">
-          {children}
-          <Toaster
-            theme="dark"
-            richColors
-            duration={2000}
-            position="top-center"
-          />
-        </body>
-      </html>
-    </NextIntlClientProvider>
+    <RscBoundaryProvider>
+      <NextIntlClientProvider>
+        <html
+          lang={locale}
+          className={cn(
+            "dark",
+            "h-full",
+            figtree.variable,
+            geistSans.variable,
+            geistMono.variable,
+          )}
+          style={{ colorScheme: "dark" }}
+        >
+          <body className="antialiased bg-background text-foreground font-sans">
+            {children}
+            <Toaster
+              theme="dark"
+              richColors
+              duration={2000}
+              position="top-center"
+            />
+          </body>
+        </html>
+      </NextIntlClientProvider>
+    </RscBoundaryProvider>
   );
 }
