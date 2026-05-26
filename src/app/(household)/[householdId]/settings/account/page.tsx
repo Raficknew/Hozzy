@@ -26,10 +26,10 @@ export default async function HouseholdAccountSettings({
     headers(),
     params,
   ]);
-  const session = await auth.api.getSession({
-    headers: requestHeaders,
-  });
-  const [household, t, canAccessHousehold] = await Promise.all([
+  const [session, household, t, canAccessHousehold] = await Promise.all([
+    auth.api.getSession({
+      headers: requestHeaders,
+    }),
     getHousehold(householdId),
     getTranslations("Settings.account"),
     canAccessHouseholdSettings(householdId),

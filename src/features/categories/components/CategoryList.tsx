@@ -10,10 +10,10 @@ import {
 } from "@/drizzle/schema/category";
 import { Category } from "@/features/categories/components/Category";
 import { CategoryForm } from "@/features/categories/components/CategoryForm";
-import type { CategoryIconKeys } from "@/features/categories/components/CategoryIcon";
 import { MAX_CATEGORIES_PER_HOUSEHOLD } from "@/global/limits";
 import type { CategoryWithIcon } from "@/global/types";
 import { cn } from "@/lib/utils";
+import type { CategoryIconKeys } from "../types/icons";
 
 export function CategoryList({
   categories,

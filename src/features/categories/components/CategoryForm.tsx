@@ -23,11 +23,7 @@ import {
   createCategory,
   updateCategory,
 } from "@/features/categories/actions/category";
-import {
-  CategoryIcon,
-  type CategoryIconKeys,
-  icons,
-} from "@/features/categories/components/CategoryIcon";
+import { CategoryIcon } from "@/features/categories/components/CategoryIcon";
 import {
   type CategorySchema,
   categorySchema,
@@ -35,6 +31,7 @@ import {
 import { performFormSubmitAction } from "@/global/functions";
 import type { CategoryWithIcon } from "@/global/types";
 import { cn } from "@/lib/utils";
+import { type CategoryIconKeys, icons } from "../types/icons";
 
 export function CategoryForm({
   categoryType,

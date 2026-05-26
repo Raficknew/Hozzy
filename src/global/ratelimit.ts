@@ -1,6 +1,8 @@
 "use server";
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
 
 let ratelimitForTransactions: Ratelimit | null = null;
 
@@ -16,6 +18,14 @@ function getRateLimiter() {
 }
 
 export async function assertTransactionsRateLimit(userId: string) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (session?.user.id == null) {
+    throw new Error("UnauthorizedException");
+  }
+
   if (!userId) return;
   if (process.env.CI) return;
 

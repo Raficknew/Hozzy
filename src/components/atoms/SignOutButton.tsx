@@ -19,7 +19,7 @@ import { buttonVariants } from "../ui/button";
 
 export function SignOutButton() {
   const t = useTranslations("SignOut");
-  const router = useRouter();
+  const { push } = useRouter();
   return (
     <AlertDialog>
       <AlertDialogTrigger
@@ -64,7 +64,7 @@ export function SignOutButton() {
               signOut({
                 fetchOptions: {
                   onSuccess: () => {
-                    router.push("/sign-in");
+                    push("/sign-in");
                   },
                 },
               })

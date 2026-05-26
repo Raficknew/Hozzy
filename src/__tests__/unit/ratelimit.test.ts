@@ -20,6 +20,9 @@ const mocks = vi.hoisted(() => {
     slidingWindow: slidingWindowMock,
   });
 
+  const headersMock = vi.fn();
+  const getSessionMock = vi.fn();
+
   return {
     limitMock,
     slidingWindowMock,
@@ -27,6 +30,8 @@ const mocks = vi.hoisted(() => {
     redisClientMock,
     limiterConfigMock,
     RatelimitMock,
+    headersMock,
+    getSessionMock,
   };
 });
 
@@ -40,6 +45,12 @@ vi.mock("@upstash/ratelimit", () => ({
   Ratelimit: mocks.RatelimitMock,
 }));
 
+vi.mock("next/headers", () => ({ headers: mocks.headersMock }));
+
+vi.mock("@/lib/auth", () => ({
+  auth: { api: { getSession: mocks.getSessionMock } },
+}));
+
 describe("assertTransactionsRateLimit", () => {
   const originalCI = process.env.CI;
 
@@ -47,6 +58,9 @@ describe("assertTransactionsRateLimit", () => {
     delete process.env.CI;
     vi.resetModules();
     applyRateLimitDefaults(mocks);
+
+    mocks.headersMock.mockResolvedValue({});
+    mocks.getSessionMock.mockResolvedValue({ user: { id: "user-123" } });
 
     ({ assertTransactionsRateLimit } = await import("../../global/ratelimit"));
   });
@@ -99,5 +113,18 @@ describe("assertTransactionsRateLimit", () => {
       "RateLimitExceededException",
     );
     expect(mocks.limitMock).toHaveBeenCalledWith("user-123");
+  });
+
+  it("throws UnauthorizedException when there is no session", async () => {
+    mocks.getSessionMock.mockResolvedValueOnce(null);
+
+    const givenUserId = "user-123";
+
+    const whenApplyingRateLimit = assertTransactionsRateLimit(givenUserId);
+
+    await expect(whenApplyingRateLimit).rejects.toThrow(
+      "UnauthorizedException",
+    );
+    expect(mocks.limitMock).not.toHaveBeenCalled();
   });
 });

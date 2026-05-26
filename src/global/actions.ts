@@ -1,7 +1,7 @@
 "use server";
 import { endOfMonth, startOfMonth } from "date-fns";
 import { and, asc, eq, gte, lte } from "drizzle-orm";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { validate as validateUuid } from "uuid";
 import { db } from "@/drizzle";
 import {
@@ -11,8 +11,17 @@ import {
   MembersTable,
   TransactionTable,
 } from "@/drizzle/schema";
+import { auth } from "@/lib/auth";
 
 export const getUserHouseholds = async (userId: string) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (session?.user.id == null || session.user.id !== userId) {
+    throw new Error("UnauthorizedException");
+  }
+
   return db.query.MembersTable.findMany({
     where: eq(MembersTable.userId, userId),
     with: {
@@ -24,6 +33,14 @@ export const getUserHouseholds = async (userId: string) => {
 };
 
 export const getHousehold = async (id: string) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (session?.user.id == null) {
+    throw new Error("UnauthorizedException");
+  }
+
   if (!validateUuid(id)) {
     return null;
   }
@@ -45,6 +62,14 @@ export const getCategoriesWithTransactions = async (
   householdId: string,
   date: Date,
 ) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (session?.user.id == null) {
+    throw new Error("UnauthorizedException");
+  }
+
   if (!validateUuid(householdId) || date == null) {
     return null;
   }
@@ -66,10 +91,26 @@ export const getCategoriesWithTransactions = async (
 };
 
 export const getCurrencies = async () => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (session?.user.id == null) {
+    throw new Error("UnauthorizedException");
+  }
+
   return db.selectDistinct().from(CurrencyTable);
 };
 
 export const getMembers = async (id: string) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (session?.user.id == null) {
+    throw new Error("UnauthorizedException");
+  }
+
   return db.query.MembersTable.findMany({
     where: eq(MembersTable.householdId, id),
     columns: { id: true, name: true },
@@ -79,6 +120,14 @@ export const getMembers = async (id: string) => {
 };
 
 export const getCategories = async (id: string) => {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (session?.user.id == null) {
+    throw new Error("UnauthorizedException");
+  }
+
   return db.query.CategoryTable.findMany({
     where: eq(CategoryTable.householdId, id),
     columns: { id: true, name: true, categoryType: true, icon: true },
@@ -87,6 +136,10 @@ export const getCategories = async (id: string) => {
 };
 
 export const switchLanguage = async (language: string) => {
+  await auth.api.getSession({
+    headers: await headers(),
+  });
+
   const store = await cookies();
   store.set("locale", language);
 };
