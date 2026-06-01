@@ -38,7 +38,8 @@
     "charts": {
       "expenses": "Wydatki",
       "incomes": "Wpływy",
-      "add": "Dodaj"
+      "add": "Dodaj",
+      "totalSpent": "Łączne wydatki"
     },
     "ExpenseTracker": {
       "balance": "Saldo",

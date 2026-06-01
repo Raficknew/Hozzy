@@ -60,7 +60,8 @@
     "charts": {
       "expenses": "Expenses",
       "incomes": "Incomes",
-      "add": "Add"
+      "add": "Add",
+      "totalSpent": "Total spent"
     },
     "ExpenseTracker": {
       "balance": "Balance",
