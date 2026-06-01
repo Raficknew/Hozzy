@@ -44,7 +44,7 @@ export default async function HouseholdTransactionsPage({
   const sortedTransactions = sortTransactionsByDateAndCreation(allTransactions);
 
   return (
-    <div className="w-full bg-sidebar rounded-sm p-4">
+    <article>
       {sortedTransactions.length > 0 ? (
         <PaginationTransactionTable
           householdId={householdId}
@@ -56,6 +56,6 @@ export default async function HouseholdTransactionsPage({
       ) : (
         <p>{t("zeroTransactions")}</p>
       )}
-    </div>
+    </article>
   );
 }

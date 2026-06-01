@@ -11,6 +11,7 @@ import { useTranslations } from "next-intl";
 import { HozzyLogo } from "@/components/atoms/HozzyLogo";
 import { SignOutButton } from "@/components/atoms/SignOutButton";
 import { cn } from "@/lib/utils";
+import { Card, CardContent } from "../ui/card";
 
 export function Sidebar() {
   const { householdId } = useParams();
@@ -39,42 +40,44 @@ export function Sidebar() {
     },
   ];
   return (
-    <div className="fixed z-50 sm:h-auto sm:left-2 sm:rounded-xl rounded-t-2xl sm:bottom-2 bottom-0 sm:top-2 bg-sidebar w-full sm:w-auto h-fit p-4 flex flex-row sm:flex-col justify-evenly sm:justify-between">
-      <div className="flex flex-col gap-10 items-center">
-        <div className="hidden sm:block">
-          <HozzyLogo variant="white" link />
+    <Card className="fixed z-50 sm:h-auto sm:left-2 sm:rounded-xl rounded-t-2xl sm:bottom-2 bottom-0 sm:top-2 w-full sm:w-auto h-fit p-0">
+      <CardContent className="p-4 flex flex-row sm:flex-col justify-evenly sm:justify-between h-full">
+        <div className="flex flex-col gap-10 items-center">
+          <div className="hidden sm:block">
+            <HozzyLogo variant="white" link />
+          </div>
+          <div className="flex sm:flex-col gap-5">
+            {routes.map((route) => (
+              <div
+                className="flex justify-center gap-5 sm:gap-0"
+                key={route.title}
+              >
+                <Route
+                  currentRoute={currentRoute ?? ""}
+                  url={route.url}
+                  routeKey={route.routeKey}
+                  icon={route.icon}
+                  dataTestId={route.dataTestId}
+                />
+                {routes.indexOf(route) < 1 && (
+                  <div className="w-px sm:w-0 bg-sidebar-ring"></div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="flex sm:flex-col gap-5">
-          {routes.map((route) => (
-            <div
-              className="flex justify-center gap-5 sm:gap-0"
-              key={route.title}
-            >
-              <Route
-                currentRoute={currentRoute ?? ""}
-                url={route.url}
-                routeKey={route.routeKey}
-                icon={route.icon}
-                dataTestId={route.dataTestId}
-              />
-              {routes.indexOf(route) < 1 && (
-                <div className="w-px sm:w-0 bg-sidebar-ring"></div>
-              )}
-            </div>
-          ))}
+        <div className="self-center hidden sm:flex sm:flex-col gap-5">
+          <Route
+            currentRoute={currentRoute ?? ""}
+            url={`/${householdId}/settings/account`}
+            routeKey="settings"
+            icon={Settings01Icon}
+            dataTestId="sidebar-settings"
+          />
+          <SignOutButton />
         </div>
-      </div>
-      <div className="self-center hidden sm:flex sm:flex-col gap-5">
-        <Route
-          currentRoute={currentRoute ?? ""}
-          url={`/${householdId}/settings/account`}
-          routeKey="settings"
-          icon={Settings01Icon}
-          dataTestId="sidebar-settings"
-        />
-        <SignOutButton />
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
 

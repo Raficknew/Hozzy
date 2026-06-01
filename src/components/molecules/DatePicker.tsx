@@ -8,6 +8,8 @@ import { useLocale } from "next-intl";
 import { useState } from "react";
 import { capitalize } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
+import { Button } from "../ui/button";
+import { Card } from "../ui/card";
 
 export function DatePicker() {
   let defaultDate: Date = new Date();
@@ -72,9 +74,11 @@ export function DatePicker() {
 
   return (
     <div className="flex flex-col items-end sm:items-center z-20 sm:ml-25">
-      <button
+      <Button
         type="button"
-        className="sm:bg-card bg-accent flex items-center justify-center h-full sm:w-[270px] text-center sm:py-2 rounded-lg cursor-pointer"
+        variant="outline"
+        size="lg"
+        className="h-full p-0 text-sm sm:w-[270px]"
         onClick={() => setIsOpened(!isOpened)}
       >
         <p className="font-semibold hidden sm:block">
@@ -89,9 +93,9 @@ export function DatePicker() {
             strokeWidth={2}
           />
         </p>
-      </button>
+      </Button>
       {isOpened && (
-        <div className="fixed top-13 left-0 sm:w-auto sm:left-auto w-full grid grid-cols-3 sm:grid-cols-4 gap-3 text-center bg-card p-5 rounded-lg drop-shadow-xl">
+        <Card className="fixed top-13 left-0 sm:w-auto sm:left-auto w-full grid grid-cols-3 sm:grid-cols-4 gap-3 text-center bg-card p-5 rounded-lg drop-shadow-xl">
           {!year &&
             years.map((callendarYear) => (
               <button
@@ -138,7 +142,7 @@ export function DatePicker() {
           >
             <HugeiconsIcon strokeWidth={2} icon={Cancel01Icon} size={14} />
           </button>
-        </div>
+        </Card>
       )}
     </div>
   );

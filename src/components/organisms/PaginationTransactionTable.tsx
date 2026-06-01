@@ -12,6 +12,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { Category, Member, Transaction } from "@/global/types";
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "../ui/card";
 
 export function PaginationTransactionTable({
   transactions,
@@ -42,16 +49,16 @@ export function PaginationTransactionTable({
   };
 
   return (
-    <div>
-      <div className="flex justify-between">
-        <div className="flex items-center gap-2">
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
           <HugeiconsIcon strokeWidth={2} icon={ScratchCardIcon} />
           <h1 className="sm:text-2xl text-xl font-light">
             {t("allTransactions")}
           </h1>
-        </div>
-        <div>
-          {pages > 1 && (
+        </CardTitle>
+        {pages > 1 && (
+          <CardAction>
             <Select
               value={String(safePage)}
               onValueChange={(value) => {
@@ -71,16 +78,18 @@ export function PaginationTransactionTable({
                 ))}
               </SelectContent>
             </Select>
-          )}
-        </div>
-      </div>
-      <TransactionTable
-        householdId={householdId}
-        transactions={currentShowingTransactions}
-        members={members}
-        currency={currencyCode}
-        categories={categories}
-      />
-    </div>
+          </CardAction>
+        )}
+      </CardHeader>
+      <CardContent>
+        <TransactionTable
+          householdId={householdId}
+          transactions={currentShowingTransactions}
+          members={members}
+          currency={currencyCode}
+          categories={categories}
+        />
+      </CardContent>
+    </Card>
   );
 }
