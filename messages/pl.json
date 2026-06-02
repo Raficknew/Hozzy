@@ -139,6 +139,15 @@
       "contain": "Zawartość",
       "preferences": "Preferencje",
       "language": "Język",
+      "theme": {
+        "label": "Motyw",
+        "placeholder": "Motyw",
+        "options": {
+          "light": "Jasny",
+          "dark": "Ciemny",
+          "system": "System"
+        }
+      },
       "label": "Nazwa",
       "save": "Zapisz",
       "signOut": "Wyloguj się"

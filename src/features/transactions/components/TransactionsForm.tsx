@@ -159,7 +159,7 @@ export function TransactionForm({
                     <Button
                       key={t}
                       className={cn(
-                        "bg-card hover:bg-muted-foreground text-white/20 hover:text-foreground px-3",
+                        "bg-card hover:bg-muted-foreground text-foreground hover:text-foreground px-3",
                         field.value === t &&
                           "bg-primary hover:bg-primary text-foreground",
                       )}

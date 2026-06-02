@@ -28,7 +28,7 @@ export function LanguageSelect({
           }
         }}
       >
-        <SelectTrigger>
+        <SelectTrigger className="w-[80px]">
           <SelectValue placeholder={currentLocale}>
             {currentLocale.toUpperCase()}
           </SelectValue>

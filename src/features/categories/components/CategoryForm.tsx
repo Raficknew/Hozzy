@@ -140,6 +140,7 @@ export function CategoryForm({
                       )}
                     >
                       <CategoryIcon
+                        color="var(--foreground)"
                         categoryIconName={icon as CategoryIconKeys}
                       />
                     </Button>,

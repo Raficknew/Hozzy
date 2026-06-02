@@ -139,6 +139,15 @@
       "contain": "Contains",
       "preferences": "Preferences",
       "language": "Language",
+      "theme": {
+        "label": "Theme",
+        "placeholder": "Theme",
+        "options": {
+          "light": "Light",
+          "dark": "Dark",
+          "system": "System"
+        }
+      },
       "label": "Name",
       "save": "Save",
       "signOut": "Sign out"

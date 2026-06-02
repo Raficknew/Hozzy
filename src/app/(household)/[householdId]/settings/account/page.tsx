@@ -1,4 +1,4 @@
-import { GlobalIcon } from "@hugeicons/core-free-icons";
+import { GlobalIcon, ViewIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
@@ -7,6 +7,7 @@ import { Suspense } from "react";
 import { LanguageSelect } from "@/components/atoms/LanguageSelect";
 import { MobileTopHeader } from "@/components/atoms/MobileTopHeader";
 import { SignOutButton } from "@/components/atoms/SignOutButton";
+import { ThemeSelect } from "@/components/atoms/ThemeSelect";
 import { UserAvatar } from "@/components/atoms/UserAvatar";
 import { SectionHeader } from "@/components/molecules/SectionHeader";
 import { SettingsNavigationBar } from "@/components/organisms/SettingsNavigationBar";
@@ -51,7 +52,7 @@ export default async function HouseholdAccountSettings({
           <SectionHeader title={t("title")} description={t("description")} />
         </div>
         <div className="flex flex-col-reverse sm:flex-row justify-between gap-5">
-          <div className="md:bg-transparent bg-[#212122] p-2.5 rounded-lg w-full">
+          <div className="md:bg-transparent bg-secondary p-2.5 rounded-lg w-full">
             <UserForm user={session.user} />
           </div>
           <Suspense fallback={<div className="bg-gray-600 size-20"></div>}>
@@ -77,6 +78,13 @@ export default async function HouseholdAccountSettings({
               <p>{t("language")}</p>
             </div>
             <LanguageSelect currentLocale={locale} />
+          </div>
+          <div className="flex justify-between items-center w-full md:bg-transparent bg-secondary px-2 py-1 rounded-lg">
+            <div className="flex items-center gap-2 h-full">
+              <HugeiconsIcon size={20} icon={ViewIcon} />
+              <p>{t("theme.label")}</p>
+            </div>
+            <ThemeSelect />
           </div>
         </div>
         <div className="sm:hidden flex">
