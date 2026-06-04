@@ -8,6 +8,8 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 import { HozzyLogo } from "@/components/atoms/HozzyLogo";
 import { SignOutButton } from "@/components/atoms/SignOutButton";
 import { cn } from "@/lib/utils";
@@ -18,6 +20,15 @@ export function Sidebar() {
   const t = useTranslations("Sidebar");
   const pathnameSegments = usePathname().split("/").filter(Boolean);
   const currentRoute = pathnameSegments[1] ?? "";
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const logoVariant =
+    mounted && resolvedTheme === "light" ? "default" : "white";
 
   const searchParams = useSearchParams();
   const qs = searchParams?.toString();
@@ -44,7 +55,7 @@ export function Sidebar() {
       <CardContent className="p-4 flex flex-row sm:flex-col justify-evenly sm:justify-between h-full">
         <div className="flex flex-col gap-10 items-center">
           <div className="hidden sm:block">
-            <HozzyLogo variant="white" link />
+            <HozzyLogo variant={logoVariant} link />
           </div>
           <div className="flex sm:flex-col gap-5">
             {routes.map((route) => (
@@ -102,7 +113,7 @@ function Route({
       data-testid={dataTestId}
       className={cn(
         "self-center p-1 sm:p-2",
-        isHovered && "sm:bg-primary rounded-full sm:shadow-xl",
+        isHovered && "sm:bg-primary text-white/80 rounded-full sm:shadow-xl",
       )}
     >
       <div className="sm:hidden flex">

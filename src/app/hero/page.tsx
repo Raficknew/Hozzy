@@ -55,7 +55,7 @@ export default function HeroPage() {
 
             <div className="sm:text-end text-center flex flex-col sm:gap-2 gap-4 lg:text-base md:text-sm text-xs font-normal">
               <motion.h2
-                className="text-white/70"
+                className="text-foreground/70"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, ease: "easeInOut", delay: 0.8 }}

@@ -80,7 +80,6 @@ function NavigationBar({
   const isActive =
     currentPath === link.split("/")[3] ||
     (currentPath === "" && title === "Dashboard");
-  console.log(link.split("/")[3], currentPath);
   return (
     <Link
       href={link}

@@ -3,8 +3,8 @@ import { Figtree, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
-import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/atoms/ThemeProvider";
+import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 
 const figtree = Figtree({

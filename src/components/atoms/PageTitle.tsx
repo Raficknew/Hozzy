@@ -8,7 +8,7 @@ export function PageTitle({
   return (
     <div className="flex flex-col gap-2">
       <h1 className="text-3xl font-semibold">{title}</h1>
-      <p className="font-normal text-white/80">{subtitle}</p>
+      <p className="font-normal text-foreground/80">{subtitle}</p>
     </div>
   );
 }

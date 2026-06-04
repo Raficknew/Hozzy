@@ -4,7 +4,7 @@ import Link from "next/link";
 const HozzyLogoVariants = {
   default: "/images/HozzyPurpleAvatar.svg",
   white: "/images/HozzyAvatar.svg",
-  withText: "/images/HozzyLogo.webp",
+  withText: "/images/HozzyLogoWithText.svg",
 } as const;
 
 export function HozzyLogo({
