@@ -1,6 +1,7 @@
 "use client";
 import {
   ArrowDataTransferHorizontalIcon,
+  ChartAnalysisIcon,
   DashboardSquare03Icon,
   Settings01Icon,
 } from "@hugeicons/core-free-icons";
@@ -48,6 +49,13 @@ export function Sidebar() {
       routeKey: "transactions",
       icon: ArrowDataTransferHorizontalIcon,
       dataTestId: "sidebar-transactions",
+    },
+    {
+      title: t("analytics"),
+      url: withParams(`/${householdId}/analytics`),
+      routeKey: "analytics",
+      icon: ChartAnalysisIcon,
+      dataTestId: "sidebar-analytics",
     },
   ];
   return (

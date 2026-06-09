@@ -32,7 +32,8 @@
   "Sidebar": {
     "dashboard": "Dashboard",
     "transactions": "Transakcje",
-    "settings": "Ustawienia"
+    "settings": "Ustawienia",
+    "analytics": "Analiza"
   },
   "Dashboard": {
     "charts": {

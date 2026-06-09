@@ -32,7 +32,8 @@
   "Sidebar": {
     "dashboard": "Dashboard",
     "transactions": "Transaction",
-    "settings": "Settings"
+    "settings": "Settings",
+    "analytics": "Analytics"
   },
   "CreateHousehold": {
     "title": "Create new Household",
