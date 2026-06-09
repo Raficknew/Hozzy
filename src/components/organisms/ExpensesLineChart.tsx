@@ -1,66 +1,35 @@
 "use client";
-import {
-  CategoryScale,
-  Chart as ChartJS,
-  Filler,
-  Legend,
-  LinearScale,
-  LineElement,
-  PointElement,
-  Title,
-  Tooltip,
-} from "chart.js";
 import { endOfMonth } from "date-fns";
-import { Line } from "react-chartjs-2";
+import { useLocale, useTranslations } from "next-intl";
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  type ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
 import type { CategoryWithTransactions } from "@/global/types";
 
-ChartJS.register(
-  CategoryScale,
-  LineElement,
-  LinearScale,
-  PointElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler,
-);
-
 function getDataForChart(date: Date, categories: CategoryWithTransactions) {
-  const days = getDaysFromMonth(date);
-  const values = mergeMonthExpensesToDays(days, categories);
-
-  return { days, values };
-}
-
-function mergeMonthExpensesToDays(
-  days: string[],
-  categories: CategoryWithTransactions,
-) {
-  const expensesToDays = Object.fromEntries(days.map((day) => [day, 0]));
-  const sortedDays = Object.keys(expensesToDays).sort(
-    (a, b) => Number(a) - Number(b),
+  const numberOfLastDay = endOfMonth(date).getDate();
+  const data = Array.from({ length: numberOfLastDay }, (_, i) => ({
+    day: i + 1,
+    totalSpent: 0,
+  }));
+  const allTransactions = categories.flatMap(
+    (category) => category.transactions,
   );
-  const allTransactions = categories.flatMap((c) => c.transactions);
 
   allTransactions.forEach((transaction) => {
-    const day = transaction.date.getDate().toString().padStart(2, "0");
-    if (
-      day !== undefined &&
-      expensesToDays[day] !== undefined &&
-      transaction.type !== "income"
-    ) {
-      expensesToDays[day] += transaction.price;
-    }
+    const transactionDate = new Date(transaction.date);
+    if (transaction.type === "income") return;
+    const day = transactionDate.getDate();
+
+    data[day - 1]!.totalSpent += transaction.price;
   });
 
-  return sortedDays.map((day) => expensesToDays[day]);
-}
-
-function getDaysFromMonth(date: Date) {
-  const numberOfLastDay = endOfMonth(date).getDate();
-  return Array.from({ length: numberOfLastDay }, (_, i) =>
-    String(i + 1).padStart(2, "0"),
-  );
+  return data;
 }
 
 export function ExpensesLineChart({
@@ -75,47 +44,53 @@ export function ExpensesLineChart({
   title: string;
 }) {
   const dataForChart = getDataForChart(date, categories);
-
-  const data = {
-    labels: dataForChart.days,
-    datasets: [
-      {
-        label: title,
-        data: dataForChart.values,
-        fill: false,
-        borderColor: "#F83B3B",
-        tension: 0.2,
-      },
-    ],
-  };
-
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      y: {
-        title: {
-          display: true,
-        },
-        display: true,
-        min: 0,
-        max: maxValue,
-      },
-      x: {
-        title: {
-          display: true,
-        },
-        display: true,
-        ticks: {
-          autoSkip: false,
-        },
-      },
+  const locale = useLocale();
+  const t = useTranslations("Dashboard.charts");
+  const chartConfig = {
+    totalSpent: {
+      label: t("totalSpent"),
+      color: "var(--chart-1)",
     },
-  };
+  } satisfies ChartConfig;
 
   return (
-    <div className="2xl:w-5/6 w-full min-h-[280px] bg-card rounded-lg hidden md:block ">
-      <Line options={options} data={data} />
-    </div>
+    <Card className="h-[280px] w-full">
+      <CardHeader>
+        <CardTitle>{title}</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <ChartContainer className="h-[210px] w-full" config={chartConfig}>
+          <LineChart accessibilityLayer data={dataForChart}>
+            <CartesianGrid vertical={false} />
+            <XAxis
+              dataKey="day"
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+            />
+            <YAxis
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              domain={[0, maxValue]}
+              tickFormatter={(value) =>
+                Number(value).toLocaleString(locale, { notation: "compact" })
+              }
+            />
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent hideLabel />}
+            />
+            <Line
+              dataKey="totalSpent"
+              type="linear"
+              stroke="var(--color-totalSpent)"
+              strokeWidth={2}
+              dot={false}
+            />
+          </LineChart>
+        </ChartContainer>
+      </CardContent>
+    </Card>
   );
 }

@@ -1,48 +1,36 @@
 "use client";
+import { useLocale } from "next-intl";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
-  BarElement,
-  CategoryScale,
-  Chart as ChartJS,
-  Legend,
-  LinearScale,
-  Title,
-  Tooltip,
-} from "chart.js";
-import { Bar } from "react-chartjs-2";
+  type ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
 import type { CategoryWithTransactions, Member } from "@/global/types";
 
 function assignTransactionPricesToMembers(
   members: Member[],
   categories: CategoryWithTransactions,
 ) {
-  const labels = members.map((m) => m.name);
-  const dataMap: Record<string, number> = {};
-
-  members.forEach((member) => {
-    dataMap[member.id] = 0;
+  const allTransactions = categories.flatMap(
+    (category) => category.transactions,
+  );
+  const membersWithPrices = members.map((member) => ({
+    ...member,
+    total: 0,
+  }));
+  allTransactions.forEach((transaction) => {
+    const member = membersWithPrices.find(
+      (member) => member.id === transaction.memberId,
+    );
+    if (member) {
+      member.total = (member.total || 0) + transaction.price;
+    }
   });
 
-  categories.forEach((category) => {
-    category.transactions.forEach((transaction) => {
-      const memberId = transaction.memberId;
-      if (dataMap[memberId] !== undefined && transaction.price !== undefined) {
-        dataMap[memberId] += transaction.price;
-      }
-    });
-  });
-  const dataForChart = members.map((member) => dataMap[member.id]);
-
-  return { labels, dataForChart };
+  return membersWithPrices;
 }
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-);
 
 export function TransactionBarChart({
   maxValue,
@@ -55,55 +43,46 @@ export function TransactionBarChart({
   categories: CategoryWithTransactions;
   title: string;
 }) {
-  const { labels, dataForChart } = assignTransactionPricesToMembers(
-    members,
-    categories,
-  );
-
-  const data = {
-    labels: labels,
-    datasets: [
-      {
-        label: title,
-        data: dataForChart,
-        backgroundColor: "#7047EBBF",
-        borderWidth: 1,
-      },
-    ],
-  };
-
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false },
-      title: { display: true },
+  const data = assignTransactionPricesToMembers(members, categories);
+  const chartConfig = {
+    total: {
+      label: title,
+      color: "var(--chart-2)",
     },
-    scales: {
-      x: {
-        ticks: {
-          autoSkip: false,
-          callback: (_tickValue: string | number, index: number) => {
-            const person = labels[index];
-            if (!person) return `Member ${index}`;
-            if (person?.length > 25) {
-              return `${person.substring(0, 10)}...`;
-            }
-            return person;
-          },
-        },
-      },
-      y: {
-        min: 0,
-        max: maxValue,
-        beginAtZero: true,
-      },
-    },
-  };
+  } satisfies ChartConfig;
+  const locale = useLocale();
 
   return (
-    <div className="h-full">
-      <Bar data={data} options={options} />
-    </div>
+    <ChartContainer className="h-[190px] w-full" config={chartConfig}>
+      <BarChart accessibilityLayer data={data} margin={{ left: 12, right: 12 }}>
+        <CartesianGrid vertical={false} />
+        <YAxis
+          tickLine={false}
+          axisLine={false}
+          tickMargin={8}
+          domain={[0, maxValue]}
+          tickFormatter={(value) =>
+            Number(value).toLocaleString(locale, { notation: "compact" })
+          }
+        />
+        <XAxis
+          dataKey="name"
+          tickLine={false}
+          axisLine={false}
+          tickMargin={8}
+          interval={0}
+          tickFormatter={(value) =>
+            members.length >= 4 && value.length > 24
+              ? `${value.slice(0, 12)}...`
+              : value
+          }
+        />
+        <ChartTooltip
+          cursor={false}
+          content={<ChartTooltipContent hideLabel />}
+        />
+        <Bar dataKey="total" fill="var(--color-total)" radius={8} />
+      </BarChart>
+    </ChartContainer>
   );
 }

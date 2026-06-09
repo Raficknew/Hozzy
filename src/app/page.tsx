@@ -77,9 +77,9 @@ async function UserHouseholdList({
           </div>
           {households.length < MAX_HOUSEHOLD_PER_USER && (
             <div className="flex items-center gap-4">
-              <div className="h-px bg-foreground/90 w-full"></div>
-              <p className="font-normal text-foreground/90">{t("or")}</p>
-              <div className="h-px bg-foreground/90 w-full"></div>
+              <div className="h-px bg-foreground w-full"></div>
+              <p className="font-normal text-foreground">{t("or")}</p>
+              <div className="h-px bg-foreground w-full"></div>
             </div>
           )}
         </div>

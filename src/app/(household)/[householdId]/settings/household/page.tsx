@@ -89,9 +89,9 @@ export default async function HouseholdEditPage({
                 householdId={householdId}
                 triggerTestId="member-add-btn"
               >
-                <DialogTrigger className="md:flex flex-col items-center justify-center h-[184px] hidden rounded-lg ring ring-accent cursor-pointer">
+                <DialogTrigger className="md:flex flex-col items-center justify-center h-[184px] hidden rounded-lg ring ring-primary cursor-pointer">
                   <HugeiconsIcon
-                    className="size-12 text-accent"
+                    className="size-12 text-primary"
                     icon={PlusSignCircleIcon}
                   />
                 </DialogTrigger>

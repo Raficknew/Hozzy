@@ -3,7 +3,8 @@ import { Figtree, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
-import { Toaster } from "sonner";
+import { ThemeProvider } from "@/components/atoms/ThemeProvider";
+import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 
 const figtree = Figtree({
@@ -37,22 +38,18 @@ export default async function RootLayout({
       <html
         lang={locale}
         className={cn(
-          "dark",
           "h-full",
           figtree.variable,
           geistSans.variable,
           geistMono.variable,
         )}
-        style={{ colorScheme: "dark" }}
+        suppressHydrationWarning
       >
         <body className="antialiased bg-background text-foreground font-sans">
-          {children}
-          <Toaster
-            theme="dark"
-            richColors
-            duration={2000}
-            position="top-center"
-          />
+          <ThemeProvider>
+            {children}
+            <Toaster richColors duration={2000} position="top-center" />
+          </ThemeProvider>
         </body>
       </html>
     </NextIntlClientProvider>
