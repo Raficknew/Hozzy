@@ -37,7 +37,7 @@ export function UserForm({ user }: { user: User }) {
   return (
     <form
       onSubmit={form.handleSubmit(onSubmit)}
-      className="space-y-4 w-full flex flex-col"
+      className="gap-y-4 w-full flex flex-col"
     >
       <Controller
         control={form.control}

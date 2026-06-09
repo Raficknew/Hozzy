@@ -1,5 +1,6 @@
 import { Home12Icon, PlusSignIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import type { Metadata } from "next";
 import { headers } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -10,6 +11,11 @@ import { getUserHouseholds } from "@/global/actions";
 import { MAX_HOUSEHOLD_PER_USER } from "@/global/limits";
 import { auth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
+
+export const metadata: Metadata = {
+  title: "Hozzy",
+  description: "Choose or create a household.",
+};
 
 export default async function HomePage() {
   const session = await auth.api.getSession({

@@ -4,11 +4,9 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { ActionButton } from "@/components/atoms/ActionButton";
 import { deleteCategory } from "@/features/categories/actions/category";
 import { CategoryDialog } from "@/features/categories/components/CategoryDialog";
-import {
-  CategoryIcon,
-  type CategoryIconKeys,
-} from "@/features/categories/components/CategoryIcon";
+import { CategoryIcon } from "@/features/categories/components/CategoryIcon";
 import type { CategoryWithIcon } from "@/global/types";
+import type { CategoryIconKeys } from "../types/icons";
 
 export function Category({
   category,

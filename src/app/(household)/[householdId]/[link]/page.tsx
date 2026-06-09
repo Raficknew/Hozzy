@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
@@ -6,17 +7,25 @@ import { HouseholdJoinButton } from "@/features/household/components/HouseholdJo
 import { getHousehold } from "@/global/actions";
 import { auth } from "@/lib/auth";
 
+export const metadata: Metadata = {
+  title: "Join Household",
+  description: "Join a household using an invite link.",
+};
+
 export default async function HouseholdJoinPage({
   params,
 }: {
   params: Promise<{ householdId: string; link: string }>;
 }) {
   const { householdId, link } = await params;
-  const household = await getHousehold(householdId);
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-  const t = await getTranslations("JoinPage");
+  const requestHeaders = await headers();
+  const [household, session, t] = await Promise.all([
+    getHousehold(householdId),
+    auth.api.getSession({
+      headers: requestHeaders,
+    }),
+    getTranslations("JoinPage"),
+  ]);
 
   if (
     household == null ||

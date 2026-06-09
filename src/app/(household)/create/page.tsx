@@ -1,8 +1,14 @@
+import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { HozzyLogo } from "@/components/atoms/HozzyLogo";
 import { PageTitle } from "@/components/atoms/PageTitle";
 import { HouseholdForm } from "@/features/household/components/HouseholdGeneralForm";
 import { getCurrencies } from "@/global/actions";
+
+export const metadata: Metadata = {
+  title: "Create Household",
+  description: "Set up a new household and currency.",
+};
 
 export default async function HouseholdCreateFormPage() {
   const currencies = await getCurrencies();

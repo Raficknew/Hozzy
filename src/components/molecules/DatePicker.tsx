@@ -20,11 +20,13 @@ export function DatePicker() {
   const [isOpened, setIsOpened] = useState(false);
 
   const [date, setDate] = useState(defaultDate);
-  const [currentMonth, setCurrentMonth] = useState<number | null>(
+  const [currentMonth, setCurrentMonth] = useState<number | null>(() =>
     defaultDate.getMonth(),
   );
-  const [year, setYear] = useState<number | null>(defaultDate.getFullYear());
-  const router = useRouter();
+  const [year, setYear] = useState<number | null>(() =>
+    defaultDate.getFullYear(),
+  );
+  const { push } = useRouter();
 
   const currentYear = new Date().getFullYear();
   const startYear = 2025;
@@ -65,7 +67,7 @@ export function DatePicker() {
 
     const searchParams = new URLSearchParams();
     searchParams.set("date", newDate.toISOString());
-    router.push(`?${searchParams}`);
+    push(`?${searchParams}`);
   };
 
   return (

@@ -18,17 +18,13 @@ export function LanguageSelect({
 }) {
   const languages = ["en", "pl"];
 
-  function changeLanguage(language: string) {
-    switchLanguage(language);
-  }
-
   return (
     <div className={cn("flex items-center gap-2", className)}>
       <Select
         value={currentLocale}
         onValueChange={(value) => {
           if (value && value !== currentLocale) {
-            changeLanguage(value);
+            switchLanguage(value);
           }
         }}
       >

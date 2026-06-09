@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
@@ -7,6 +8,11 @@ import { ExpensesLineChart } from "@/components/organisms/ExpensesLineChart";
 import { FinancialSummaryChart } from "@/components/organisms/FinancialSummaryChart";
 import { getCategoriesWithTransactions, getHousehold } from "@/global/actions";
 import { countPricesOfTransactionsRelatedToTheirTypes } from "@/global/functions";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description: "Overview of your household finances.",
+};
 
 export default async function HouseholdPage({
   params,
