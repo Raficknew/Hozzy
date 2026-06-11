@@ -243,6 +243,11 @@
     "fun": "Rozrywka",
     "fixed": "Niezbędne",
     "future_you": "Inwestycje",
-    "incomes": "Wpływy"
+    "incomes": "Wpływy",
+    "statistics": {
+      "average": "Średnia Transakcji",
+      "total": "Suma Transakcji",
+      "numberOfTransactions": "Liczba transakcji"
+    }
   }
 }

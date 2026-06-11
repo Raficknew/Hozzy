@@ -243,6 +243,11 @@
     "fun": "Fun",
     "fixed": "Fixed",
     "future_you": "Future you",
-    "incomes": "Incomes"
+    "incomes": "Incomes",
+    "statistics": {
+      "average": "Average",
+      "total": "Total",
+      "numberOfTransactions": "Number of transactions"
+    }
   }
 }

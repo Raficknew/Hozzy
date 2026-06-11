@@ -52,7 +52,7 @@ export type Member = {
 };
 
 export type Transaction = {
-  categoryName: string;
+  categoryName?: string;
   categoryId: string;
   name: string;
   date: Date;
