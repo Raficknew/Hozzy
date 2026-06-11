@@ -35,7 +35,7 @@ export async function StatisticCards({
 
   return (
     <Card className="w-full">
-      <CardContent className="flex justify-between h-full">
+      <CardContent className="flex flex-wrap gap-2 justify-between h-full">
         <StatisticCard
           title={t("numberOfTransactions")}
           value={statistics.numberOfTransactions}

@@ -38,7 +38,7 @@ export function CategorySelect({
   };
 
   return (
-    <Card className="w-1/2">
+    <Card className="w-full md:w-1/3">
       <CardHeader>
         <CardTitle>{t("category")}</CardTitle>
       </CardHeader>

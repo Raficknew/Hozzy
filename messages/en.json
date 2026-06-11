@@ -245,8 +245,8 @@
     "future_you": "Future you",
     "incomes": "Incomes",
     "statistics": {
-      "average": "Average",
-      "total": "Total",
+      "average": "Average of Transactions",
+      "total": "Total of Transactions",
       "numberOfTransactions": "Number of transactions"
     }
   }
