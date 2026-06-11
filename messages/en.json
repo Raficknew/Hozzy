@@ -236,5 +236,13 @@
   "TransactionsPage": {
     "allTransactions": "All Transactions",
     "zeroTransactions": "You don't have any transactions this month yet."
+  },
+  "AnalyticsPage": {
+    "category": "Category",
+    "noCategory": "No category selected",
+    "fun": "Fun",
+    "fixed": "Fixed",
+    "future_you": "Future you",
+    "incomes": "Incomes"
   }
 }

@@ -1,4 +1,5 @@
 import { CategorySelect } from "@/components/molecules/CategorySelect";
+import { StatisticCards } from "@/components/molecules/StatisticCards";
 import { getCategories } from "@/global/actions";
 
 export default async function AnalyticsPage({
@@ -6,16 +7,23 @@ export default async function AnalyticsPage({
   searchParams,
 }: {
   params: Promise<{ householdId: string }>;
-  searchParams: Promise<{ date: string }>;
+  searchParams: Promise<{ date: string; categoryId: string }>;
 }) {
-  const [{ householdId }, { date }] = await Promise.all([params, searchParams]);
+  const [{ householdId }, { date, categoryId }] = await Promise.all([
+    params,
+    searchParams,
+  ]);
   const currentDate = date ? new Date(date) : new Date();
   const categories = await getCategories(householdId);
   return (
-    <article>
-      <h1>Analytics for {householdId}</h1>
-      <p>{currentDate.toDateString()}</p>
-      <CategorySelect categories={categories} />
-    </article>
+    <main>
+      <article className="flex gap-4">
+        <CategorySelect
+          selectedCategoryId={categoryId || null}
+          categories={categories}
+        />
+        <StatisticCards categoryId={categoryId || ""} date={currentDate} />
+      </article>
+    </main>
   );
 }
