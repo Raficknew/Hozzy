@@ -248,6 +248,9 @@
       "average": "Średnia Transakcji",
       "total": "Suma Transakcji",
       "numberOfTransactions": "Liczba transakcji"
+    },
+    "charts": {
+      "expensesByCategory": "Suma Wydatków w poszczególnych dniach"
     }
   }
 }

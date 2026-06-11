@@ -1,5 +1,7 @@
 "use client";
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { useLocale, useTranslations } from "next-intl";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import type { Transaction } from "@/global/types";
 import { Card, CardContent, CardHeader } from "../ui/card";
 import {
   type ChartConfig,
@@ -11,28 +13,56 @@ import {
 const chartConfig = {
   total: {
     label: "Total",
-    color: "var(--chart-2)",
+    color: "var(--chart-3)",
   },
 } satisfies ChartConfig;
 
-const chartData = [
-  { name: "Category A", total: 400 },
-  { name: "Category B", total: 300 },
-  { name: "Category C", total: 200 },
-  { name: "Category D", total: 100 },
-];
+const getChartData = (transactions: Transaction[]) => {
+  const categoryTotals: Record<string, number> = {};
 
-export function CategoryBarChart() {
+  for (const transaction of transactions) {
+    const day = new Date(transaction.date).getDate().toString();
+    if (!categoryTotals[day]) {
+      categoryTotals[day] = 0;
+    }
+    categoryTotals[day] += transaction.price;
+  }
+
+  return Object.entries(categoryTotals).map(([day, total]) => ({
+    name: day,
+    total,
+  }));
+};
+
+export function CategoryBarChart({
+  transactions,
+}: {
+  transactions: Transaction[];
+}) {
+  const chartData = getChartData(transactions);
+  const locale = useLocale();
+  const t = useTranslations("AnalyticsPage.charts");
   return (
     <Card>
       <CardHeader>
-        <h1>Category Bar Chart</h1>
+        <h1>{t("expensesByCategory")}</h1>
       </CardHeader>
       <CardContent>
-        <ChartContainer config={chartConfig}>
-          <BarChart accessibilityLayer data={chartData}>
+        <ChartContainer className="h-[350px] w-full" config={chartConfig}>
+          <BarChart
+            accessibilityLayer
+            data={chartData}
+            margin={{ left: 12, right: 12 }}
+          >
             <CartesianGrid vertical={false} />
-
+            <YAxis
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              tickFormatter={(value) =>
+                Number(value).toLocaleString(locale, { notation: "compact" })
+              }
+            />
             <XAxis
               dataKey="name"
               tickLine={false}

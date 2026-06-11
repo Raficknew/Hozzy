@@ -23,13 +23,10 @@ const getStatistics = (transactions: Transaction[]) => {
 };
 
 export async function StatisticCards({
-  categoryId,
-  date,
+  transactions,
 }: {
-  categoryId: string;
-  date: Date;
+  transactions: Transaction[];
 }) {
-  const transactions = await getTransactionsForCategory(categoryId, date);
   const statistics = getStatistics(transactions ?? []);
   const t = await getTranslations("AnalyticsPage.statistics");
 

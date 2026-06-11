@@ -248,6 +248,9 @@
       "average": "Average of Transactions",
       "total": "Total of Transactions",
       "numberOfTransactions": "Number of transactions"
+    },
+    "charts": {
+      "expensesByCategory": "Total Expenses in Individual Days"
     }
   }
 }
