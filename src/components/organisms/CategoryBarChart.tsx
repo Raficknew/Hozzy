@@ -42,8 +42,22 @@ export function CategoryBarChart({
   const chartData = getChartData(transactions);
   const locale = useLocale();
   const t = useTranslations("AnalyticsPage.charts");
+
+  if (chartData.length === 0) {
+    return (
+      <Card className="w-full">
+        <CardHeader>
+          <h1>{t("expensesByCategory")}</h1>
+        </CardHeader>
+        <CardContent className="flex h-[350px] items-center justify-center">
+          <p className="text-muted-foreground">{t("noData")}</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
-    <Card>
+    <Card className="w-full">
       <CardHeader>
         <h1>{t("expensesByCategory")}</h1>
       </CardHeader>

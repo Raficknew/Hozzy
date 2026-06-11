@@ -250,7 +250,9 @@
       "numberOfTransactions": "Liczba transakcji"
     },
     "charts": {
-      "expensesByCategory": "Suma Wydatków w poszczególnych dniach"
+      "expensesByCategory": "Suma Wydatków w poszczególnych dniach",
+      "membersPieChart": "Wykres wydatków członków",
+      "noData": "Brak danych"
     }
   }
 }

@@ -42,11 +42,13 @@ export async function StatisticCards({
           title={t("total")}
           value={statistics.sumOfTransactions}
           icon={SummationCircleIcon}
+          asPrice
         />
         <StatisticCard
           title={t("average")}
           value={statistics.averageTransactionValue}
           icon={ChartAverageIcon}
+          asPrice
         />
       </CardContent>
     </Card>
@@ -57,10 +59,12 @@ function StatisticCard({
   title,
   value,
   icon,
+  asPrice = false,
 }: {
   title: string;
   value: number;
   icon: typeof CreditCardIcon;
+  asPrice?: boolean;
 }) {
   return (
     <article className="flex items-center gap-4">
@@ -69,7 +73,11 @@ function StatisticCard({
       </div>
       <div className="flex flex-col gap-1">
         <h3 className="text-lg font-semibold">{title}</h3>
-        <Price className="text-2xl font-bold" currency="PLN" price={value} />
+        {asPrice ? (
+          <Price className="text-2xl font-bold" currency="PLN" price={value} />
+        ) : (
+          <span className="text-2xl font-bold">{value}</span>
+        )}
       </div>
     </article>
   );

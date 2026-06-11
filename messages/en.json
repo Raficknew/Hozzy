@@ -250,7 +250,9 @@
       "numberOfTransactions": "Number of transactions"
     },
     "charts": {
-      "expensesByCategory": "Total Expenses in Individual Days"
+      "expensesByCategory": "Total Expenses in Individual Days",
+      "membersPieChart": "Members Pie Chart",
+      "noData": "No data available"
     }
   }
 }

@@ -1,7 +1,12 @@
 import { CategorySelect } from "@/components/molecules/CategorySelect";
 import { StatisticCards } from "@/components/molecules/StatisticCards";
 import { CategoryBarChart } from "@/components/organisms/CategoryBarChart";
-import { getCategories, getTransactionsForCategory } from "@/global/actions";
+import { MembersPieChart } from "@/components/organisms/MembersPieChart";
+import {
+  getCategories,
+  getMembers,
+  getTransactionsForCategory,
+} from "@/global/actions";
 
 export default async function AnalyticsPage({
   params,
@@ -20,6 +25,7 @@ export default async function AnalyticsPage({
     categoryId,
     currentDate,
   );
+  const members = await getMembers(householdId);
   return (
     <main className="flex flex-col gap-4 h-full">
       <article className="flex md:flex-row flex-col gap-4">
@@ -29,9 +35,9 @@ export default async function AnalyticsPage({
         />
         <StatisticCards transactions={transactions} />
       </article>
-      <article className="grid grid-cols-2 gap-4">
+      <article className="flex gap-4">
         <CategoryBarChart transactions={transactions} />
-        <div className="bg-primary">xd</div>
+        <MembersPieChart transactions={transactions} members={members} />
       </article>
     </main>
   );
