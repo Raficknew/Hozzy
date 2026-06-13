@@ -252,6 +252,7 @@
     "charts": {
       "expensesByCategory": "Suma Wydatków w poszczególnych dniach",
       "membersPieChart": "Wykres wydatków członków",
+      "spendingTrend": "Trend wydatków w ostatnich 6 miesiącach",
       "noData": "Brak danych"
     }
   }

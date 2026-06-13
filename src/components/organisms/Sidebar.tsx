@@ -78,8 +78,8 @@ export function Sidebar() {
                   icon={route.icon}
                   dataTestId={route.dataTestId}
                 />
-                {routes.indexOf(route) < 1 && (
-                  <div className="w-px sm:w-0 bg-sidebar-ring"></div>
+                {routes.indexOf(route) < routes.length - 1 && (
+                  <div className="w-px sm:w-0 bg-sidebar-ring" />
                 )}
               </div>
             ))}

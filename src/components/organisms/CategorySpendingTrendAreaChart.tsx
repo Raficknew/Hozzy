@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 import type { Transaction } from "@/global/types";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
@@ -46,15 +47,16 @@ export function CategorySpendingTrendAreaChart({
   transactions: Transaction[];
   currentDate: Date;
 }) {
+  const t = useTranslations("AnalyticsPage.charts");
   const data = getChartData(transactions, currentDate);
   if (data.length < 2) {
     return (
       <Card className="w-full">
         <CardHeader>
-          <CardTitle>Spending Trend in past 6 months</CardTitle>
+          <CardTitle>{t("spendingTrend")}</CardTitle>
         </CardHeader>
         <CardContent className="flex aspect-square h-[174px] items-center justify-center">
-          <p className="text-muted-foreground">Za mało danych</p>
+          <p className="text-muted-foreground">{t("noData")}</p>
         </CardContent>
       </Card>
     );
@@ -62,7 +64,7 @@ export function CategorySpendingTrendAreaChart({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Spending Trend in past 6 Months</CardTitle>
+        <CardTitle>{t("spendingTrend")}</CardTitle>
       </CardHeader>
       <CardContent>
         <ChartContainer config={chartConfig} className="h-[174px] w-full">

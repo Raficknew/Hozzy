@@ -252,6 +252,7 @@
     "charts": {
       "expensesByCategory": "Total Expenses in Individual Days",
       "membersPieChart": "Members Pie Chart",
+      "spendingTrend": "Spending Trend in past 6 Months",
       "noData": "No data available"
     }
   }
