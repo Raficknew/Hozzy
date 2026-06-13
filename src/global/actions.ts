@@ -171,3 +171,31 @@ export const getTransactionsForCategory = async (
     ),
   });
 };
+
+export const getTransactionsForCategoryForPastSixMonths = async (
+  categoryId: string,
+  date: Date,
+) => {
+  if (!date || !validateUuid(categoryId)) {
+    return [];
+  }
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (session?.user.id == null) {
+    throw new Error("UnauthorizedException");
+  }
+
+  const sixMonthsAgo = new Date(date);
+  sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 5);
+  sixMonthsAgo.setDate(1);
+
+  return db.query.TransactionTable.findMany({
+    where: and(
+      eq(TransactionTable.categoryId, categoryId),
+      gte(TransactionTable.date, sixMonthsAgo),
+      lte(TransactionTable.date, endOfMonth(date)),
+    ),
+  });
+};

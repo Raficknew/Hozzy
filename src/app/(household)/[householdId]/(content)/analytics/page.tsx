@@ -1,11 +1,13 @@
 import { CategorySelect } from "@/components/molecules/CategorySelect";
 import { StatisticCards } from "@/components/molecules/StatisticCards";
 import { CategoryBarChart } from "@/components/organisms/CategoryBarChart";
+import { CategorySpendingTrendAreaChart } from "@/components/organisms/CategorySpendingTrendAreaChart";
 import { MembersPieChart } from "@/components/organisms/MembersPieChart";
 import {
   getCategories,
   getMembers,
   getTransactionsForCategory,
+  getTransactionsForCategoryForPastSixMonths,
 } from "@/global/actions";
 
 export default async function AnalyticsPage({
@@ -26,6 +28,9 @@ export default async function AnalyticsPage({
     currentDate,
   );
   const members = await getMembers(householdId);
+  const pastSixMonthsTransactions =
+    await getTransactionsForCategoryForPastSixMonths(categoryId, currentDate);
+
   return (
     <main className="flex flex-col gap-4 h-full">
       <article className="flex md:flex-row flex-col gap-4">
@@ -38,6 +43,12 @@ export default async function AnalyticsPage({
       <article className="flex md:flex-row flex-col gap-4">
         <CategoryBarChart transactions={transactions} />
         <MembersPieChart transactions={transactions} members={members} />
+      </article>
+      <article>
+        <CategorySpendingTrendAreaChart
+          transactions={pastSixMonthsTransactions}
+          currentDate={currentDate}
+        />
       </article>
     </main>
   );

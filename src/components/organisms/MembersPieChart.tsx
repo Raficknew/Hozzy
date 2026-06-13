@@ -49,7 +49,7 @@ export function MembersPieChart({
 
   if (chartData.length === 0) {
     return (
-      <Card className="w-1/4">
+      <Card className="md:w-1/3 w-full">
         <CardHeader>
           <CardTitle>{t("membersPieChart")}</CardTitle>
         </CardHeader>
