@@ -61,14 +61,14 @@ export function MembersPieChart({
   }
 
   return (
-    <Card className="w-1/4">
+    <Card className="md:w-1/3 w-full ">
       <CardHeader>
         <CardTitle>{t("membersPieChart")}</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="h-full">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[300px]"
+          className="mx-auto aspect-square h-[350px] w-full"
         >
           <PieChart>
             <ChartTooltip

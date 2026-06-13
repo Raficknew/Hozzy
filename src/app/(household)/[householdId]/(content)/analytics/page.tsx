@@ -35,7 +35,7 @@ export default async function AnalyticsPage({
         />
         <StatisticCards transactions={transactions} />
       </article>
-      <article className="flex gap-4">
+      <article className="flex md:flex-row flex-col gap-4">
         <CategoryBarChart transactions={transactions} />
         <MembersPieChart transactions={transactions} members={members} />
       </article>
