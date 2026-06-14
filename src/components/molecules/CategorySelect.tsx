@@ -37,16 +37,21 @@ export function CategorySelect({
     push(`?${params.toString()}`);
   };
 
+  const gradient =
+    category?.categoryType === "incomes"
+      ? "radial-gradient(ellipse at right, #00C48C30 0%, #21212266 100%)"
+      : "radial-gradient(ellipse at right, #F83B3B4D 0%, #21212266 100%)";
+
   return (
-    <Card className="w-full md:w-1/3">
-      <CardHeader>
+    <Card className="w-full md:w-1/3 min-w-[200px] relative overflow-hidden">
+      <CardHeader className="relative z-10">
         <CardTitle>{t("category")}</CardTitle>
       </CardHeader>
-      <CardContent className="flex gap-4 items-center">
+      <CardContent className="flex gap-4 items-center relative z-10">
         <div className="p-5 rounded-full bg-primary">
           <CategoryIcon categoryIconName={category?.icon as CategoryIconKeys} />
         </div>
-        <article className="flex flex-col gap-1">
+        <article className="flex flex-col gap-1 flex-1">
           <Select
             value={category}
             onValueChange={(category) => {
@@ -70,9 +75,27 @@ export function CategorySelect({
               </SelectGroup>
             </SelectContent>
           </Select>
-          <h3>{category?.categoryType && t(`${category?.categoryType}`)}</h3>
+          <h3
+            className={
+              category?.categoryType === "incomes"
+                ? "text-green-500 font-medium"
+                : "text-red-500 font-medium"
+            }
+          >
+            {category?.categoryType && t(`${category?.categoryType}`)}
+          </h3>
         </article>
       </CardContent>
+
+      {category && (
+        <div
+          className="absolute inset-0 z-0 w-full h-full pointer-events-none"
+          style={{
+            background: gradient,
+            opacity: 1,
+          }}
+        />
+      )}
     </Card>
   );
 }

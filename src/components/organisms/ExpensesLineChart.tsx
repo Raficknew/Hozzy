@@ -60,7 +60,11 @@ export function ExpensesLineChart({
       </CardHeader>
       <CardContent>
         <ChartContainer className="h-[210px] w-full" config={chartConfig}>
-          <LineChart accessibilityLayer data={dataForChart}>
+          <LineChart
+            accessibilityLayer
+            data={dataForChart}
+            margin={{ left: -20, right: 12, top: 12, bottom: 0 }}
+          >
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="day"
@@ -71,7 +75,8 @@ export function ExpensesLineChart({
             <YAxis
               tickLine={false}
               axisLine={false}
-              tickMargin={8}
+              tickMargin={4}
+              width={45}
               domain={[0, maxValue]}
               tickFormatter={(value) =>
                 Number(value).toLocaleString(locale, { notation: "compact" })

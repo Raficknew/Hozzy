@@ -63,12 +63,17 @@ export function CategoryBarChart({
       </CardHeader>
       <CardContent>
         <ChartContainer className="h-[350px] w-full" config={chartConfig}>
-          <BarChart accessibilityLayer data={chartData}>
+          <BarChart
+            accessibilityLayer
+            data={chartData}
+            margin={{ left: -20, right: 12, top: 12, bottom: 0 }}
+          >
             <CartesianGrid vertical={false} />
             <YAxis
               tickLine={false}
               axisLine={false}
-              tickMargin={8}
+              tickMargin={4}
+              width={45}
               tickFormatter={(value) =>
                 Number(value).toLocaleString(locale, { notation: "compact" })
               }
