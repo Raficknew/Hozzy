@@ -5,12 +5,11 @@ import {
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { getTranslations } from "next-intl/server";
-import { getTransactionsForCategory } from "@/global/actions";
 import type { Transaction } from "@/global/types";
 import { Price } from "../atoms/Price";
 import { Card, CardContent } from "../ui/card";
 
-const getStatistics = (transactions: Transaction[]) => {
+const getTransactionSummaryTransactionsData = (transactions: Transaction[]) => {
   const sumOfTransactions = transactions.reduce((sum, transaction) => {
     return sum + transaction.price;
   }, 0);
@@ -27,7 +26,7 @@ export async function StatisticCards({
 }: {
   transactions: Transaction[];
 }) {
-  const statistics = getStatistics(transactions ?? []);
+  const statistics = getTransactionSummaryTransactionsData(transactions ?? []);
   const t = await getTranslations("AnalyticsPage.statistics");
 
   return (

@@ -11,7 +11,10 @@ import {
 } from "@/components/ui/chart";
 import type { CategoryWithTransactions } from "@/global/types";
 
-function getDataForChart(date: Date, categories: CategoryWithTransactions) {
+function getSumOfExpensesByDay(
+  date: Date,
+  categories: CategoryWithTransactions,
+) {
   const numberOfLastDay = endOfMonth(date).getDate();
   const data = Array.from({ length: numberOfLastDay }, (_, i) => ({
     day: i + 1,
@@ -43,7 +46,7 @@ export function ExpensesLineChart({
   categories: CategoryWithTransactions;
   title: string;
 }) {
-  const dataForChart = getDataForChart(date, categories);
+  const sumOfExpensesByDay = getSumOfExpensesByDay(date, categories);
   const locale = useLocale();
   const t = useTranslations("Dashboard.charts");
   const chartConfig = {
@@ -62,7 +65,7 @@ export function ExpensesLineChart({
         <ChartContainer className="h-[210px] w-full" config={chartConfig}>
           <LineChart
             accessibilityLayer
-            data={dataForChart}
+            data={sumOfExpensesByDay}
             margin={{ left: -20, right: 12, top: 12, bottom: 0 }}
           >
             <CartesianGrid vertical={false} />

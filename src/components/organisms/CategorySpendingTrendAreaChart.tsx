@@ -10,7 +10,7 @@ import {
   ChartTooltipContent,
 } from "../ui/chart";
 
-const getChartData = (
+const getCategorySpendingData = (
   transactions: Transaction[],
   date: Date,
 ): { month: string; total: number }[] => {
@@ -33,13 +33,6 @@ const getChartData = (
   }));
 };
 
-const chartConfig = {
-  desktop: {
-    label: "total",
-    color: "var(--chart-2)",
-  },
-} satisfies ChartConfig;
-
 export function CategorySpendingTrendAreaChart({
   transactions,
   currentDate,
@@ -48,8 +41,11 @@ export function CategorySpendingTrendAreaChart({
   currentDate: Date;
 }) {
   const t = useTranslations("AnalyticsPage.charts");
-  const data = getChartData(transactions, currentDate);
-  if (data.length < 2) {
+  const categorySpendingData = getCategorySpendingData(
+    transactions,
+    currentDate,
+  );
+  if (categorySpendingData.length < 2) {
     return (
       <Card className="w-full">
         <CardHeader>
@@ -61,6 +57,14 @@ export function CategorySpendingTrendAreaChart({
       </Card>
     );
   }
+
+  const chartConfig = {
+    desktop: {
+      label: t("totalSpent"),
+      color: "var(--chart-2)",
+    },
+  } satisfies ChartConfig;
+
   return (
     <Card>
       <CardHeader>
@@ -70,7 +74,7 @@ export function CategorySpendingTrendAreaChart({
         <ChartContainer config={chartConfig} className="h-[174px] w-full">
           <AreaChart
             accessibilityLayer
-            data={data}
+            data={categorySpendingData}
             margin={{
               left: 12,
               right: 12,

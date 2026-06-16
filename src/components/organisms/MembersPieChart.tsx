@@ -12,7 +12,7 @@ import {
   ChartTooltipContent,
 } from "../ui/chart";
 
-const getChartData = (transactions: Transaction[]) => {
+const getMembersSumOfTransactions = (transactions: Transaction[]) => {
   const memberTotals: Record<string, number> = {};
   transactions.forEach((t) => {
     memberTotals[t.memberId] = (memberTotals[t.memberId] ?? 0) + t.price;
@@ -28,26 +28,24 @@ export function MembersPieChart({
   members: Member[];
 }) {
   const t = useTranslations("AnalyticsPage.charts");
-  const chartData = getChartData(transactions);
+  const membersSum = getMembersSumOfTransactions(transactions);
 
   const chartConfig = Object.fromEntries(
-    chartData.map((entry, i) => [
-      entry.name,
+    membersSum.map((member, i) => [
+      member.name,
       {
-        label:
-          members[members.findIndex((m) => m.id === entry.name)]?.name ||
-          "Member",
+        label: members[members.findIndex((m) => m.id === member.name)]?.name,
         color: `var(--chart-${i + 1})`,
       },
     ]),
   ) satisfies ChartConfig;
 
-  const chartDataWithFill = chartData.map((entry) => ({
+  const chartDataWithFill = membersSum.map((entry) => ({
     ...entry,
     fill: chartConfig[entry.name]?.color,
   }));
 
-  if (chartData.length === 0) {
+  if (membersSum.length === 0) {
     return (
       <Card className="md:w-1/3 w-full">
         <CardHeader>

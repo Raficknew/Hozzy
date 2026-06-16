@@ -14,9 +14,10 @@ import { Card } from "../ui/card";
 export function DatePicker() {
   let defaultDate: Date = new Date();
   const searchParams = useSearchParams();
+  const defaultDateString = searchParams.get("date");
 
-  if (searchParams.get("date") != null) {
-    defaultDate = new Date(searchParams.get("date")!);
+  if (defaultDateString != null) {
+    defaultDate = new Date(defaultDateString);
   }
 
   const [isOpened, setIsOpened] = useState(false);

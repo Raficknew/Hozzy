@@ -23,10 +23,10 @@ export function CategorySelectSkeleton() {
       </CardHeader>
       <CardContent className="flex gap-4 items-center">
         <Skeleton className="w-[60px] h-[60px] rounded-full" />
-        <article className="flex flex-col gap-2 flex-1">
+        <div className="flex flex-col gap-2 flex-1">
           <Skeleton className="h-10 w-full" />
           <Skeleton className="h-4 w-16" />
-        </article>
+        </div>
       </CardContent>
     </Card>
   );

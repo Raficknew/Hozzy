@@ -10,14 +10,7 @@ import {
   ChartTooltipContent,
 } from "../ui/chart";
 
-const chartConfig = {
-  total: {
-    label: "Total",
-    color: "var(--chart-3)",
-  },
-} satisfies ChartConfig;
-
-const getChartData = (transactions: Transaction[]) => {
+const getSumOfTransactionsByDay = (transactions: Transaction[]) => {
   const categoryTotals: Record<string, number> = {};
 
   for (const transaction of transactions) {
@@ -39,16 +32,14 @@ export function CategoryBarChart({
 }: {
   transactions: Transaction[];
 }) {
-  const chartData = getChartData(transactions);
+  const sumOfTransactionsByDay = getSumOfTransactionsByDay(transactions);
   const locale = useLocale();
   const t = useTranslations("AnalyticsPage.charts");
 
-  if (chartData.length === 0) {
+  if (sumOfTransactionsByDay.length === 0) {
     return (
       <Card className="w-full">
-        <CardHeader>
-          <h1>{t("expensesByCategory")}</h1>
-        </CardHeader>
+        <CardHeader>{t("expensesByCategory")}</CardHeader>
         <CardContent className="flex h-[350px] items-center justify-center">
           <p className="text-muted-foreground">{t("noData")}</p>
         </CardContent>
@@ -56,16 +47,21 @@ export function CategoryBarChart({
     );
   }
 
+  const chartConfig = {
+    total: {
+      label: t("totalSpent"),
+      color: "var(--chart-3)",
+    },
+  } satisfies ChartConfig;
+
   return (
     <Card className="w-full">
-      <CardHeader>
-        <h1>{t("expensesByCategory")}</h1>
-      </CardHeader>
+      <CardHeader>{t("expensesByCategory")}</CardHeader>
       <CardContent>
         <ChartContainer className="h-[350px] w-full" config={chartConfig}>
           <BarChart
             accessibilityLayer
-            data={chartData}
+            data={sumOfTransactionsByDay}
             margin={{ left: -20, right: 12, top: 12, bottom: 0 }}
           >
             <CartesianGrid vertical={false} />

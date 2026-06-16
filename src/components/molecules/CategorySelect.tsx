@@ -1,7 +1,7 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { CategoryIcon } from "@/features/categories/components/CategoryIcon";
 import type { CategoryIconKeys } from "@/features/categories/types/icons";
 import type { Category } from "@/global/types";
@@ -22,15 +22,15 @@ export function CategorySelect({
   categories: Category[];
   selectedCategoryId?: string | null;
 }) {
-  const [category, setCategory] = useState<Category | null>(
-    categories.find((c) => c.id === selectedCategoryId) || null,
-  );
+  let category = useMemo(() => {
+    return categories.find((c) => c.id === selectedCategoryId) || null;
+  }, [selectedCategoryId, categories]);
   const t = useTranslations("AnalyticsPage");
   const { push } = useRouter();
   const searchParams = useSearchParams();
 
-  const handleCategoryChange = (category: Category) => {
-    setCategory(category);
+  const handleCategoryChange = (selectedCategory: Category) => {
+    category = selectedCategory;
 
     const params = new URLSearchParams(searchParams.toString());
     params.set("categoryId", category.id);
