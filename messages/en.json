@@ -32,7 +32,8 @@
   "Sidebar": {
     "dashboard": "Dashboard",
     "transactions": "Transaction",
-    "settings": "Settings"
+    "settings": "Settings",
+    "analytics": "Analytics"
   },
   "CreateHousehold": {
     "title": "Create new Household",
@@ -235,5 +236,25 @@
   "TransactionsPage": {
     "allTransactions": "All Transactions",
     "zeroTransactions": "You don't have any transactions this month yet."
+  },
+  "AnalyticsPage": {
+    "category": "Category",
+    "noCategory": "No category selected",
+    "fun": "Fun",
+    "fixed": "Fixed",
+    "future_you": "Future you",
+    "incomes": "Incomes",
+    "statistics": {
+      "average": "Average of Transactions",
+      "total": "Total of Transactions",
+      "numberOfTransactions": "Number of transactions"
+    },
+    "charts": {
+      "expensesByCategory": "Total Expenses in Individual Days",
+      "membersPieChart": "Members Pie Chart",
+      "spendingTrend": "Spending Trend in past 6 Months",
+      "noData": "No data available",
+      "totalSpent": "Total spent"
+    }
   }
 }

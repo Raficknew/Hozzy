@@ -37,7 +37,7 @@ export default async function HouseholdLayout({
     <div>
       <TopBar householdId={householdId} userImage={session.user.image} />
       <Sidebar />
-      <div className="sm:pl-22 px-3 h-full pb-2 ">{children}</div>
+      <div className="sm:pl-22 px-3 h-full pb-18 sm:pb-2">{children}</div>
     </div>
   );
 }

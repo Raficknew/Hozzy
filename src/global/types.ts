@@ -52,7 +52,6 @@ export type Member = {
 };
 
 export type Transaction = {
-  categoryName: string;
   categoryId: string;
   name: string;
   date: Date;

@@ -32,7 +32,8 @@
   "Sidebar": {
     "dashboard": "Dashboard",
     "transactions": "Transakcje",
-    "settings": "Ustawienia"
+    "settings": "Ustawienia",
+    "analytics": "Analiza"
   },
   "Dashboard": {
     "charts": {
@@ -235,5 +236,25 @@
   "TransactionsPage": {
     "allTransactions": "Wszystkie transakcje",
     "zeroTransactions": "Nie masz jeszcze żadnych transakcji w tym miesiącu."
+  },
+  "AnalyticsPage": {
+    "category": "Kategoria",
+    "noCategory": "Nie wybrano kategorii",
+    "fun": "Rozrywka",
+    "fixed": "Niezbędne",
+    "future_you": "Inwestycje",
+    "incomes": "Wpływy",
+    "statistics": {
+      "average": "Średnia Transakcji",
+      "total": "Suma Transakcji",
+      "numberOfTransactions": "Liczba transakcji"
+    },
+    "charts": {
+      "expensesByCategory": "Suma Wydatków w poszczególnych dniach",
+      "membersPieChart": "Wykres wydatków członków",
+      "spendingTrend": "Trend wydatków w ostatnich 6 miesiącach",
+      "noData": "Brak danych",
+      "totalSpent": "Łączne wydatki"
+    }
   }
 }

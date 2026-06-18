@@ -13,7 +13,8 @@ import { Card } from "../ui/card";
 
 export function DatePicker() {
   let defaultDate: Date = new Date();
-  const defaultDateString = useSearchParams().get("date");
+  const searchParams = useSearchParams();
+  const defaultDateString = searchParams.get("date");
 
   if (defaultDateString != null) {
     defaultDate = new Date(defaultDateString);
@@ -67,9 +68,9 @@ export function DatePicker() {
     const newDate = new Date(Date.UTC(year ?? date.getFullYear(), month, 1));
     setDate(newDate);
 
-    const searchParams = new URLSearchParams();
-    searchParams.set("date", newDate.toISOString());
-    push(`?${searchParams}`);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("date", newDate.toISOString());
+    push(`?${params.toString()}`);
   };
 
   return (

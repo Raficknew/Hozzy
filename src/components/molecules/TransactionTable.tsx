@@ -18,6 +18,10 @@ import { TransactionDialog } from "@/features/transactions/components/Transactio
 import type { Category, Member, Transaction } from "@/global/types";
 import { useFormattedDate } from "@/lib/formatters";
 
+type TransactionWithCategoryName = Transaction & {
+  categoryName?: string;
+};
+
 export function TransactionTable({
   transactions,
   members,
@@ -25,7 +29,7 @@ export function TransactionTable({
   householdId,
   categories,
 }: {
-  transactions: Transaction[];
+  transactions: TransactionWithCategoryName[];
   members: Member[];
   currency: string;
   householdId: string;

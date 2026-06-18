@@ -54,12 +54,17 @@ export function TransactionBarChart({
 
   return (
     <ChartContainer className="h-[190px] w-full" config={chartConfig}>
-      <BarChart accessibilityLayer data={data} margin={{ left: 12, right: 12 }}>
+      <BarChart
+        accessibilityLayer
+        data={data}
+        margin={{ left: -20, right: 12, top: 12, bottom: 0 }}
+      >
         <CartesianGrid vertical={false} />
         <YAxis
           tickLine={false}
           axisLine={false}
-          tickMargin={8}
+          tickMargin={4}
+          width={45}
           domain={[0, maxValue]}
           tickFormatter={(value) =>
             Number(value).toLocaleString(locale, { notation: "compact" })

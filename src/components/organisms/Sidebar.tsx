@@ -1,6 +1,7 @@
 "use client";
 import {
   ArrowDataTransferHorizontalIcon,
+  ChartAnalysisIcon,
   DashboardSquare03Icon,
   Settings01Icon,
 } from "@hugeicons/core-free-icons";
@@ -49,6 +50,13 @@ export function Sidebar() {
       icon: ArrowDataTransferHorizontalIcon,
       dataTestId: "sidebar-transactions",
     },
+    {
+      title: t("analytics"),
+      url: withParams(`/${householdId}/analytics`),
+      routeKey: "analytics",
+      icon: ChartAnalysisIcon,
+      dataTestId: "sidebar-analytics",
+    },
   ];
   return (
     <Card className="fixed z-50 sm:h-auto sm:left-2 sm:rounded-xl rounded-t-2xl sm:bottom-2 bottom-0 sm:top-2 w-full sm:w-auto h-fit p-0">
@@ -70,8 +78,8 @@ export function Sidebar() {
                   icon={route.icon}
                   dataTestId={route.dataTestId}
                 />
-                {routes.indexOf(route) < 1 && (
-                  <div className="w-px sm:w-0 bg-sidebar-ring"></div>
+                {routes.indexOf(route) < routes.length - 1 && (
+                  <div className="w-px sm:w-0 bg-sidebar-ring" />
                 )}
               </div>
             ))}
