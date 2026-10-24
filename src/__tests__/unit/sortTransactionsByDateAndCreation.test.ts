@@ -7,7 +7,6 @@ describe("sortTransactionsByDateAndCreation", () => {
     const transactions: Transaction[] = [
       {
         id: "t1",
-        categoryName: "Food",
         categoryId: "c1",
         name: "Lunch",
         date: new Date("2024-01-10"),
@@ -19,7 +18,6 @@ describe("sortTransactionsByDateAndCreation", () => {
       },
       {
         id: "t2",
-        categoryName: "Food",
         categoryId: "c1",
         name: "Dinner",
         date: new Date("2024-01-15"),
@@ -31,7 +29,6 @@ describe("sortTransactionsByDateAndCreation", () => {
       },
       {
         id: "t3",
-        categoryName: "Food",
         categoryId: "c1",
         name: "Breakfast",
         date: new Date("2024-01-05"),
@@ -58,7 +55,6 @@ describe("sortTransactionsByDateAndCreation", () => {
     const transactions: Transaction[] = [
       {
         id: "t1",
-        categoryName: "Food",
         categoryId: "c1",
         name: "First",
         date: new Date("2024-01-10"),
@@ -70,7 +66,6 @@ describe("sortTransactionsByDateAndCreation", () => {
       },
       {
         id: "t2",
-        categoryName: "Food",
         categoryId: "c1",
         name: "Second",
         date: new Date("2024-01-10"),
@@ -82,7 +77,6 @@ describe("sortTransactionsByDateAndCreation", () => {
       },
       {
         id: "t3",
-        categoryName: "Food",
         categoryId: "c1",
         name: "Third",
         date: new Date("2024-01-10"),
@@ -119,7 +113,6 @@ describe("sortTransactionsByDateAndCreation", () => {
     const transactions: Transaction[] = [
       {
         id: "t1",
-        categoryName: "Food",
         categoryId: "c1",
         name: "Lunch",
         date: new Date("2024-01-10"),
@@ -144,7 +137,6 @@ describe("sortTransactionsByDateAndCreation", () => {
     const transactions: Transaction[] = [
       {
         id: "t1",
-        categoryName: "Food",
         categoryId: "c1",
         name: "First",
         date: new Date("2024-01-10T10:00:00"),
@@ -156,7 +148,6 @@ describe("sortTransactionsByDateAndCreation", () => {
       },
       {
         id: "t2",
-        categoryName: "Food",
         categoryId: "c1",
         name: "Second",
         date: new Date("2024-01-10T10:00:00"),
