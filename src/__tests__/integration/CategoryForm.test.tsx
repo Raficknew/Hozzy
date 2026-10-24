@@ -67,6 +67,9 @@ describe("CategoryForm Integration Tests", () => {
     await user.type(givenNameInput, "New Category");
 
     const [givenIconButton] = screen.getAllByTestId("category-icon-option");
+    if (!givenIconButton) {
+      throw new Error("Expected at least one category icon option");
+    }
     await user.click(givenIconButton);
 
     const givenSubmitButton = screen.getByRole("button", { name: /add/i });

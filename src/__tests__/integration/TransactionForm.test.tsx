@@ -36,7 +36,6 @@ describe("TransactionForm Integration Tests", () => {
     ];
     const givenTransaction: Transaction = {
       id: "transaction-1",
-      categoryName: "Rent",
       categoryId: "category-1",
       name: "Old transaction",
       date: new Date("2026-01-01"),
